@@ -1,0 +1,3 @@
+Index;Module io[0=input-1=output];Module type[0=analog-1=digital-2=counter-3=coder];Module Source;Channel Source;Min Source;Max Source;Min Destination;Max Destination;Destination ModbusChannel
+0;0;0;Mod1;/ai0;4.0;20.0;0;65535;1
+1;0;0;Mod1;/ai1;4.0;20.0;0;65535;2

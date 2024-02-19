@@ -1,0 +1,185 @@
+*** starting configuration ***
+specifying that the target system is Linux and the processor is x86_64.
+Setting the path for the toolchain.
+Setting the C and C++ compilers for N.i. Rt linux
+Setting the system root directory for the toolchain.
+Setting the search behavior for various types of files.
+*** TOOL CHAIN AND COMPILER CONFIGURED ***
+
+*** Project specific ***
+project name is set to: dataDrill
+loading sources and headers
+List of Header Files:
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Bridge/niToModbusBridge.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Conversions/convUtils.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/NewModbusServer.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-private.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu-private.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp-private.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-version.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-version.h.in
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9208.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9239.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9411.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9423.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9481.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModule.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModuleFactory.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiDaqWrapper.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiSysConfigWrapper.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Signals/QSignalTest.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioSSLServer.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioTCPServer.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/analogicReader.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/baseReader.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/digitalReader.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/ThreadSafeCircularBuffer.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/algorithm.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/circular_buffer.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/traits.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/config.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/appendToFileHelper.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/cPosixFileHelper.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/ini.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/iniCpp.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/iniObject.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/globals/globalConsts.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/globals/globalEnumStructs.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/stringUtils/stringUtils.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/systemPatches/stdOptionalReplacement.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/testFunctions.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/timers/simpleTimer.h
+List of Source Files:
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Bridge/niToModbusBridge.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/NewModbusServer.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9208.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9239.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9411.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9423.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9481.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModule.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModuleFactory.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiDaqWrapper.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiSysConfigWrapper.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioSSLServer.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioTCPServer.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/analogicReader.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/baseReader.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/digitalReader.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/ThreadSafeCircularBuffer.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/iniObject.cpp
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/main.cpp
+Excutable output file set to bin bin
+build type is: Debug
+threading type is set to linux pthread library
+
+*** daqMx ***
+daqMx include path is set to: C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include
+
+List of daqmx Headers:
+C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include/NIDAQmx.h
+*** libModbus ***
+
+List of libmodbus Header Files:
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-private.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu-private.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp-private.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-version.h
+C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus.h
+
+linux librairies selected: C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc
+
+List of daqmx linux libraries:
+C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnidaqmx.so
+C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnisyscfg.so
+
+List of nisyscfg linux headers:
+C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include/nisyscfg.h
+C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include/nisyscfg_errors.h
+C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include/nisyscfg_wide.h
+
+List of openssl linux headers:
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/aes.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/asn1.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/asn1_mac.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/asn1t.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/bio.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/blowfish.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/bn.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/buffer.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/camellia.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/cast.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/cmac.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/cms.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/comp.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/conf.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/conf_api.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/crypto.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/des.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/des_old.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/dh.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/dsa.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/dso.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/dtls1.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/e_os2.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ebcdic.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ec.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ecdh.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ecdsa.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/engine.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/err.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/evp.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/hmac.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/idea.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/krb5_asn.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/kssl.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/lhash.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/md4.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/md5.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/mdc2.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/modes.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/obj_mac.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/objects.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ocsp.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/opensslconf-64.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/opensslconf.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/opensslv.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ossl_typ.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/pem.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/pem2.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/pkcs12.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/pkcs7.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/pqueue.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/rand.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/rc2.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/rc4.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ripemd.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/rsa.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/safestack.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/seed.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/sha.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/srp.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/srtp.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ssl.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ssl2.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ssl23.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ssl3.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/stack.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/symhacks.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/tls1.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ts.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/txt_db.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ui.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/ui_compat.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/whrlpool.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/x509.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/x509_vfy.h
+C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl/x509v3.h
+all files has been added to linux elf executable 
+Nidaqmx, NiSysConfig, libmodbus, openssl headers directories are now added to the project
+daqmx, libmodbus, and linux threading libraries are now linked to the project
