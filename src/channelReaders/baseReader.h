@@ -38,7 +38,6 @@ public:
     // Signals
     std::function<void(std::shared_ptr<QNiSysConfigWrapper>, BaseReader* sender)> sysConfigChangedSignal  = nullptr;
     std::function<void(std::shared_ptr<QNiDaqWrapper>,       BaseReader* sender)> daqMxChangedSignal      = nullptr;
-    std::function<void()> showMainMenuSignal = nullptr;
 
 
 protected:
