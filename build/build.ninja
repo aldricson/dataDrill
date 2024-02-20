@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Users/aldric/Desktop/dataDril20.0/build/
+cmake_ninja_workdir = C$:/Users/aldric/Desktop/dataDrill20.0.1/build/
 # =============================================================================
 # Object build statements for EXECUTABLE target dataDrill
 
@@ -49,174 +49,174 @@ cmake_ninja_workdir = C$:/Users/aldric/Desktop/dataDril20.0/build/
 
 build cmake_object_order_depends_target_dataDrill: phony || CMakeFiles/dataDrill.dir
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/Bridge/niToModbusBridge.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/Bridge/niToModbusBridge.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\Bridge\niToModbusBridge.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/Bridge/niToModbusBridge.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/Bridge/niToModbusBridge.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\Bridge\niToModbusBridge.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\Bridge
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\Bridge
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/Modbus/NewModbusServer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/Modbus/NewModbusServer.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\Modbus\NewModbusServer.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/Modbus/NewModbusServer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/Modbus/NewModbusServer.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\Modbus\NewModbusServer.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\Modbus
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\Modbus
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9208.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9208.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NI9208.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9208.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9208.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NI9208.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9239.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9239.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NI9239.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9239.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9239.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NI9239.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9411.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9411.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NI9411.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9411.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9411.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NI9411.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9423.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9423.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NI9423.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9423.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9423.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NI9423.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9481.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9481.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NI9481.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9481.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9481.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NI9481.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NIDeviceModule.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NIDeviceModule.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NIDeviceModule.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NIDeviceModule.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NIDeviceModule.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NIDeviceModule.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NIDeviceModuleFactory.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NIDeviceModuleFactory.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions\NIDeviceModuleFactory.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NIDeviceModuleFactory.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NIDeviceModuleFactory.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions\NIDeviceModuleFactory.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiModulesDefinitions
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiModulesDefinitions
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiWrappers/QNiDaqWrapper.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiWrappers/QNiDaqWrapper.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiWrappers\QNiDaqWrapper.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiWrappers/QNiDaqWrapper.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiWrappers/QNiDaqWrapper.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiWrappers\QNiDaqWrapper.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiWrappers
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiWrappers
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiWrappers/QNiSysConfigWrapper.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/NiWrappers/QNiSysConfigWrapper.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiWrappers\QNiSysConfigWrapper.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiWrappers/QNiSysConfigWrapper.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/NiWrappers/QNiSysConfigWrapper.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiWrappers\QNiSysConfigWrapper.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\NiWrappers
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\NiWrappers
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/TCP_Command_server/CrioSSLServer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/TCP$ Command$ server/CrioSSLServer.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\TCP_Command_server\CrioSSLServer.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/TCP_Command_server/CrioSSLServer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/TCP$ Command$ server/CrioSSLServer.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\TCP_Command_server\CrioSSLServer.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\TCP_Command_server
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\TCP_Command_server
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/TCP_Command_server/CrioTCPServer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/TCP$ Command$ server/CrioTCPServer.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\TCP_Command_server\CrioTCPServer.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/TCP_Command_server/CrioTCPServer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/TCP$ Command$ server/CrioTCPServer.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\TCP_Command_server\CrioTCPServer.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\TCP_Command_server
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\TCP_Command_server
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/channelReaders/analogicReader.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/channelReaders/analogicReader.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\channelReaders\analogicReader.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/analogicReader.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/analogicReader.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\channelReaders\analogicReader.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\channelReaders
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\channelReaders
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/channelReaders/baseReader.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/channelReaders/baseReader.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\channelReaders\baseReader.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/baseReader.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/baseReader.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\channelReaders\baseReader.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\channelReaders
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\channelReaders
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/channelReaders/digitalReader.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/channelReaders/digitalReader.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\channelReaders\digitalReader.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/digitalReader.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/digitalReader.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\channelReaders\digitalReader.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\channelReaders
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\channelReaders
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/circularBuffer/ThreadSafeCircularBuffer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/circularBuffer/ThreadSafeCircularBuffer.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\circularBuffer\ThreadSafeCircularBuffer.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/circularBuffer/ThreadSafeCircularBuffer.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/circularBuffer/ThreadSafeCircularBuffer.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\circularBuffer\ThreadSafeCircularBuffer.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\circularBuffer
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\circularBuffer
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/filesUtils/iniObject.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/filesUtils/iniObject.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\filesUtils\iniObject.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/filesUtils/iniObject.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/filesUtils/iniObject.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\filesUtils\iniObject.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\filesUtils
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\filesUtils
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
-build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/main.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDril20.0/src/main.cpp || cmake_object_order_depends_target_dataDrill
-  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src\main.cpp.o.d
+build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/main.cpp.o: CXX_COMPILER__dataDrill_unscanned_Debug C$:/Users/aldric/Desktop/dataDrill20.0.1/src/main.cpp || cmake_object_order_depends_target_dataDrill
+  DEP_FILE = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src\main.cpp.o.d
   FLAGS = -Wall -fmessage-length=0 -O0 -g3 -std=gnu++1z
-  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
+  INCLUDES = -I"C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include" -I"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/include" -IC:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus -IC:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/openssl -isystem C:/build/20.x/x64/sysroots/core2-64-nilrtlinux/usr/include/c++/6.30 -isystem C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/include/c++/6.3.0/x86_64-nilrtlinux
   OBJECT_DIR = CMakeFiles\dataDrill.dir
-  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDril20.0\src
+  OBJECT_FILE_DIR = CMakeFiles\dataDrill.dir\C_\Users\aldric\Desktop\dataDrill20.0.1\src
   TARGET_COMPILE_PDB = CMakeFiles\dataDrill.dir\
   TARGET_PDB = bin\dataDrill.pdb
 
@@ -228,7 +228,7 @@ build CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/main.cpp
 #############################################
 # Link the executable bin\dataDrill
 
-build bin/dataDrill: CXX_EXECUTABLE_LINKER__dataDrill_Debug CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/Bridge/niToModbusBridge.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/Modbus/NewModbusServer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9208.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9239.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9411.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9423.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NI9481.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NIDeviceModule.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiModulesDefinitions/NIDeviceModuleFactory.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiWrappers/QNiDaqWrapper.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/NiWrappers/QNiSysConfigWrapper.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/TCP_Command_server/CrioSSLServer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/TCP_Command_server/CrioTCPServer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/channelReaders/analogicReader.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/channelReaders/baseReader.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/channelReaders/digitalReader.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/circularBuffer/ThreadSafeCircularBuffer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/filesUtils/iniObject.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDril20.0/src/main.cpp.o | C$:/Program$ Files$ (x86)/National$ Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnidaqmx.so C$:/Program$ Files$ (x86)/National$ Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnisyscfg.so C$:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/local/lib/libmodbus.so.5.1.0 C$:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/lib/libssl.so C$:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/lib/libcrypto.so
+build bin/dataDrill: CXX_EXECUTABLE_LINKER__dataDrill_Debug CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/Bridge/niToModbusBridge.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/Modbus/NewModbusServer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9208.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9239.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9411.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9423.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NI9481.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NIDeviceModule.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiModulesDefinitions/NIDeviceModuleFactory.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiWrappers/QNiDaqWrapper.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/NiWrappers/QNiSysConfigWrapper.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/TCP_Command_server/CrioSSLServer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/TCP_Command_server/CrioTCPServer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/analogicReader.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/baseReader.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/channelReaders/digitalReader.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/circularBuffer/ThreadSafeCircularBuffer.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/filesUtils/iniObject.cpp.o CMakeFiles/dataDrill.dir/C_/Users/aldric/Desktop/dataDrill20.0.1/src/main.cpp.o | C$:/Program$ Files$ (x86)/National$ Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnidaqmx.so C$:/Program$ Files$ (x86)/National$ Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnisyscfg.so C$:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/local/lib/libmodbus.so.5.1.0 C$:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/lib/libssl.so C$:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/lib/libcrypto.so
   FLAGS = -Wall -fmessage-length=0 -O0 -g3
   LINK_FLAGS = -Wl,-O1
   LINK_LIBRARIES = -Wl,-rpath,"C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc:/usr/local/lib"  "C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnidaqmx.so"  "C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc/libnisyscfg.so"  C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/local/lib/libmodbus.so.5.1.0  C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/lib/libssl.so  C:/build/20.x/x64/sysroots/core2-64-nilrt-linux/usr/lib/libcrypto.so  -lpthread
@@ -244,7 +244,7 @@ build bin/dataDrill: CXX_EXECUTABLE_LINKER__dataDrill_Debug CMakeFiles/dataDrill
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\aldric\Desktop\dataDril20.0\build && "C:\Program Files\CMake\bin\cmake-gui.exe" -SC:\Users\aldric\Desktop\dataDril20.0\build -BC:\Users\aldric\Desktop\dataDril20.0\build"
+  COMMAND = cmd.exe /C "cd /D C:\Users\aldric\Desktop\dataDrill20.0.1\build && "C:\Program Files\CMake\bin\cmake-gui.exe" -SC:\Users\aldric\Desktop\dataDrill20.0.1\build -BC:\Users\aldric\Desktop\dataDrill20.0.1\build"
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
@@ -256,7 +256,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\aldric\Desktop\dataDril20.0\build && "C:\Program Files\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\aldric\Desktop\dataDril20.0\build -BC:\Users\aldric\Desktop\dataDril20.0\build"
+  COMMAND = cmd.exe /C "cd /D C:\Users\aldric\Desktop\dataDrill20.0.1\build && "C:\Program Files\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\aldric\Desktop\dataDrill20.0.1\build -BC:\Users\aldric\Desktop\dataDrill20.0.1\build"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -274,7 +274,7 @@ build dataDrill: phony bin/dataDrill
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/aldric/Desktop/dataDril20.0/build
+# Folder: C:/Users/aldric/Desktop/dataDrill20.0.1/build
 
 build all: phony bin/dataDrill
 

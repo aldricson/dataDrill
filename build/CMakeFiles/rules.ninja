@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = "C:\Program Files\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\aldric\Desktop\dataDril20.0\build -BC:\Users\aldric\Desktop\dataDril20.0\build
+  command = "C:\Program Files\CMake\bin\cmake.exe" --regenerate-during-build -SC:\Users\aldric\Desktop\dataDrill20.0.1\build -BC:\Users\aldric\Desktop\dataDrill20.0.1\build
   description = Re-running CMake...
   generator = 1
 

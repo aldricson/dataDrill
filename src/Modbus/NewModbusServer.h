@@ -56,13 +56,8 @@ private:
     
     SensorRigUpStruct SRUMapping    ;  //this define the client configuration
     std::shared_ptr<IniObject> m_ini;  //helper object to read/write inifiles
-    
-    GlobalFileNamesContainer m_filenNamesContainer;
-    
-    
+    GlobalFileNamesContainer fileNamesContainer;
     void loadConfig();
-
-
 
     void        initializeModbusContext();
     void        setupServerSocket      ();

@@ -10,68 +10,68 @@ Setting the search behavior for various types of files.
 project name is set to: dataDrill
 loading sources and headers
 List of Header Files:
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Bridge/niToModbusBridge.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Conversions/convUtils.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/NewModbusServer.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-private.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu-private.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp-private.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-version.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-version.h.in
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9208.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9239.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9411.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9423.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9481.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModule.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModuleFactory.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiDaqWrapper.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiSysConfigWrapper.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Signals/QSignalTest.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioSSLServer.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioTCPServer.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/analogicReader.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/baseReader.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/digitalReader.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/ThreadSafeCircularBuffer.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/algorithm.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/circular_buffer.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/traits.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/config.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/appendToFileHelper.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/cPosixFileHelper.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/ini.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/iniCpp.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/iniObject.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/globals/globalConsts.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/globals/globalEnumStructs.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/stringUtils/stringUtils.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/systemPatches/stdOptionalReplacement.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/testFunctions.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/timers/simpleTimer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Bridge/niToModbusBridge.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Conversions/convUtils.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/NewModbusServer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-private.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-rtu-private.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-rtu.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-tcp-private.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-tcp.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-version.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-version.h.in
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9208.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9239.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9411.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9423.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9481.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NIDeviceModule.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NIDeviceModuleFactory.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiWrappers/QNiDaqWrapper.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiWrappers/QNiSysConfigWrapper.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Signals/QSignalTest.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/TCP Command server/CrioSSLServer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/TCP Command server/CrioTCPServer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/analogicReader.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/baseReader.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/digitalReader.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/ThreadSafeCircularBuffer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/algorithm.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/circular_buffer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/traits.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/config.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/appendToFileHelper.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/cPosixFileHelper.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/ini.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniCpp.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniObject.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/globals/globalConsts.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/globals/globalEnumStructs.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/stringUtils/stringUtils.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/systemPatches/stdOptionalReplacement.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/testFunctions.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/timers/simpleTimer.h
 List of Source Files:
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Bridge/niToModbusBridge.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/NewModbusServer.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9208.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9239.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9411.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9423.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NI9481.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModule.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiModulesDefinitions/NIDeviceModuleFactory.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiDaqWrapper.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/NiWrappers/QNiSysConfigWrapper.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioSSLServer.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/TCP Command server/CrioTCPServer.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/analogicReader.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/baseReader.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/channelReaders/digitalReader.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/circularBuffer/ThreadSafeCircularBuffer.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/filesUtils/iniObject.cpp
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/main.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Bridge/niToModbusBridge.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/NewModbusServer.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9208.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9239.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9411.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9423.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9481.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NIDeviceModule.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NIDeviceModuleFactory.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiWrappers/QNiDaqWrapper.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiWrappers/QNiSysConfigWrapper.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/TCP Command server/CrioSSLServer.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/TCP Command server/CrioTCPServer.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/analogicReader.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/baseReader.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/digitalReader.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/ThreadSafeCircularBuffer.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniObject.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/main.cpp
 Excutable output file set to bin bin
 build type is: Debug
 threading type is set to linux pthread library
@@ -84,13 +84,13 @@ C:/Program Files (x86)/National Instruments/NI-DAQ/DAQmx ANSI C Dev/include/NIDA
 *** libModbus ***
 
 List of libmodbus Header Files:
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-private.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu-private.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-rtu.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp-private.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-tcp.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus-version.h
-C:/Users/aldric/Desktop/dataDril20.0/build/../src/Modbus/libmodbus/modbus.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-private.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-rtu-private.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-rtu.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-tcp-private.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-tcp.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-version.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus.h
 
 linux librairies selected: C:/Program Files (x86)/National Instruments/Shared/ExternalCompilerSupport/C/lib64/gcc
 
