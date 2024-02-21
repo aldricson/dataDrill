@@ -153,6 +153,7 @@ struct MappingConfig {
         std::string iniObjectLogFile        ;
         std::string startupManagerLogFile   ;
         std::string niToModbusBridgeLogFile ;
+        std::string CrioSSLServerLogFile    ;
         std::string modbusIniFile           ;
         std::string modbusMappingFile       ;  
         GlobalFileNamesContainer() : newModbusServerLogFile  ("./newModbusServerLogFile.txt"  ) ,
@@ -160,6 +161,7 @@ struct MappingConfig {
                                      iniObjectLogFile        ("./iniObjectLogFile.txt"        ) ,
                                      startupManagerLogFile   ("./startupManagerLogFile.txt"   ) ,
                                      niToModbusBridgeLogFile ("./niToModbusBridgeLogFile.txt" ) ,
+                                     CrioSSLServerLogFile    ("./CrioSSLServerLogFile.txt"    ) ,
                                      modbusIniFile           ("./modbus.ini"                  ) ,
                                      modbusMappingFile       ("./mapping.csv"                 ){}
     };

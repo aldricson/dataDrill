@@ -22,13 +22,15 @@ CrioSSLServer::CrioSSLServer(unsigned short port,
                             std::shared_ptr<QNiSysConfigWrapper> aConfigWrapper,
                             std::shared_ptr<QNiDaqWrapper>       aDaqWrapper,
                             std::shared_ptr<AnalogicReader>      anAnalogicReader,
-                            std::shared_ptr<DigitalReader>       aDigitalReader,
+                            std::shared_ptr<DigitalReader>       aDigitalReader  ,
+                            std::shared_ptr<DigitalWriter>       aDigitalWriter  ,
                             std::shared_ptr<NItoModbusBridge>    aBridge) : 
                             port_(port),
                             m_cfgWrapper(aConfigWrapper),
                             m_daqWrapper(aDaqWrapper),
                             m_analogicReader(anAnalogicReader),
                             m_digitalReader(aDigitalReader),
+                            m_digitalWriter(aDigitalWriter),
                             m_bridge(aBridge),
                             serverRunning_(false) 
 {

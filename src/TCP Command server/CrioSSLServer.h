@@ -15,9 +15,11 @@
 #include "../NiWrappers/QNiSysConfigWrapper.h"
 #include "../channelReaders/analogicReader.h"
 #include "../channelReaders/digitalReader.h"
+#include "../channelWriters/digitalWriter.h"
 #include "../Bridge/niToModbusBridge.h"
 #include "../stringUtils/stringUtils.h"
 #include "../NiWrappers/QNiDaqWrapper.h"
+#include "../globals/globalEnumStructs.h"
 
 #define maxNbClient 100
 
@@ -28,6 +30,7 @@ public:
                   std::shared_ptr<QNiDaqWrapper> aDaqWrapper,
                   std::shared_ptr<AnalogicReader> anAnalogicReader,
                   std::shared_ptr<DigitalReader> aDigitalReader,
+                  std::shared_ptr<DigitalWriter> aDigitalWriter,
                   std::shared_ptr<NItoModbusBridge> aBridge);
     ~CrioSSLServer();
 
@@ -45,6 +48,7 @@ private:
     std::shared_ptr<QNiDaqWrapper>       m_daqWrapper;
     std::shared_ptr<AnalogicReader>      m_analogicReader;
     std::shared_ptr<DigitalReader>       m_digitalReader;
+    std::shared_ptr<DigitalWriter>       m_digitalWriter;
     std::shared_ptr<NItoModbusBridge>    m_bridge;
 
     

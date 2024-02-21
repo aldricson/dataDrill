@@ -64,7 +64,7 @@ void createNecessaryInstances()
   //object in charge of all non ssh commands
 
   //m_crioTCPServer = std::make_shared<CrioTCPServer>(8222,sysConfig,daqMx,analogReader,digitalReader, m_crioToModbusBridge);
-  m_crioTCPServer = std::make_shared<CrioSSLServer>(8222,sysConfig,daqMx,analogReader,digitalReader, m_crioToModbusBridge);
+  m_crioTCPServer = std::make_shared<CrioSSLServer>(8222,sysConfig,daqMx,analogReader,digitalReader,m_digitalWriter, m_crioToModbusBridge);
   
   std::cout<<"TCP server created"<<std::endl;
 
