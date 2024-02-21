@@ -1,17 +1,20 @@
-#include "NItoModbusBridge.h"
+#include "niToModbusBridge.h"
 #include <cmath>   // for std::sin
 #include <cstdlib> // for std::rand
 #include <vector>
+#include <chrono>
 
 // Constructor
-NItoModbusBridge::NItoModbusBridge(std::shared_ptr<AnalogicReader> analogicReader,
-                                   std::shared_ptr<DigitalReader> digitalReader,
+NItoModbusBridge::NItoModbusBridge(std::shared_ptr<AnalogicReader>  analogicReader,
+                                   std::shared_ptr<DigitalReader>   digitalReader,
+                                   std::shared_ptr<DigitalWriter>   digitalWriter,
                                    std::shared_ptr<NewModbusServer> modbusServer)
-    : m_simulationBuffer(),
-      m_realDataBuffer(),
-      m_analogicReader(analogicReader),
-      m_digitalReader(digitalReader),
-      m_modbusServer(modbusServer)
+    : m_simulationBuffer (),
+      m_realDataBuffer   (),
+      m_analogicReader   (analogicReader),
+      m_digitalReader    (digitalReader),
+      m_digitalWriter    (digitalWriter),
+      m_modbusServer     (modbusServer)
 {
 
     m_simulateTimer = std::make_shared<SimpleTimer>();
@@ -65,11 +68,12 @@ void NItoModbusBridge::setDigitalReader(std::shared_ptr<DigitalReader> digitalRe
 void NItoModbusBridge::loadMapping()
 {
     // Open the mapping file
-    std::ifstream file("mapping.csv");
+    std::ifstream file(m_fileNamesContainer.modbusMappingFile);
     
     // Check if the file is open successfully
     if (!file.is_open())
     {
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Failed to open mapping file");
         std::cerr << "Failed to open mapping.csv file" << std::endl;
         return; // Exit the function if file opening fails
     }
@@ -95,12 +99,14 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'index' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'index' value in mapping file");
             std::cerr << "Missing 'index' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -114,12 +120,15 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
+
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'moduleType' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'moduleType' value in mapping file");
             std::cerr << "Missing 'moduleType' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -131,6 +140,7 @@ void NItoModbusBridge::loadMapping()
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'module' value in mapping file");
             std::cerr << "Missing 'module' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -142,6 +152,7 @@ void NItoModbusBridge::loadMapping()
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'minSource' value in mapping file"); 
             std::cerr << "Missing 'channel' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -155,12 +166,14 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'minSource' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'minSource' value in mapping file"); 
             std::cerr << "Missing 'minSource' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -174,6 +187,7 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'maxSource' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
@@ -181,6 +195,8 @@ void NItoModbusBridge::loadMapping()
         else
         {
             std::cerr << "Missing 'maxSource' value in mapping.csv" << std::endl;
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'maxSource' value in mapping file"); 
+
             continue; // Skip this line and proceed to the next one
         }
 
@@ -193,6 +209,7 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'minDest' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
@@ -209,15 +226,17 @@ void NItoModbusBridge::loadMapping()
             try
             {
                 config.maxDest = static_cast<uint16_t>(std::stoi(token));
-            }
+            } 
             catch (const std::invalid_argument& e)
             {
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'maxDest' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() Missing 'maxDest' value in mapping file"); 
             std::cerr << "Missing 'maxDest' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -231,12 +250,14 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
                 std::cerr << "Failed to parse 'modbusChannel' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
         }
         else
         {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() issing 'modbusChannel' value in mapping file "); 
             std::cerr << "Missing 'modbusChannel' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -272,6 +293,7 @@ bool NItoModbusBridge::startModbusSimulation()
     {
         // Handle any exceptions that may occur during timer operations
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::startModbusSimulation() An exception occurred: "+std::string(e.what())); 
         std::cerr << "An exception occurred: " << e.what() << std::endl;
 
         // Return false to indicate that simulation start failed
@@ -292,6 +314,7 @@ void NItoModbusBridge::stopModbusSimulation()
     {
         // Handle any exceptions that may occur during timer operations
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::stopModbusSimulation() An exception occurred: "+std::string(e.what())); 
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
@@ -331,6 +354,7 @@ bool NItoModbusBridge::startAcquisition()
     {
         // Handle any exceptions that may occur during timer operations
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::startAcquisition() An exception occurred: "+std::string(e.what())); 
         std::cerr << e.what() << '\n';
 
         // Return false to indicate that data acquisition start failed
@@ -351,7 +375,68 @@ void NItoModbusBridge::stopAcquisition()
     {
         // Handle any exceptions that may occur during timer operations
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::stopAcquisition() An exception occurred: "+std::string(e.what())); 
         std::cerr << "An exception occurred: " << e.what() << std::endl;
+    }
+}
+
+void NItoModbusBridge::acquireCounters() 
+{
+    try {
+        std::cout << "Acquiring counter data..." << std::endl;
+
+        // Iterate over each mapping configuration to handle counters
+        for (auto &config : m_mappingData) {
+            if (config.moduleType == ModuleType::isCounter) 
+            {
+                double counterValue = 0.0;
+                // Read the counter value using DigitalReader
+                m_digitalReader->manualReadOneShot(config.module, config.channel, counterValue);
+                // Convert the read value to an unsigned integer
+                unsigned int counterIntValue = static_cast<unsigned int>(counterValue);
+                
+                // Update current time and counter value
+                config.currentTime = std::chrono::steady_clock::now();
+                config.currentCounterValue = counterIntValue;
+
+                double frequencyValue = 0.0;
+                // Calculate delta time in seconds
+                auto deltaTime = std::chrono::duration_cast<std::chrono::seconds>(config.currentTime - config.previousTime).count();
+
+                if (deltaTime > 0) {
+                    // Calculate the change in counter value
+                    unsigned int deltaCounter = config.currentCounterValue - config.previousCounterValue;
+                    // Calculate frequency (counts per second)
+                    frequencyValue = static_cast<double>(deltaCounter) / deltaTime;
+                }
+
+                // Use the min/max source and destination values directly from the config
+                uint16_t frequency = linearInterpolation16Bits(
+                    frequencyValue, // The calculated frequency
+                    config.minSource, config.maxSource, // Actual source range from configuration
+                    config.minDest, config.maxDest // Actual destination range from configuration
+                );
+
+                // Split the 32-bit counter value into two 16-bit values
+                uint16_t highValue = static_cast<uint16_t>((counterIntValue >> 16) & 0xFFFF);
+                uint16_t lowValue = static_cast<uint16_t>(counterIntValue & 0xFFFF);
+
+                // Update the Modbus server registers
+                int firstDestinationRegister = config.modbusChannel;
+                m_realDataBufferLine[firstDestinationRegister] = frequency;
+                m_realDataBufferLine[firstDestinationRegister + 1] = highValue;
+                m_realDataBufferLine[firstDestinationRegister + 2] = lowValue;
+
+                // Prepare for next acquisition by updating previous time and counter values
+                config.previousTime = config.currentTime;
+                config.previousCounterValue = config.currentCounterValue;
+            }
+        }
+    } 
+    catch (const std::exception &e) 
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::acquireCounters() An exception occurred: "+std::string(e.what())); 
+        std::cerr << "Exception in acquireCounters: " << e.what() << std::endl;
     }
 }
 
@@ -383,6 +468,7 @@ uint16_t NItoModbusBridge::linearInterpolation16Bits(double value, double minSou
     {
         // Handle any exceptions that may occur during the interpolation
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::linearInterpolation16Bits(double value, double minSource, double maxSource, uint16_t minDestination, uint16_t maxDestination) An exception occurred: "+std::string(e.what())); 
         std::cerr << "An exception occurred: " << e.what() << std::endl;
 
         // Return the minimum destination value to indicate failure
@@ -417,6 +503,8 @@ void NItoModbusBridge::onSimulationTimerTimeOut()
 
         // Remap input register values for analogics
         m_modbusServer->reMapInputRegisterValuesForAnalogics(analogChannelsResult);
+        // Simulate relay
+        simulateRelays();
 
         // Wrap around the simulation counter
         m_simulationCounter = (m_simulationCounter + 1) % maxCounterValue;
@@ -425,6 +513,7 @@ void NItoModbusBridge::onSimulationTimerTimeOut()
     {
         // Handle any exceptions that may occur during simulation
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::onSimulationTimerTimeOut() An exception occurred: "+std::string(e.what()));
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
@@ -470,6 +559,7 @@ void NItoModbusBridge::simulateAnalogicInputs(std::vector<uint16_t> &analogChann
     {
         // Handle any exceptions that may occur during simulation
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateAnalogicInputs(std::vector<uint16_t> &analogChannelsResult) An exception occurred: "+std::string(e.what()));
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
@@ -500,6 +590,7 @@ void NItoModbusBridge::simulateCounters(std::vector<uint16_t> &analogChannelsRes
     {
         // Handle any exceptions that may occur during simulation
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateCounters(std::vector<uint16_t> &analogChannelsResult) An exception occurred: "+std::string(e.what()));
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
@@ -527,9 +618,51 @@ void NItoModbusBridge::simulateCoders(std::vector<uint16_t> &analogChannelsResul
     {
         // Handle any exceptions that may occur during simulation
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateCoders(std::vector<uint16_t> &analogChannelsResult) An exception occurred: "+std::string(e.what()));
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
+
+void NItoModbusBridge::simulateRelays() 
+{
+    std::cout <<"enter simulate relay"<<std::endl;
+    bool relay[4] = {false,false,false,false};
+    for (int i=0;i<4;i++)
+    {        
+        relay[i] =  m_simulatedAlarmStepCounter==i;
+        std::cout <<"relay #"<<i<<" state:"<<relay[i]<<std::endl;
+    }
+    int count = 0;
+    // Iterate through each relay configuration defined in the mapping data.
+    for (auto& config : m_mappingData) 
+    {
+        // Check if the current mapping configuration corresponds to a relay.
+        if (config.moduleType == ModuleType::isDigitalOutput) 
+        {
+            std::cout << "digital output detected : OK!"<<std::endl;
+            // Simulate a state change. Here, you might want to use a random generator or a deterministic approach
+            // to toggle the relay state or set it based on specific simulation criteria.
+            bool newState = relay[count];
+            count++;
+            // Use the DigitalWriter to apply the simulated state to the relay.
+            // This involves specifying the module alias and channel or index where the relay is mapped.
+            try 
+            {
+                
+                m_digitalWriter->manualSetOutput(config.module, config.channel, newState);
+                std::cout << "Simulated relay " << config.channel << " on module " << config.module << " to state " << newState << std::endl;
+            } 
+            catch (const std::exception& e) 
+            {
+                
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateRelays() An exception occurred: "+std::string(e.what()));
+                std::cerr << "Error simulating relay state: " << e.what() << std::endl;
+            }
+        }
+    }
+    m_simulatedAlarmStepCounter = (m_simulatedAlarmStepCounter + 1) % 4;    
+}
+
 
 void NItoModbusBridge::acquireData()
 {
@@ -577,7 +710,7 @@ void NItoModbusBridge::acquireData()
                 }
                 case ModuleType::isCounter:
                 {
-                    // Handle counter data (Add your implementation here if needed)
+                    acquireCounters();
                     break;
                 }
                 case ModuleType::isDigitalInput:
@@ -595,6 +728,7 @@ void NItoModbusBridge::acquireData()
     {
         // Handle any exceptions that may occur during data acquisition
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::acquireData() An exception occurred: "+std::string(e.what()));
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
@@ -610,6 +744,7 @@ void NItoModbusBridge::onDataAcquisitionTimerTimeOut()
     {
         // Handle any exceptions that may occur during timer timeout
         // Log the error message for debugging purposes
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::onDataAcquisitionTimerTimeOut() An exception occurred: "+std::string(e.what()));
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }

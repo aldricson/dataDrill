@@ -21,12 +21,14 @@
 // These wrappers utilize low-level APIs that have hardware access. 
 // Proper destruction is essential to restore certain hardware states when they go out of scope.
 // Using smart pointers like std::shared_ptr ensures safer and automatic resource management.
-std::shared_ptr<QNiSysConfigWrapper> sysConfig;
-std::shared_ptr<QNiDaqWrapper>       daqMx;
-std::shared_ptr<AnalogicReader>      analogReader;
-std::shared_ptr<DigitalReader>       digitalReader;
-std::shared_ptr<NewModbusServer>     modbusServer;
-std::shared_ptr<NItoModbusBridge>    m_crioToModbusBridge;
+std::shared_ptr<QNiSysConfigWrapper> sysConfig             ;
+std::shared_ptr<QNiDaqWrapper      > daqMx                 ;
+std::shared_ptr<AnalogicReader     > analogReader          ;
+std::shared_ptr<DigitalReader      > digitalReader         ;
+std::shared_ptr<DigitalWriter      > m_digitalWriter       ;
+std::shared_ptr<NewModbusServer    > modbusServer          ;
+std::shared_ptr<NItoModbusBridge   >  m_crioToModbusBridge ;
+
 
 //std::shared_ptr<CrioTCPServer>       m_crioTCPServer;
 std::shared_ptr<CrioSSLServer>         m_crioTCPServer;
@@ -35,17 +37,20 @@ void createNecessaryInstances()
 {
   //std::string str; 
   //c++ wrapper around NiDaqMx low level C API (used mainly to read or write on devices channels) 
-  daqMx         = std::make_shared<QNiDaqWrapper>();
+  daqMx          = std::make_shared<QNiDaqWrapper>();
   std::cout<<"daqMx Wrapper created"<<std::endl;
   //c++ wrapper around NISysConfig low level C API (used to get or set parameters of devices)
-  sysConfig     = std::make_shared<QNiSysConfigWrapper>();
+  sysConfig      = std::make_shared<QNiSysConfigWrapper>();
   std::cout<<"sysconfig Wrapper created"<<std::endl;
   //object to read anlogic channels (both current and voltage)
-  analogReader  = std::make_shared<AnalogicReader>     (sysConfig,daqMx);
+  analogReader   = std::make_shared<AnalogicReader>     (sysConfig,daqMx);
   std::cout<<"analogic reader created"<<std::endl;
   //object to read mainly coders and 32 bit counters
-  digitalReader = std::make_shared<DigitalReader>      (sysConfig,daqMx);
-  std::cout<<"digital reader created"<<std::endl;
+  digitalReader   = std::make_shared<DigitalReader>      (sysConfig,daqMx);
+    std::cout<<"digital reader created"<<std::endl;
+  //object to write to coils (relays and alarms typically)
+  m_digitalWriter = std::make_shared<DigitalWriter>      (sysConfig,daqMx);
+  std::cout<<"digital writer created"<<std::endl;
   //Object that handle the modbus server
   modbusServer = std::make_shared<NewModbusServer>();
   modbusServer->modbusSetSlaveId(1);
@@ -54,7 +59,7 @@ void createNecessaryInstances()
   modbusServerThread.detach(); // Detach the thread to allow it to run independently
   std::cout << "Modbus server created" << std::endl;
   //Object in charge of routing crio datas to modbus
-  m_crioToModbusBridge = std::make_shared<NItoModbusBridge>(analogReader,digitalReader,modbusServer);
+  m_crioToModbusBridge = std::make_shared<NItoModbusBridge>(analogReader,digitalReader,m_digitalWriter,modbusServer);
   std::cout<<"modbus bridge created"<<std::endl;
   //object in charge of all non ssh commands
 
