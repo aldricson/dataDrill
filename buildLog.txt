@@ -36,6 +36,8 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/TCP Command server/CrioTCPS
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/analogicReader.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/baseReader.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/digitalReader.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/baseWriter.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/digitalWriter.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/ThreadSafeCircularBuffer.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/algorithm.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/circular_buffer.h
@@ -69,6 +71,8 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/TCP Command server/CrioTCPS
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/analogicReader.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/baseReader.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/digitalReader.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/baseWriter.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/digitalWriter.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/ThreadSafeCircularBuffer.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniObject.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/main.cpp
