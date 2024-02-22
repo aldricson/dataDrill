@@ -113,10 +113,25 @@ int main(void)
      std::cout << "║ "<< str    << std::endl;
      std::cout << "╚═══════════════════════════════════════╝"<< std::endl;
    }
+   std::cout <<  std::endl;
+   
+   std::cout << "*** Init phase 3: testing counters ***" << std::endl<< std::endl;
+   while (true)
+   {
+        unsigned int counterResult = daqMx->testReadCounter();
+        std::string str = std::to_string(counterResult);
+        std::cout << "╔/¨¨══════════════════════════════════════╗ "<< std::endl;
+        std::cout << "║ "<< str    << std::endl;
+        std::cout << "╚\\_═══════════════════════════════════════╝"<< std::endl;
+        sleep(5);
+   }
+   return EXIT_SUCCESS;
+
+
     //boot strap finished
     m_crioTCPServer->startServer();
     std::cout <<  std::endl;
-    std::cout << "*** Init phase 3: command server started ***" << std::endl<< std::endl; 
+    std::cout << "*** Init phase 4: command server started ***" << std::endl<< std::endl; 
     clearConsole();
     showBanner();
     while (true) {

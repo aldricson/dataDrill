@@ -37,6 +37,14 @@ public:
     unsigned int readCounter(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     unsigned int readCounter(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
 
+
+
+
+
+    unsigned int testReadCounter();     
+
+    
+    
     void setRelayState(NIDeviceModule* deviceModule, unsigned int chanIndex, const bool &state);
     void setRelayState(NIDeviceModule* deviceModule, const std::string& chanName, const bool &state);
 
@@ -75,6 +83,7 @@ private:
     std::mutex voltageMutex;
     std::mutex currentMutex;
     TaskHandle taskHandle;
+    TaskHandle counterHandle = nullptr;
     std::atomic<double> m_lastSingleCurrentChannelValue;
     std::atomic<double> m_lastSingleVoltageChannelValue;
     unsigned int m_lastSingleCounter             = 0;  
