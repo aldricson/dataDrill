@@ -47,7 +47,7 @@ void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsi
             m_daqMx->readCounter(deviceModule, index, countValue);
             returnedValue = static_cast<double>(countValue);
             // Reset the counter for next reading
-            m_daqMx->resetCounter(deviceModule, index);
+            //m_daqMx->resetCounter(deviceModule, index);
         } 
         catch (const std::exception& e)
         {
@@ -118,7 +118,7 @@ void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std:
             returnedValue = static_cast<double>(countValue);
 
             // Reset the counter to prepare it for the next reading.
-            m_daqMx->resetCounter(deviceModule, chanName);
+            //m_daqMx->resetCounter(deviceModule, chanName);
         } 
         catch (const std::exception& e) 
         {

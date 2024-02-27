@@ -155,6 +155,7 @@ struct MappingConfig {
         std::string niToModbusBridgeLogFile ;
         std::string CrioSSLServerLogFile    ;
         std::string digitalReaderLogFile    ;
+        std::string QNiDaqWrapperLogFile    ;
         std::string modbusIniFile           ;
         std::string modbusMappingFile       ;  
         GlobalFileNamesContainer() : newModbusServerLogFile  ("./newModbusServerLogFile.txt"  ) ,
@@ -164,6 +165,7 @@ struct MappingConfig {
                                      niToModbusBridgeLogFile ("./niToModbusBridgeLogFile.txt" ) ,
                                      CrioSSLServerLogFile    ("./CrioSSLServerLogFile.txt"    ) ,
                                      digitalReaderLogFile    ("./digitalReaderLogFile.txt"    ) ,
+                                     QNiDaqWrapperLogFile    ("./QNiDaqWrapperLogFile.txt"    ) , 
                                      modbusIniFile           ("./modbus.ini"                  ) ,
                                      modbusMappingFile       ("./mapping.csv"                 ){}
     };

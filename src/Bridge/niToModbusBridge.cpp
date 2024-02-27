@@ -720,6 +720,7 @@ void NItoModbusBridge::acquireData()
                     std::cout << lineCfg.module.c_str() << " " << lineCfg.channel.c_str() << " " << interpolatedResult << std::endl;
                     break;
                 }
+                
                 case ModuleType::isCoder:
                 {
                     // Handle coder data (Add your implementation here if needed)

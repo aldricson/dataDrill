@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-
+#include <map>
 #include <iostream> 
 #include <chrono>
 #include <thread>
@@ -11,6 +11,8 @@
 #include <mutex>
 #include <atomic>
 #include "../Conversions/convUtils.h"
+#include "../globals/globalEnumStructs.h"
+#include "../filesUtils/appendToFileHelper.h"
 
 #include "../config.h"
 #ifdef CrossCompiled
@@ -37,11 +39,8 @@ public:
     unsigned int readCounter(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     unsigned int readCounter(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
 
-
-
-
-
-    unsigned int testReadCounter();     
+    unsigned int testReadCounter();
+    void testSetRelayAndLEDState(unsigned int relayIndex, const bool &state);     
 
     
     
@@ -82,11 +81,12 @@ public:
 private:
     std::mutex voltageMutex;
     std::mutex currentMutex;
-    TaskHandle taskHandle;
+    GlobalFileNamesContainer fileNamesContainer;
     TaskHandle counterHandle = nullptr;
     std::atomic<double> m_lastSingleCurrentChannelValue;
     std::atomic<double> m_lastSingleVoltageChannelValue;
-    unsigned int m_lastSingleCounter             = 0;  
+    unsigned int m_lastSingleCounter             = 0;
+    std::map<std::string, TaskHandle> counterTasksMap;  
 };
 
 
