@@ -26,13 +26,15 @@
 
 class NIDeviceModule {
 private:
-bool loadChannels(std::string filename);
-bool loadCounters(const std::string &filename);
-bool loadModules (const std::string &filename);
+bool loadModules (const std::string &filename,       ModuleType &aModuleType);
+bool loadChannels(const std::string &filename, const ModuleType &aModuleType);
+bool loadCounters(const std::string &filename, const ModuleType &aModuleType);
+bool loadOutputs (const std::string &filename, const ModuleType &aModuleType);
+
 //
-void saveChannels(const std::string &filename);
-void saveCounters(const std::string &filename);
-void saveModules (const std::string &filename);
+void saveModules (const std::string &filename , ModuleType &aModuleType);
+void saveChannels(const std::string &filename, const ModuleType &aModuleType);
+void saveCounters(const std::string &filename, const ModuleType &aModuleType);
 
 protected:
     //number of channels in the module
@@ -50,7 +52,9 @@ protected:
     unsigned int m_counterMax       = 4294967295; //32 bits
     moduleCounterEdgeConfig m_counterCountingEdgeMode;
     moduleCounterMode       m_counterCountDirectionMode;
-    
+    //----------- relays (digital outputs) ----------
+    unsigned int m_nbOutputs         = 0;
+
     unsigned int m_nbDigitalOutputs = 0; //number of outputs for a digital ouput channel (e.g. for relays)
 
 

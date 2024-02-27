@@ -19,6 +19,10 @@ IniObject::~IniObject()
 template <typename T>
 T IniObject::readValue(const std::string& section, const std::string& key, T defaultValue, const std::string& currentFilename)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     // Check if the file exists
     if (isFileOk(currentFilename))
     {   
@@ -33,13 +37,23 @@ T IniObject::readValue(const std::string& section, const std::string& key, T def
         if (readOk)
         {
             // Get the value from the structure
-            std::string& value = ini[section][key];
+            std::string& value = ini[tempSection][tempKey];
             if (value.empty())
             {
                 // No value found
-                if (!writeValue<T>(section, key, defaultValue, currentFilename))
+                if (!writeValue<T>(tempSection, tempKey, defaultValue, currentFilename))
                 {
-                    //TODO HANDLE ERROR
+                    appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                              "in:\n"
+                                              "template <typename T> \n"
+                                              "T IniObject::readValue(const std::string& section, const std::string& key, T defaultValue, const std::string& currentFilename) \nSection:\n"+
+                                              tempSection+
+                                              "\nKey:\n"+
+                                              tempKey+
+                                              "\nfor file:\n"+
+                                              currentFilename+
+                                              "\nvalue is empty, writeValue failed.");  
+
                 }
                 return defaultValue;
             }
@@ -72,9 +86,19 @@ T IniObject::readValue(const std::string& section, const std::string& key, T def
     else
     {
         // File does not exist, return default value
-        if (!writeValue<T>(section, key, defaultValue, currentFilename))
+        if (!writeValue<T>(tempSection, tempKey, defaultValue, currentFilename))
         {
-            std::cout << "Impossible to generate default value: " << section << " " << key << " = " << defaultValue << std::endl;
+           appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                         "in:\n"
+                         "template <typename T> \n"
+                         "T IniObject::readValue(const std::string& section, const std::string& key, T defaultValue, const std::string& currentFilename) \nSection:\n"+
+                         tempSection+
+                         "\nKey:\n"+
+                         tempKey+
+                         "\nfor file:\n"+
+                         currentFilename+
+                         "\nwriteValue failed.");  
+
         }
         return defaultValue;
     }
@@ -84,7 +108,11 @@ T IniObject::readValue(const std::string& section, const std::string& key, T def
 // Overload for std::string type
 bool IniObject::writeValueHelper(const std::string& section, const std::string& key, const std::string& value, mINI::INIStructure& ini)
 {
-    ini[section][key] = value;
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
+    ini[tempSection][tempKey] = value;
     return true;
 }
 
@@ -92,6 +120,10 @@ bool IniObject::writeValueHelper(const std::string& section, const std::string& 
 template <typename T>
 bool IniObject::writeValueHelper(const std::string& section, const std::string& key, T value, mINI::INIStructure& ini)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     ini[section][key] = std::to_string(value);
     return true;
 }
@@ -101,6 +133,10 @@ bool IniObject::writeValueHelper(const std::string& section, const std::string& 
 template <typename T>
 bool IniObject::writeValue(const std::string& section, const std::string& key, T value, const std::string& currentFilename)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     // Check if the file exists
     if (isFileOk(currentFilename))
     {
@@ -115,7 +151,7 @@ bool IniObject::writeValue(const std::string& section, const std::string& key, T
         if (readOk)
         {
             // Update the fields in the structure
-            writeValueHelper(section, key, value, ini);
+            writeValueHelper(tempSection, tempKey, value, ini);
             
             // Update the file; check for write success
             if (file.write(ini)) 
@@ -125,11 +161,32 @@ bool IniObject::writeValue(const std::string& section, const std::string& key, T
             } 
             else 
             {
+                appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                            "in:\n"
+                                            "template <typename T> \n"
+                                            "bool IniObject::writeValue(const std::string& section, const std::string& key, T value, const std::string& currentFilename) \nSection:\n"+
+                                            tempSection+
+                                            "\nKey:\n"+
+                                            tempKey+
+                                            "\nfor file:\n"+
+                                            currentFilename+
+                                            "\nwriteValue failed."); 
+
                 return false; // File write failed
             }
         }
         else
         {
+            appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                      "in:\n"
+                                      "template <typename T> \n"
+                                      "bool IniObject::writeValue(const std::string& section, const std::string& key, T value, const std::string& currentFilename) \nSection:\n"+
+                                      tempSection+
+                                      "\nKey:\n"+
+                                      tempKey+
+                                      "\nfor file:\n"+
+                                      currentFilename+
+                                      "\nread Value before write failed."); 
             return false; // File read failed
         }
     }
@@ -139,7 +196,7 @@ bool IniObject::writeValue(const std::string& section, const std::string& key, T
         if (createEmptyFile(currentFilename))
         {
             // Now that there's a file, retry writing the value
-            return writeValue(section, key, value, currentFilename);
+            return writeValue(tempSection, tempKey, value, currentFilename);
         }
         else
         {
@@ -151,14 +208,30 @@ bool IniObject::writeValue(const std::string& section, const std::string& key, T
 
 int IniObject::readInteger(const std::string &section, const std::string &key, int defaultValue, const std::string &currentFilename, bool &ok)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
         ok = true;
-        return readValue<int>(section, key, defaultValue, currentFilename);
+        return readValue<int>(tempSection, tempKey, defaultValue, currentFilename);
     }
     catch (const std::exception& e)
     {
-        // Handle exception, maybe log it
+        
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "int IniObject::readInteger(const std::string &section, const std::string &key, int defaultValue, const std::string &currentFilename, bool &ok) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to read integer. Set to default: "+std::to_string(defaultValue)+
+                                    "\nException :\n"+
+                                    std::string(e.what())); 
+    
         ok = false;
         return defaultValue;
     }
@@ -166,13 +239,29 @@ int IniObject::readInteger(const std::string &section, const std::string &key, i
 
 bool IniObject::writeInteger(const std::string &section, const std::string &key, int value, const std::string &currentFilename)
 {
-     try
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
+    try
     {
-        return writeValue<int>(section, key, value, currentFilename);
+        return writeValue<int>(tempSection, tempKey, value, currentFilename);
     }
     catch (const std::exception& e)
     {
-        // Handle exception, maybe log it
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "bool IniObject::writeInteger(const std::string &section, const std::string &key, int value, const std::string &currentFilename) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to write integer: "+
+                                   std::to_string(value)+
+                                   "\nException :\n"+
+                                   std::string(e.what()));   
+        
         return false;
     }
 }
@@ -180,13 +269,28 @@ bool IniObject::writeInteger(const std::string &section, const std::string &key,
 // Read and Write for Double
 double IniObject::readDouble(const std::string& section, const std::string& key, double defaultValue, const std::string& currentFilename, bool &ok)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
         ok = true;
-        return readValue<double>(section, key, defaultValue, currentFilename);
+        return readValue<double>(tempSection, tempKey, defaultValue, currentFilename);
     }
     catch (const std::exception& e)
     {
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "double IniObject::readDouble(const std::string& section, const std::string& key, double defaultValue, const std::string& currentFilename, bool &ok) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to read double. Set to default: "+std::to_string(defaultValue)+
+                                    "\nException :\n"+
+                                    std::string(e.what())); 
         ok = false;
         return defaultValue;
     }
@@ -194,12 +298,29 @@ double IniObject::readDouble(const std::string& section, const std::string& key,
 
 bool IniObject::writeDouble(const std::string& section, const std::string& key, double value, const std::string& currentFilename)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
-        return writeValue<double>(section, key, value, currentFilename);
+        
+        return writeValue<double>(tempSection, tempKey, value, currentFilename);
     }
     catch (const std::exception& e)
     {
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "bool IniObject::writeDouble(const std::string& section, const std::string& key, double value, const std::string& currentFilename) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to write double: "+
+                                   std::to_string(value)+
+                                   "\nException :\n"+
+                                   std::string(e.what()));   
         return false;
     }
 }
@@ -207,13 +328,28 @@ bool IniObject::writeDouble(const std::string& section, const std::string& key, 
 // Read and Write for String
 std::string IniObject::readString(const std::string& section, const std::string& key, const std::string& defaultValue, const std::string& currentFilename, bool &ok)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
         ok = true;
-        return readValue<std::string>(section, key, defaultValue, currentFilename);
+        return readValue<std::string>(tempSection, tempKey, defaultValue, currentFilename);
     }
     catch (const std::exception& e)
     {
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "std::string IniObject::readString(const std::string& section, const std::string& key, const std::string& defaultValue, const std::string& currentFilename, bool &ok) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to read string. Set to default: "+defaultValue+
+                                    "\nException :\n"+
+                                    std::string(e.what()));
         ok = false;
         return defaultValue;
     }
@@ -221,12 +357,29 @@ std::string IniObject::readString(const std::string& section, const std::string&
 
 bool IniObject::writeString(const std::string& section, const std::string& key, const std::string& value, const std::string& currentFilename)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
-        return writeValue<std::string>(section, key, value, currentFilename);
+        return writeValue<std::string>(tempSection, tempKey, value, currentFilename);
     }
     catch (const std::exception& e)
     {
+
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "bool IniObject::writeString(const std::string& section, const std::string& key, const std::string& value, const std::string& currentFilename) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to write string: "+
+                                   value+
+                                   "\nException :\n"+
+                                   std::string(e.what())); 
         return false;
     }
 }
@@ -234,13 +387,29 @@ bool IniObject::writeString(const std::string& section, const std::string& key, 
 // Read and Write for Unsigned Integer
 unsigned int IniObject::readUnsignedInteger(const std::string& section, const std::string& key, unsigned int defaultValue, const std::string& currentFilename, bool &ok)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
         ok = true;
-        return readValue<unsigned int>(section, key, defaultValue, currentFilename);
+        return readValue<unsigned int>(tempSection, tempKey, defaultValue, currentFilename);
     }
     catch (const std::exception& e)
     {
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "unsigned int IniObject::readUnsignedInteger(const std::string& section, const std::string& key, unsigned int defaultValue, const std::string& currentFilename, bool &ok) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to read unsigned integer. Set to default: "+std::to_string(defaultValue)+
+                                    "\nException :\n"+
+                                    std::string(e.what()));
+        
         ok = false;
         return defaultValue;
     }
@@ -248,12 +417,28 @@ unsigned int IniObject::readUnsignedInteger(const std::string& section, const st
 
 bool IniObject::writeUnsignedInteger(const std::string& section, const std::string& key, unsigned int value, const std::string& currentFilename)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
-        return writeValue<unsigned int>(section, key, value, currentFilename);
+        return writeValue<unsigned int>(tempSection, tempKey, value, currentFilename);
     }
     catch (const std::exception& e)
     {
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "bool IniObject::writeUnsignedInteger(const std::string& section, const std::string& key, unsigned int value, const std::string& currentFilename) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to write unsigned integer:\n"+
+                                   std::to_string(value)+
+                                   "\nException :\n"+
+                                   std::string(e.what())); 
         return false;
     }
 }
@@ -261,15 +446,32 @@ bool IniObject::writeUnsignedInteger(const std::string& section, const std::stri
 // Read and Write for Boolean
 bool IniObject::readBoolean(const std::string& section, const std::string& key, bool defaultValue, const std::string& currentFilename, bool &ok)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
     try
     {
-        std::string value = readValue<std::string>(section, key, defaultValue ? "true" : "false", currentFilename);
+        std::string value = readValue<std::string>(tempSection, tempKey, defaultValue ? "true" : "false", currentFilename);
         std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 		ok = true;
         return (value == "true" || value == "1");
     }
     catch (const std::exception& e)
     {
+       std::string boolStr;
+       defaultValue ? boolStr = true : boolStr = false;
+       appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "bool IniObject::readBoolean(const std::string& section, const std::string& key, bool defaultValue, const std::string& currentFilename, bool &ok) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to read boolean. Set to default: "+boolStr+
+                                    "\nException :\n"+
+                                    std::string(e.what()));
         ok = false;
 		return defaultValue;
     }
@@ -277,12 +479,35 @@ bool IniObject::readBoolean(const std::string& section, const std::string& key, 
 
 bool IniObject::writeBoolean(const std::string& section, const std::string& key, bool value, const std::string& currentFilename)
 {
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKey = key;
+    std::transform(tempKey.begin(), tempKey.end(), tempKey.begin(), ::tolower);
+    std::string valueAsString;
+    value ?  valueAsString = "true" : valueAsString = "false";
     try
     {
-        return writeValue<std::string>(section, key, value ? "true" : "false", currentFilename);
+        return writeValue<std::string>(tempSection, tempKey, valueAsString, currentFilename);
     }
     catch (const std::exception& e)
     {
+        std::string boolStr;
+        value ? boolStr = true : boolStr = false;
+
+        appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                   "in:\n"
+                                   "bool IniObject::writeBoolean(const std::string& section, const std::string& key, bool value, const std::string& currentFilename) \nSection:\n"+
+                                   tempSection+
+                                   "\nKey:\n"+
+                                   tempKey+
+                                   "\nfor file:\n"+
+                                   currentFilename+
+                                   "\nimpossible to write boolean:\n"+
+                                   boolStr+
+                                   "\nException :\n"+
+                                   std::string(e.what())); 
+        
+        
         return false;
     }
 }
@@ -296,6 +521,12 @@ bool IniObject::readStringVector(const std::string& section            ,
                                  const std::string& currentFilename    ,
                                  bool &ok)
 {
+    
+    std::string tempSection = section;
+    std::transform(tempSection.begin(), tempSection.end(), tempSection.begin(), ::tolower);
+    std::string tempKeyPrefix = keyPrefix;
+    std::transform(tempKeyPrefix.begin(), tempKeyPrefix.end(), tempKeyPrefix.begin(), ::tolower);
+    
     
     std::vector<std::string> copy;
     // Clear the destination vector just to play paranoid
@@ -317,11 +548,27 @@ bool IniObject::readStringVector(const std::string& section            ,
         // Populate the channel names list
         for (unsigned int i = 0; i < m_nbElements; ++i) 
         {
-            std::string key   = keyPrefix + std::to_string(i);
-            std::string value = this->readString(section,key,copy[i],currentFilename,ok);
+            std::string key   = tempKeyPrefix + std::to_string(i);
+            std::string value = this->readString(tempSection,key,copy[i],currentFilename,ok);
             if (!ok)
             {
-               appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,"bool IniObject::readStringVector Section:"+section+" Key:"+key+" for file "+currentFilename+" returned "+value+" it failed");  
+               value = "failed";
+              appendCommentWithTimestamp(fileNamesContainer.iniObjectLogFile,
+                                         "in:\n"
+                                         "bool IniObject::readStringVector(const std::string& section            ,\n"
+                                         "                                 const std::string& keyPrefix          ,\n"
+                                         "                                 const unsigned int& m_nbElements      ,\n"
+                                         "                                 std::vector<std::string>& vectorToFill,\n"
+                                         "                                 const std::string& currentFilename    ,\n"
+                                         "                                 bool &ok) \nSection:\n"+
+                                         tempSection+
+                                         "\nKey:\n"+
+                                         key+
+                                         "\nfor file:\n"+
+                                         currentFilename+
+                                         "\nimpossible to set value. Item set to 'failed'\n");
+
+
             }
             vectorToFill.push_back(value);
         }

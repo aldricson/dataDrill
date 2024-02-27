@@ -116,16 +116,12 @@ int main(void)
    std::cout <<  std::endl;
    
    std::cout << "*** Init phase 3: testing counters ***" << std::endl<< std::endl;
-   while (true)
-   {
-        unsigned int counterResult = daqMx->testReadCounter();
-        std::string str = std::to_string(counterResult);
-        std::cout << "╔/¨¨══════════════════════════════════════╗ "<< std::endl;
-        std::cout << "║ "<< str    << std::endl;
-        std::cout << "╚\\_═══════════════════════════════════════╝"<< std::endl;
-        sleep(5);
-   }
-   return EXIT_SUCCESS;
+  
+    unsigned int counterResult = daqMx->testReadCounter();
+    std::string str = std::to_string(counterResult);
+    std::cout << "╔/¨¨══════════════════════════════════════╗ "<< std::endl;
+    std::cout << "║ "<< str    << std::endl;
+    std::cout << "╚\\_═══════════════════════════════════════╝"<< std::endl;
 
 
     //boot strap finished

@@ -765,68 +765,11 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, unsigned i
     return result; // Return the read value
 }
 
-unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries) {
-    if (!deviceModule) {
-        throw std::invalid_argument("readCounter: deviceModule is null.");
-    }
-    const std::string fullChannelName = deviceModule->getAlias() + "/" + chanName;
-    int32 error;
-    uInt32 readValue; // Counter values are usually integers
-    TaskHandle taskHandle = 0;
-    unsigned int retryCount = 0;
-    while (retryCount < maxRetries) {
-        // Generate a unique task key
-        std::string uniqueKey = "readCounter" + generate_hex(8);
-        error = DAQmxCreateTask(uniqueKey.c_str(), &taskHandle);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
-            retryCount++;
-            continue; // Try again up to maxRetries
-        }
-        error = DAQmxCreateCICountEdgesChan(taskHandle,
-                                            fullChannelName.c_str(),
-                                            "",
-                                            DAQmx_Val_Rising, // Count rising edges
-                                            0,                // Initial count
-                                            DAQmx_Val_CountUp); // Counting direction
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
-            retryCount++;
-            continue;
-        }
-
-        error = DAQmxStartTask(taskHandle);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
-            retryCount++;
-            continue;
-        }
-        // Attempt to read the counter value
-        error = DAQmxReadCounterScalarU32(taskHandle, 10.0, &readValue, nullptr);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
-            retryCount++;
-            continue;
-        }
-
-        // Success, break from the loop
-        break;
-    }
-    // Ensure the task is cleared regardless of success or failure
-    if (taskHandle) {
-        DAQmxClearTask(taskHandle);
-    }
-
-    if (retryCount >= maxRetries) {
-        throw std::runtime_error("Failed to read counter after maximum retries.");
-    }
-    return readValue;
-}
-
-//unsigned int QNiDaqWrapper::testReadCounter() 
-//{
-//    const unsigned int maxRetries = 10;
-//    const std::string fullChannelName = "Mod4/ctr0";
+//unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries) {
+//    if (!deviceModule) {
+//        throw std::invalid_argument("readCounter: deviceModule is null.");
+//    }
+//    const std::string fullChannelName = deviceModule->getAlias() + "/" + chanName;
 //    int32 error;
 //    uInt32 readValue; // Counter values are usually integers
 //    TaskHandle taskHandle = 0;
@@ -880,14 +823,74 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
 //    return readValue;
 //}
 
+unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries) 
+{
+    if (!deviceModule) 
+    {
+        throw std::invalid_argument("readCounter: deviceModule is null.");
+    }
+    const std::string fullChannelName = deviceModule->getAlias() + "/" + chanName;
+    int32 error;
+    uInt32 readValue; // Counter values are usually integers
+    unsigned int retryCount = 0;
+    if (this->counterHandle == nullptr) 
+    {
+        this->counterHandle = new TaskHandle(0); // Proper initialization of TaskHandle.
+        std::string uniqueKey = "readCounter" + this->generate_hex(8); // Assuming generate_hex is a method to generate a hexadecimal string.
+        error = DAQmxCreateTask(uniqueKey.c_str(), &(this->counterHandle));
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle); // Assuming this method properly cleans up and sets counterHandle to nullptr.
+            throw std::runtime_error("Failed to create DAQmx task.");
+        }
+         // Create the counter channel. Assuming this setup should be done each time the function is called.
+        error = DAQmxCreateCICountEdgesChan(this->counterHandle, fullChannelName.c_str(), "", DAQmx_Val_Rising, 0, DAQmx_Val_CountUp);
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle);
+            throw std::runtime_error("Failed to create counter channel.");
+        }
+
+        // Start the task.
+        error = DAQmxStartTask(this->counterHandle);
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle);
+            throw std::runtime_error("Failed to start counter task.");
+        }
+    
+    }
+
+    while (retryCount < maxRetries) 
+    {
+        // Attempt to read the counter value.
+        error = DAQmxReadCounterScalarU32(this->counterHandle, 10.0, &readValue, nullptr);
+        if (error) 
+        {
+            throw std::runtime_error("Failed to read counter value.");
+        }
+        else
+        {
+            // Success, break from the loop
+            break;
+        }
+    }
+
+
+    if (retryCount >= maxRetries) 
+    {
+        this->handleErrorAndCleanTask(this->counterHandle);
+        throw std::runtime_error("Failed to read counter after maximum retries.");
+    }
+    return readValue;
+}
+
 
 unsigned int QNiDaqWrapper::testReadCounter()
 {
-    const unsigned int maxRetries = 10;
     const std::string fullChannelName = "Mod4/ctr0";
     int32 error;
     uInt32 readValue = 0; // Initialize to 0 or an appropriate default value.
-    unsigned int retryCount = 0;
 
     if (this->counterHandle == nullptr) 
     {
@@ -917,8 +920,6 @@ unsigned int QNiDaqWrapper::testReadCounter()
     
     }
 
-
-
     // Attempt to read the counter value.
     error = DAQmxReadCounterScalarU32(this->counterHandle, 10.0, &readValue, nullptr);
     if (error) {
@@ -926,10 +927,6 @@ unsigned int QNiDaqWrapper::testReadCounter()
         throw std::runtime_error("Failed to read counter value.");
     }
 
-    // Optionally stop the task if needed. Depending on your requirements, you might not want to stop it here.
-    // DAQmxStopTask(this->counterHandle);
-
-    // Do not clear the task at this point if you need it for continuous reading. Handle cleanup elsewhere when completely done with the task.
     return readValue;
 }
 

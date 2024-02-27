@@ -14,16 +14,13 @@ void NI9208::initModule()
         // Set default values
         m_moduleName = "NI9208";
         m_nbChannel = 16; // Consider external configuration if flexibility is needed
-
         // Resetting counters and digital IO ports to safe defaults
         m_nbCounters = 0;
         m_counterCountingEdgeMode = NoEdge;
         m_counterCountDirectionMode = NoCountMode;
         m_nbDigitalIoPort = 0;
-
         // Setting module type
         m_moduleType = isAnalogicInputCurrent;
-
         // Safely initializing channel names with appropriate capacity
         m_chanNames.clear(); // Clear existing names to avoid appending to existing list
         m_chanNames.reserve(m_nbChannel); // Reserve space to avoid reallocations

@@ -375,7 +375,7 @@ void NItoModbusBridge::stopAcquisition()
     {
         // Handle any exceptions that may occur during timer operations
         // Log the error message for debugging purposes
-        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::stopAcquisition() An exception occurred: "+std::string(e.what())); 
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\nNItoModbusBridge::stopAcquisition()\nException:\n"+std::string(e.what())); 
         std::cerr << "An exception occurred: " << e.what() << std::endl;
     }
 }
@@ -391,7 +391,16 @@ void NItoModbusBridge::acquireCounters()
             {
                 double counterValue = 0.0;
                 // Read the counter value using DigitalReader
-                m_digitalReader->manualReadOneShot(config.module, config.channel, counterValue);
+                try
+                {
+                    m_digitalReader->manualReadOneShot(config.module, config.channel, counterValue);
+                }
+                catch(const std::exception& e)
+                {
+                    appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
+                                                                                             "void NItoModbusBridge::acquireCounters()\n"
+                                                                                             "Exception:\n" +std::string(e.what())); 
+                }
                 // Convert the read value to an unsigned integer
                 unsigned int counterIntValue = static_cast<unsigned int>(counterValue);
                 
@@ -403,7 +412,8 @@ void NItoModbusBridge::acquireCounters()
                 // Calculate delta time in seconds
                 auto deltaTime = std::chrono::duration_cast<std::chrono::seconds>(config.currentTime - config.previousTime).count();
 
-                if (deltaTime > 0) {
+                if (deltaTime > 0) 
+                {
                     // Calculate the change in counter value
                     unsigned int deltaCounter = config.currentCounterValue - config.previousCounterValue;
                     // Calculate frequency (counts per second)
@@ -435,7 +445,7 @@ void NItoModbusBridge::acquireCounters()
     } 
     catch (const std::exception &e) 
     {
-        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::acquireCounters() An exception occurred: "+std::string(e.what())); 
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\nNItoModbusBridge::acquireCounters()\nException:\n"+std::string(e.what())); 
         std::cerr << "Exception in acquireCounters: " << e.what() << std::endl;
     }
 }
@@ -468,7 +478,9 @@ uint16_t NItoModbusBridge::linearInterpolation16Bits(double value, double minSou
     {
         // Handle any exceptions that may occur during the interpolation
         // Log the error message for debugging purposes
-        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::linearInterpolation16Bits(double value, double minSource, double maxSource, uint16_t minDestination, uint16_t maxDestination) An exception occurred: "+std::string(e.what())); 
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
+                                                                                "NItoModbusBridge::linearInterpolation16Bits(double value, double minSource, double maxSource, uint16_t minDestination, uint16_t maxDestination)\n"
+                                                                                "Exception:\n"+std::string(e.what())); 
         std::cerr << "An exception occurred: " << e.what() << std::endl;
 
         // Return the minimum destination value to indicate failure
@@ -513,8 +525,9 @@ void NItoModbusBridge::onSimulationTimerTimeOut()
     {
         // Handle any exceptions that may occur during simulation
         // Log the error message for debugging purposes
-        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::onSimulationTimerTimeOut() An exception occurred: "+std::string(e.what()));
-        std::cerr << "An exception occurred: " << e.what() << std::endl;
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
+                                                                                "NItoModbusBridge::onSimulationTimerTimeOut()\n"
+                                                                                "Exception:\n"+std::string(e.what()));
     }
 }
 
@@ -559,8 +572,9 @@ void NItoModbusBridge::simulateAnalogicInputs(std::vector<uint16_t> &analogChann
     {
         // Handle any exceptions that may occur during simulation
         // Log the error message for debugging purposes
-        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateAnalogicInputs(std::vector<uint16_t> &analogChannelsResult) An exception occurred: "+std::string(e.what()));
-        std::cerr << "An exception occurred: " << e.what() << std::endl;
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
+                                                                                "void NItoModbusBridge::simulateAnalogicInputs(std::vector<uint16_t> &analogChannelsResult)\n"
+                                                                                "Exception:\n"+std::string(e.what()));
     }
 }
 
@@ -625,6 +639,9 @@ void NItoModbusBridge::simulateCoders(std::vector<uint16_t> &analogChannelsResul
 
 void NItoModbusBridge::simulateRelays() 
 {
+    //TODO ... verify and remove eraly return
+    return;
+
     std::cout <<"enter simulate relay"<<std::endl;
     bool relay[4] = {false,false,false,false};
     for (int i=0;i<4;i++)
@@ -677,12 +694,12 @@ void NItoModbusBridge::acquireData()
             MappingConfig lineCfg = m_mappingData[i];
             
             // Initialize variables
-            double result = 0.0;
-            double minInput = lineCfg.minSource;
-            double maxInput = lineCfg.maxSource;
-            uint16_t minOutput = lineCfg.minDest;
-            uint16_t maxOutput = lineCfg.maxDest;
-            int destinationRegister = lineCfg.modbusChannel;
+            double   result              = 0.0                  ;
+            double   minInput            = lineCfg.minSource    ;
+            double   maxInput            = lineCfg.maxSource    ;
+            uint16_t minOutput           = lineCfg.minDest      ;
+            uint16_t maxOutput           = lineCfg.maxDest      ;
+            int      destinationRegister = lineCfg.modbusChannel;
             
             switch (lineCfg.moduleType)
             {

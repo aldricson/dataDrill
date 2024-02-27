@@ -2,6 +2,8 @@
 #define DigitalReader_H
 
 #include "baseReader.h"
+#include "../globals/globalEnumStructs.h"
+#include "../filesUtils/appendToFileHelper.h"
 
 class DigitalReader : public BaseReader {
 public:
@@ -14,6 +16,9 @@ public:
     void manualReadOneShot(const std::string &moduleAlias, const std::string  &chanName, double &returnedValue) override;
     
     // Add any additional member functions specific to DigitalReader here
+private:
+    GlobalFileNamesContainer fileNamesContainer;
+
 };
 
 #endif // DigitalReader_H

@@ -12,14 +12,26 @@ DigitalReader::DigitalReader(std::shared_ptr<QNiSysConfigWrapper> aSysConfigInst
 void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsigned int &index, double &returnedValue)
 {
     // Validate moduleAlias
-    if (moduleAlias.empty()) {
+    if (moduleAlias.empty()) 
+    {
+        appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                   "in\n"
+                                   "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsigned int &index, double &returnedValue)\n"
+                                   "Error: moduleAlias is empty.\n"
+                                   "moduleAlias:\n"+moduleAlias+
+                                   "\nindex:\n"+std::to_string(index));
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
 
     // Fetch the device module by alias
     NIDeviceModule *deviceModule = m_sysConfig->getModuleByAlias(moduleAlias);
-    if (!deviceModule) {
+    if (!deviceModule) 
+    {
+        appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                   "in\n"
+                                   "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsigned int &index, double &returnedValue)\n"
+                                   "Error: deviceModule is nullptr.");
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
@@ -39,12 +51,27 @@ void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsi
         } 
         catch (const std::exception& e)
         {
-            // Error handling
+            appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                      "in\n"
+                                      "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsigned int &index, double &returnedValue)\n"
+                                      "Error: reading counter failed\n"
+                                      "\nindex:\n"+std::to_string(index)+
+                                      "Exception:\n"+std::string(e.what()));
+
             returnedValue = std::numeric_limits<double>::min();
         }
     }
     else
     {        
+        appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                  "in\n"
+                                  "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue)\n"
+                                  "Error: Module type not handled for reading.\n"
+                                  "Alias:\n"+ moduleAlias+
+                                  "\nindex:\n"+
+                                  std::to_string(index)+
+                                  "\ntype:\n" +
+                                   std::to_string(static_cast<int>(deviceModule->getModuleType())));
         std::cout<<"module type not handled yet: "<<moduleAlias.c_str()<<" type:"<<deviceModule->getModuleType();
         returnedValue = std::numeric_limits<double>::min();
         return;
@@ -54,21 +81,35 @@ void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const unsi
 
 
 // Method to read a single shot from a digital channel specified by its module alias and channel name.
-void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue) {
+void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue) 
+{
     // Check if module alias or channel name is empty and return an error value if so.
-    if (moduleAlias.empty() || chanName.empty()) {
+    if (moduleAlias.empty() || chanName.empty()) 
+    {
+        appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                   "in\n"
+                                   "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue)\n"
+                                   "Error: moduleAlias or chanName are empty\n"
+                                   "moduleAlias:\n"+moduleAlias+
+                                   "\nchanName:\n"+chanName);
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
     // Attempt to fetch the device module using the provided alias.
     NIDeviceModule *deviceModule = m_sysConfig->getModuleByAlias(moduleAlias);
     // If no module is found, return an error value.
-    if (!deviceModule) {
+    if (!deviceModule) 
+    {
+        appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                   "in\n"
+                                   "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue)\n"
+                                   "Error: deviceModule is nullptr");
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
     // Check if the module's type matches expected type (counter in this case).
-    if (deviceModule->getModuleType() == ModuleType::isCounter) {
+    if (deviceModule->getModuleType() == ModuleType::isCounter) 
+    {
         try {
             // Attempt to read the counter value for the specified channel.
             uint32_t countValue = 0;
@@ -78,14 +119,29 @@ void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std:
 
             // Reset the counter to prepare it for the next reading.
             m_daqMx->resetCounter(deviceModule, chanName);
-        } catch (const std::exception& e) {
+        } 
+        catch (const std::exception& e) 
+        {
             // In case of any exception, log it and return an error value.
-            std::cerr << "Error reading counter: " << e.what() << std::endl;
+            appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                      "in\n"
+                                      "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue)\n"
+                                      "Error: reading counter failed\n"
+                                      "Exception:\n"+std::string(e.what()));
+
             returnedValue = std::numeric_limits<double>::min();
         }
-    } else {
+    } 
+    else 
+    {
         // If the module is not a counter, log this information and return an error value.
-        std::cerr << "Module type not handled for reading: " << moduleAlias << ", type: " << deviceModule->getModuleType() << std::endl;
+        appendCommentWithTimestamp(fileNamesContainer.digitalReaderLogFile,
+                                  "in\n"
+                                  "void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue)\n"
+                                  "Error: Module type not handled for reading.\n"
+                                  "Alias:\n"+ moduleAlias+
+                                  "type:\n" +
+                                   std::to_string(static_cast<int>(deviceModule->getModuleType())));
         returnedValue = std::numeric_limits<double>::min();
     }
 }
