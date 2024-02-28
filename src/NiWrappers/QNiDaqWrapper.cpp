@@ -1160,60 +1160,195 @@ unsigned int QNiDaqWrapper::testReadCounter()
 }
 
 
+//void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)
+//{
+//    if(relayIndex > 3) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState relayIndex out of range. Valid range is 0-3 for Mod6."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: relayIndex out of range. Valid range is 0-3 for Mod6.");
+//        throw std::invalid_argument("relayIndex out of range. Valid range is 0-3 for Mod6.");
+//    }
+//
+//    // Relay control: port0/line[relayIndex] on Mod6
+//    std::string relayChannel = "Mod6/port0/line" + std::to_string(relayIndex);
+//    
+//    // Assuming the corresponding LED control is done through "Mod6/ctr[relayIndex]"
+//    std::string ledChannel = "Mod6/ctr" + std::to_string(relayIndex);
+//    
+//    TaskHandle taskHandleRelay = 0, taskHandleLED = 0;
+//    std::string uniqueKeyRelay = "relayControl" + generate_hex(8);
+//    std::string uniqueKeyLED = "ledControl" + generate_hex(8);
+//    int32 error;
+//
+//    // Relay task creation and setup
+//    error = DAQmxCreateTask(uniqueKeyRelay.c_str(), &taskHandleRelay);
+//    if(error) 
+//    {
+//       std::cout<<"Failed to create DAQmx task for relay."<<std::endl;
+//       appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to create DAQmx task for relay. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleRelay);
+//        throw std::runtime_error("Failed to create DAQmx task for relay.");
+//    }
+//
+//    error = DAQmxCreateDOChan(taskHandleRelay, relayChannel.c_str(), "", DAQmx_Val_ChanPerLine);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to create digital output channel for relay."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to create digital output channel for relay. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleRelay);
+//        throw std::runtime_error("Failed to create digital output channel for relay.");
+//    }
+//
+//    // LED task creation and setup (counter for LED as a digital output emulation)
+//    error = DAQmxCreateTask(uniqueKeyLED.c_str(), &taskHandleLED);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to create digital output channel for relay."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to create DAQmx task for LED. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleLED);
+//        handleErrorAndCleanTask(taskHandleLED);
+//        throw std::runtime_error("Failed to create DAQmx task for LED.");
+//    }
+//
+//    error = DAQmxCreateDOChan(taskHandleLED, ledChannel.c_str(), "", DAQmx_Val_ChanPerLine);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to create digital output channel for LED."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to create digital output channel for LED. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleLED);
+//        throw std::runtime_error("Failed to create digital output channel for LED.");
+//    }
+//
+//    // Starting tasks
+//    error = DAQmxStartTask(taskHandleRelay);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to start relay control task."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to start relay control task. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleRelay);
+//        throw std::runtime_error("Failed to start relay control task.");
+//    }
+//
+//    error = DAQmxStartTask(taskHandleLED);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to start LED control task."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to start LED control task. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleLED);
+//        throw std::runtime_error("Failed to start LED control task.");
+//    }
+//
+//    // Setting state for relay and LED
+//    uInt8 data = state ? 1 : 0; // 1 for ON, 0 for OFF
+//    int32 written;
+//
+//    error = DAQmxWriteDigitalLines(taskHandleRelay, 1, true, 10.0, DAQmx_Val_GroupByChannel, &data, &written, NULL);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to set relay state."<<std::endl;
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to set relay state. Error: " + std::to_string(error));
+//        handleErrorAndCleanTask(taskHandleRelay);
+//        throw std::runtime_error("Failed to set relay state.");
+//    }
+//
+//    error = DAQmxWriteDigitalLines(taskHandleLED, 1, true, 10.0, DAQmx_Val_GroupByChannel, &data, &written, NULL);
+//    if(error) 
+//    {
+//        std::cout<<"Error in testSetRelayAndLEDState: Failed to set LED state."<<std::endl;
+//        handleErrorAndCleanTask(taskHandleLED);
+//        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+//                                   "In\n"
+//                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+//                                   "Error: Failed to set LED state. Error: " + std::to_string(error));
+//        throw std::runtime_error("Failed to set LED state.");
+//    }
+//
+//    // Cleaning up tasks
+//    DAQmxClearTask(taskHandleRelay);
+//    DAQmxClearTask(taskHandleLED);
+//}
+
+
 void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)
 {
-    if(relayIndex > 3) {
+    if(relayIndex > 3) 
+    {
+        std::cout<<"Error in testSetRelayAndLEDState relayIndex out of range. Valid range is 0-3 for Mod6."<<std::endl;
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+                                   "Error: relayIndex out of range. Valid range is 0-3 for Mod6.");
         throw std::invalid_argument("relayIndex out of range. Valid range is 0-3 for Mod6.");
     }
 
     // Relay control: port0/line[relayIndex] on Mod6
     std::string relayChannel = "Mod6/port0/line" + std::to_string(relayIndex);
-    
-    // Assuming the corresponding LED control is done through "Mod6/ctr[relayIndex]"
-    std::string ledChannel = "Mod6/ctr" + std::to_string(relayIndex);
-    
-    TaskHandle taskHandleRelay = 0, taskHandleLED = 0;
+    TaskHandle taskHandleRelay = 0;
     std::string uniqueKeyRelay = "relayControl" + generate_hex(8);
-    std::string uniqueKeyLED = "ledControl" + generate_hex(8);
     int32 error;
 
     // Relay task creation and setup
     error = DAQmxCreateTask(uniqueKeyRelay.c_str(), &taskHandleRelay);
-    if(error) {
+    if(error) 
+    {
+       std::cout<<"Failed to create DAQmx task for relay."<<std::endl;
+       appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+                                   "Error: Failed to create DAQmx task for relay. Error: " + std::to_string(error));
         handleErrorAndCleanTask(taskHandleRelay);
         throw std::runtime_error("Failed to create DAQmx task for relay.");
     }
 
     error = DAQmxCreateDOChan(taskHandleRelay, relayChannel.c_str(), "", DAQmx_Val_ChanPerLine);
-    if(error) {
+    if(error) 
+    {
+        std::cout<<"Error in testSetRelayAndLEDState: Failed to create digital output channel for relay."<<std::endl;
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+                                   "Error: Failed to create digital output channel for relay. Error: " + std::to_string(error));
         handleErrorAndCleanTask(taskHandleRelay);
         throw std::runtime_error("Failed to create digital output channel for relay.");
     }
 
-    // LED task creation and setup (counter for LED as a digital output emulation)
-    error = DAQmxCreateTask(uniqueKeyLED.c_str(), &taskHandleLED);
-    if(error) {
-        handleErrorAndCleanTask(taskHandleLED);
-        throw std::runtime_error("Failed to create DAQmx task for LED.");
-    }
-
-    error = DAQmxCreateDOChan(taskHandleLED, ledChannel.c_str(), "", DAQmx_Val_ChanPerLine);
-    if(error) {
-        handleErrorAndCleanTask(taskHandleLED);
-        throw std::runtime_error("Failed to create digital output channel for LED.");
-    }
+  
 
     // Starting tasks
     error = DAQmxStartTask(taskHandleRelay);
-    if(error) {
+    if(error) 
+    {
+        std::cout<<"Error in testSetRelayAndLEDState: Failed to start relay control task."<<std::endl;
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+                                   "Error: Failed to start relay control task. Error: " + std::to_string(error));
         handleErrorAndCleanTask(taskHandleRelay);
         throw std::runtime_error("Failed to start relay control task.");
-    }
-
-    error = DAQmxStartTask(taskHandleLED);
-    if(error) {
-        handleErrorAndCleanTask(taskHandleLED);
-        throw std::runtime_error("Failed to start LED control task.");
     }
 
     // Setting state for relay and LED
@@ -1221,22 +1356,20 @@ void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool 
     int32 written;
 
     error = DAQmxWriteDigitalLines(taskHandleRelay, 1, true, 10.0, DAQmx_Val_GroupByChannel, &data, &written, NULL);
-    if(error) {
+    if(error) 
+    {
+        std::cout<<"Error in testSetRelayAndLEDState: Failed to set relay state."<<std::endl;
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)\n"
+                                   "Error: Failed to set relay state. Error: " + std::to_string(error));
         handleErrorAndCleanTask(taskHandleRelay);
         throw std::runtime_error("Failed to set relay state.");
     }
 
-    error = DAQmxWriteDigitalLines(taskHandleLED, 1, true, 10.0, DAQmx_Val_GroupByChannel, &data, &written, NULL);
-    if(error) {
-        handleErrorAndCleanTask(taskHandleLED);
-        throw std::runtime_error("Failed to set LED state.");
-    }
-
     // Cleaning up tasks
     DAQmxClearTask(taskHandleRelay);
-    DAQmxClearTask(taskHandleLED);
 }
-
 
 
 void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, unsigned int chanIndex, const bool &state) 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstring>
 #include <string.h>
+#include <unistd.h>
 #include <thread>
 #include <memory> // for std::unique_ptr
 #include "./NiWrappers/QNiSysConfigWrapper.h"
@@ -115,14 +116,23 @@ int main(void)
    }
    std::cout <<  std::endl;
    
-   std::cout << "*** Init phase 3: testing counters ***" << std::endl<< std::endl;
-  
-   //unsigned int counterResult = daqMx->testReadCounter();
-   //std::string str = std::to_string(counterResult);
-   //std::cout << "╔/¨¨══════════════════════════════════════╗ "<< std::endl;
-   //std::cout << "║ "<< str    << std::endl;
-   //std::cout << "╚\\_═══════════════════════════════════════╝"<< std::endl;
+   /*std::cout << "*** Init phase 3: testing relays ***" << std::endl<< std::endl;
+   bool state = true;
+   
+   for (int i=0;i<4;++i)
+    {
+      daqMx->testSetRelayAndLEDState(i, state);
+      //Wait for 500 ms
+      usleep(250000);
+      daqMx->testSetRelayAndLEDState(i, !state);
+      usleep(250000);
+    }
 
+    for (int i=0;i<4;++i)
+    {
+      daqMx->testSetRelayAndLEDState(i, !state);
+    }*/
+   
 
     //boot strap finished
     m_crioTCPServer->startServer();
