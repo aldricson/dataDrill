@@ -639,35 +639,24 @@ void NItoModbusBridge::simulateCoders(std::vector<uint16_t> &analogChannelsResul
 
 void NItoModbusBridge::simulateRelays() 
 {
-    //TODO ... verify and remove eraly return
-    return;
-
     std::cout <<"enter simulate relay"<<std::endl;
     bool relay[4] = {false,false,false,false};
+
     for (int i=0;i<4;i++)
     {        
         relay[i] =  m_simulatedAlarmStepCounter==i;
         std::cout <<"relay #"<<i<<" state:"<<relay[i]<<std::endl;
     }
-    int count = 0;
+   
     // Iterate through each relay configuration defined in the mapping data.
-    for (auto& config : m_mappingData) 
-    {
-        // Check if the current mapping configuration corresponds to a relay.
-        if (config.moduleType == ModuleType::isDigitalOutput) 
-        {
-            std::cout << "digital output detected : OK!"<<std::endl;
-            // Simulate a state change. Here, you might want to use a random generator or a deterministic approach
-            // to toggle the relay state or set it based on specific simulation criteria.
-            bool newState = relay[count];
-            count++;
-            // Use the DigitalWriter to apply the simulated state to the relay.
-            // This involves specifying the module alias and channel or index where the relay is mapped.
+    std::string modAlias = "Mod6";
+    for (int i = 0; i < m_modbusServer->getSRUMapping().m_nbSRUAlarms; ++i)
+    {       std::string chanStr = "/port0/line" + std::to_string(i);
+            bool newState = relay[i];
             try 
             {
-                
-                m_digitalWriter->manualSetOutput(config.module, config.channel, newState);
-                std::cout << "Simulated relay " << config.channel << " on module " << config.module << " to state " << newState << std::endl;
+                m_digitalWriter->manualSetOutput(modAlias, chanStr, newState);
+                std::cout << "Simulated relay " << chanStr << " on module " << modAlias << " to state " << newState << std::endl;
             } 
             catch (const std::exception& e) 
             {
@@ -675,10 +664,50 @@ void NItoModbusBridge::simulateRelays()
                 appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateRelays() An exception occurred: "+std::string(e.what()));
                 std::cerr << "Error simulating relay state: " << e.what() << std::endl;
             }
-        }
+        
     }
     m_simulatedAlarmStepCounter = (m_simulatedAlarmStepCounter + 1) % 4;    
 }
+
+//void NItoModbusBridge::simulateRelays() 
+//{
+//    std::cout <<"enter simulate relay"<<std::endl;
+//    bool relay[4] = {false,false,false,false};
+//    for (int i=0;i<4;i++)
+//    {        
+//        relay[i] =  m_simulatedAlarmStepCounter==i;
+//        std::cout <<"relay #"<<i<<" state:"<<relay[i]<<std::endl;
+//    }
+//    int count = 0;
+//    // Iterate through each relay configuration defined in the mapping data.
+//    for (auto& config : m_mappingData) 
+//    {
+//        // Check if the current mapping configuration corresponds to a relay.
+//        if (config.moduleType == ModuleType::isDigitalOutput) 
+//        {
+//            std::cout << "digital output detected : OK!"<<std::endl;
+//            // Simulate a state change. Here, you might want to use a random generator or a deterministic approach
+//            // to toggle the relay state or set it based on specific simulation criteria.
+//            bool newState = relay[count];
+//            count++;
+//            // Use the DigitalWriter to apply the simulated state to the relay.
+//            // This involves specifying the module alias and channel or index where the relay is mapped.
+//            try 
+//            {
+//                
+//                m_digitalWriter->manualSetOutput(config.module, config.channel, newState);
+//                std::cout << "Simulated relay " << config.channel << " on module " << config.module << " to state " << newState << std::endl;
+//            } 
+//            catch (const std::exception& e) 
+//            {
+//                
+//                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateRelays() An exception occurred: "+std::string(e.what()));
+//                std::cerr << "Error simulating relay state: " << e.what() << std::endl;
+//            }
+//        }
+//    }
+//    m_simulatedAlarmStepCounter = (m_simulatedAlarmStepCounter + 1) % 4;    
+//}
 
 
 void NItoModbusBridge::acquireData()

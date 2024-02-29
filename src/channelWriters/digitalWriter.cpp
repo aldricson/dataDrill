@@ -49,7 +49,13 @@ void DigitalWriter::manualSetOutput(const std::string &moduleAlias, const std::s
     // Check if module alias or channel name is empty and return an error value if so.
     if (moduleAlias.empty() || chanName.empty()) 
     {
-        // TODO a true error handling
+        appendCommentWithTimestamp(fileNamesContainer.DigitalWriterLogFile,
+                                    "in\n"
+                                    "void DigitalWriter::manualSetOutput(const std::string &moduleAlias, const std::string &chanName, const bool &state)\n"
+                                    "Error: moduleAlias or chanName empty.\n"
+                                    "moduleAlias: "+ moduleAlias +"\n"+
+                                    "chanName: "+chanName);
+        std::cerr<<"manualSetOutput Error: moduleAlias or chanName empty. moduleAlias: "<<moduleAlias<<"chanName: "<<chanName<<std::endl;
         return;
     }
     // Attempt to fetch the device module using the provided alias.
@@ -57,13 +63,17 @@ void DigitalWriter::manualSetOutput(const std::string &moduleAlias, const std::s
     // If no module is found, return an error value.
     if (!deviceModule) 
     {
-        // TODO a true error handling
+        appendCommentWithTimestamp(fileNamesContainer.DigitalWriterLogFile,
+                                    "in\n"
+                                    "void DigitalWriter::manualSetOutput(const std::string &moduleAlias, const std::string &chanName, const bool &state)\n"
+                                    "Error: deviceModule is nullptr.");
+        std::cerr<<"manualSetOutput Error: deviceModule is nullptr."<<std::endl;
         return;
     }
     // Ensure the module is the correct type (digital input/counter)
-    if (deviceModule->getModuleType() == ModuleType::isDigitalOutput) 
+    //if (deviceModule->getModuleType() == ModuleType::isDigitalOutput) 
     { 
-        std::cout<<"manualSetOutput:"<< deviceModule->getModuleName().c_str() << "isDigitalOutpu: ready to dive into NidaqMx API"<<std::endl;
+        std::cout<<"manualSetOutput:"<< deviceModule->getModuleName().c_str() << "isDigitalOutput, channel "<<chanName<<" ready to dive into NidaqMx API"<<std::endl;
         try 
         {
             m_daqMx->setRelayState(deviceModule,chanName,state);
@@ -74,10 +84,10 @@ void DigitalWriter::manualSetOutput(const std::string &moduleAlias, const std::s
             return;
         }
     }
-    else
-    {        
-        std::cout<<"module type not handled yet: "<<moduleAlias.c_str()<<" type:"<<deviceModule->getModuleType();
-        return;
-    }
+    //else
+    //{        
+    //    std::cout<<"module type not handled yet: "<<moduleAlias.c_str()<<" type: "<<deviceModule->getModuleType();
+    //    return;
+    //}
 }
 

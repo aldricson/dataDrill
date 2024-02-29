@@ -140,6 +140,8 @@ int main(void)
     std::cout << "*** Init phase 4: command server started ***" << std::endl<< std::endl; 
     clearConsole();
     showBanner();
+
+
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }

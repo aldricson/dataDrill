@@ -36,10 +36,10 @@ public:
 
 
     ThreadSafeCircularBuffer<std::vector<uint16_t>>& getSimulationBuffer();
-    std::shared_ptr<SimpleTimer>      getSimulateTimer()  const;
-    std::shared_ptr<SimpleTimer>      getDataAcquTimer()  const;
+    std::shared_ptr<SimpleTimer>       getSimulateTimer()  const;
+    std::shared_ptr<SimpleTimer>       getDataAcquTimer()  const;
     std::shared_ptr<NewModbusServer>   getModbusServer()   const;
-    const std::vector<MappingConfig>& getMappingData()    const;
+    const std::vector<MappingConfig>&  getMappingData()    const;
 
     // Load mapping from a configuration file
     void loadMapping();

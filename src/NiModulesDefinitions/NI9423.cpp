@@ -19,7 +19,6 @@ void NI9423::initModule()
         m_counterCountDirectionMode = Val_CountUp;
 
         // Initialize digital IO port and module type
-        m_nbDigitalIoPort = 1;
         m_moduleType = isCounter; // Setting module type
 
         // Clearing and initializing counter names

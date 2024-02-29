@@ -11,26 +11,29 @@ void NI9481::initModule()
     try {
         // Set default values
         m_moduleName = "NI9481";
-        m_nbChannel = 0; // Assumption: NI9481 has no analog channels
-        m_nbCounters = 0;
+        //NI9481 has no analog channels
+        setNbChannel (0);
+        //NI9481 has no analog counters
+        setNbCounters(0);
 
-        m_nbDigitalIoPort = 1;
         m_nbDigitalOutputs = 4; // Assuming NI9481 has 4 digital outputs, adjust if necessary
         m_moduleType = isDigitalOutput; // Setting module type to digital output
 
         // Clearing any existing names
         m_counterNames.clear(); 
         m_digitalOutputNames.clear();
-        m_digitalIoNames.clear(); // Clearing digital IO names
 
         std::string portPrefix = "/port";
 
         // Initializing digital IO and output names
-        for (unsigned int j = 0; j < m_nbDigitalIoPort; ++j) {
-            m_digitalIoNames.push_back(portPrefix + std::to_string(j));
+        for (unsigned int j = 0; j < m_nbDigitalOutputs; ++j) 
+        {
+            m_digitalOutputNames.push_back(portPrefix + std::to_string(j)+"/");
 
-            for (unsigned int i = 0; i < m_nbDigitalOutputs; ++i) {
-                m_digitalOutputNames.push_back(m_digitalIoNames[j] + "line/" + std::to_string(i));
+            for (unsigned int i = 0; i < m_nbDigitalOutputs; ++i) 
+            {
+                m_digitalOutputNames.push_back(m_digitalOutputNames[j] + "line" + std::to_string(i));
+                std::cout<<m_digitalOutputNames[j].c_str()<<std::endl;
             }
         }
 

@@ -15,7 +15,7 @@ void NI9239::initModule()
         m_nbCounters = 0;
         m_counterCountingEdgeMode = NoEdge;
         m_counterCountDirectionMode = NoCountMode;
-        m_nbDigitalIoPort = 0;
+
 
         m_moduleType = isAnalogicInputVoltage; // Setting module type to analog input voltage
 

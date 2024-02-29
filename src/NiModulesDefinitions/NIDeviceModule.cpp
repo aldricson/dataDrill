@@ -94,6 +94,10 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (filename.empty())
     {
         std::cerr << "Error: Filename is empty in loadCounters." << std::endl;
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: Error: Filename is empty.");
         return false;
     }
 
@@ -107,13 +111,17 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (!ok)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType) read 'COUNTERS' 'NUMBEROFCOUNTERS' failed");
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: read 'counters' 'numberofcounters' failed");
     }
 
     if (numCounters == 0 && aModuleType==ModuleType::isCounter)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)  No counters for "+
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: No counters for \n"+
                                     filename);
         setNbCounters(4);
         return false;
@@ -122,7 +130,8 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (numCounters < 0  && aModuleType==ModuleType::isCounter)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename) read 'COUNTERS' 'NUMBEROFCOUNTERS' \n"
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename) read 'counters' 'numberofcounters' \n"
                                    "numCounters < 0: the file is corrupted.");
         setNbCounters(0);
         return false;
@@ -137,8 +146,10 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
                                            ok);
     if ((!namesOk || m_counterNames.empty()) && aModuleType==ModuleType::isCounter)
     {
-        std::cout << "counter names or list is empty for" << filename << std::endl;
-        // This might not be a critical error, depends on application requirements
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: counter names list is empty for:\n"+filename);
     }
 
     // Load and set counter edge counting mode
@@ -150,7 +161,9 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (!ok)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename) read 'Counters' 'edgeCountingMode' failed");
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: read 'counters' 'edgecountingmode' failed");
     }
 
     // Additional validation can be added here based on the expected range of edgeMode
@@ -166,7 +179,9 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (!ok)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename) read 'Counters' 'countingDirection' failed");
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: read 'counters' 'countingdirection' failed");
     }
     // Additional validation can be added here based on the expected range of countDirection
     setCounterCountDirectionMode(static_cast<moduleCounterMode>(countDirection));
@@ -181,7 +196,9 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (!ok)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename) read 'Counters' 'countingMax' failed");
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: read 'counters' 'countingmax' failed");
     }
 
     unsigned int counterMin = m_ini->readUnsignedInteger("counters",
@@ -193,16 +210,21 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
     if (!ok)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in bool NIDeviceModule::loadCounters(const std::string &filename) read 'Counters' 'countingMin' failed");
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error:  read 'counters' 'countingmin' failed");
+
     }
 
     if (counterMin > counterMax)
     {
         std::cerr << "Error: Counter minimum value is greater than the maximum value." << std::endl;
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "Error counter min value is > counter max value.");
-        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: counter min value is > counter max value.\n"
                                    "set min/max to defaults");
+
         setCounterMax(counterMax);
         setCounterMin(4294967295);
         return false;
@@ -216,8 +238,73 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
 
 bool NIDeviceModule::loadOutputs(const std::string &filename, const ModuleType &aModuleType)
 {
-    // TODO
-    return false;
+    bool ok = false;
+    // Check if the filename is empty
+    if (filename.empty())
+    {
+        
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "bool NIDeviceModule::loadOutputs(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: Filename is empty.");
+        std::cerr << "Error: Filename is empty in loadOutputs." << std::endl;
+        return false;
+    }
+
+    // Load the number of counters from the file
+    int numOutputs = m_ini->readUnsignedInteger("digitaloutputs",
+                                                "numberofdigitaloutputs",
+                                                m_nbDigitalOutputs,
+                                                filename,
+                                                ok);
+
+    if (!ok)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: read 'digitaloutputs' 'numberofdigitaloutputs' failed");
+        return false;
+    }
+
+    if (numOutputs == 0 && aModuleType==ModuleType::isDigitalOutput)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: No output for "+
+                                    filename);
+        return false;
+    }
+
+    if (numOutputs < 0  && aModuleType==ModuleType::isDigitalOutput)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                    "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: numOutputs < 0: the file is corrupted.");
+        return false;
+    }
+
+    // Load the counter names
+    bool namesOk = m_ini->readStringVector("digitaloutputs",
+                                           "output",
+                                           numOutputs,
+                                           m_digitalOutputNames,
+                                           filename,
+                                           ok);
+    if ((!namesOk || m_digitalOutputNames.empty()) && aModuleType==ModuleType::isDigitalOutput)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                    "in\n"
+                                   "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
+                                   "Error: digital output names list is empty for:\n"+filename);
+        std::cout << "digital output names list is empty for" << filename << std::endl;
+    }
+
+
+    // If this point is reached, all data is successfully loaded
+    return true;
 }
 
 bool NIDeviceModule::loadModules(const std::string &filename, ModuleType &aModuleType)
@@ -511,6 +598,58 @@ void NIDeviceModule::saveCounters(const std::string &filename, const ModuleType 
     }
 }
 
+void NIDeviceModule::saveOutputs(const std::string &filename, const ModuleType &aModuleType)
+{
+    // Check if the filename is empty
+    if (filename.empty())
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in \n"
+                                   "void NIDeviceModule::saveOutputs(const std::string &filename, const ModuleType &aModuleType)\n" 
+                                   "failed to save: file name is empty ");
+        return;
+    }
+
+    // Check if the number of outputs is valid
+    if (m_nbDigitalOutputs == 0 || m_digitalOutputNames.size() != m_nbDigitalOutputs) 
+    {
+        if (aModuleType==ModuleType::isDigitalOutput)
+        {
+            appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                       "in\n"
+                                       "void NIDeviceModule::saveOutputs(const std::string &filename, const ModuleType &aModuleType)\n" 
+                                       "Error: Number of outputs is zero or mismatch with channel names vector.\n"
+                                       "file name:\n"+filename);
+        }
+        return;
+    }
+
+    // Write the number of outputs to the file
+    m_ini->writeUnsignedInteger("digitaloutputs", "numberofdigitaloutputs", m_nbDigitalOutputs, filename);
+
+    // Iterate through output names and save them
+    for (unsigned int i = 0; i < m_nbDigitalOutputs; ++i)
+    {
+        std::string key = "output" + std::to_string(i);
+
+        // Skip saving empty output names
+        if (m_digitalOutputNames[i].empty())
+        {
+            appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                       "in\n"
+                                       "void NIDeviceModule::saveOutputs(const std::string &filename, const ModuleType &aModuleType)\n" 
+                                       "Error: Output name at index "+std::to_string(i)+" is empty.\n"
+                                       "file name:\n"+filename);
+            continue;
+        }
+        else
+        {
+            m_ini->writeString("digitaloutputs", key.c_str(), m_digitalOutputNames[i], filename);
+        }
+    }
+
+}
+
 void NIDeviceModule::saveModules(const std::string &filename, ModuleType &aModuleType)
 {
     // Check if the filename is empty
@@ -613,54 +752,61 @@ void NIDeviceModule::loadFromFile(const std::string &filename)
 
     // Boolean flags to track loading status
     ModuleType modType;
-    bool modulesLoaded = loadModules(filename, modType);
-    bool channelsLoaded = loadChannels(filename, modType);
-    bool countersLoaded = loadCounters(filename, modType);
+    bool modulesLoaded        = loadModules  (filename, modType);
+    bool channelsLoaded       = loadChannels (filename, modType);
+    bool countersLoaded       = loadCounters (filename, modType);
+    bool digitalOutputsLoaded = loadOutputs  (filename, modType);
 
-    // Logging success or failure of each loading function
-    if (channelsLoaded)
+    // Logging failure of each loading function
+    if (!channelsLoaded)
     {
-        std::cout << "Channels information successfully loaded from the ini file." << std::endl;
-    }
-    else
-    {
+        std::cerr << "Failed to load channel information for:"<<filename<< std::endl;
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in void NIDeviceModule::loadFromFile(const std::string &filename) Failed to load channel information from the ini file: " +
-                                       filename);
-    }
-
-    if (countersLoaded)
-    {
-        std::cout << "Counter information successfully loaded from the ini file." << std::endl;
-    }
-    else
-    {
-        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in void NIDeviceModule::loadFromFile(const std::string &filename) Failed to load counters information from the ini file" +
-                                       filename);
+                                   "in\n"
+                                   "void NIDeviceModule::loadFromFile(const std::string &filename)\n"
+                                   "Error: Failed to load channel information for:\n" +
+                                    filename);
     }
 
-    if (modulesLoaded)
-    {
-        std::cout << "Modules information successfully loaded from the ini file." << std::endl;
-    }
-    else
+    
+
+    if (!countersLoaded)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
-                                   "in void NIDeviceModule::loadFromFile(const std::string &filename) Failed to load modules information from the ini file" +
-                                       filename);
+                                   "in\n"
+                                   "void NIDeviceModule::loadFromFile(const std::string &filename)\n"
+                                   "Error: Failed to load counters information for:\n" +
+                                    filename);
+    }
+
+    if (!modulesLoaded)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "void NIDeviceModule::loadFromFile(const std::string &filename)\n"
+                                   "Error: Failed to load modules information for:\n" +
+                                    filename);
+    }
+
+    if (!digitalOutputsLoaded)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                                   "in\n"
+                                   "void NIDeviceModule::loadFromFile(const std::string &filename)\n"
+                                   "Error: Failed to load digital outputs information for:\n" +
+                                    filename);
     }
 
     // If any of the load functions failed, handle accordingly
-    if (!channelsLoaded || !countersLoaded || !modulesLoaded)
+    if (!channelsLoaded || !countersLoaded || !modulesLoaded || !digitalOutputsLoaded)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
                                    "in void NIDeviceModule::loadFromFile(const std::string &filename) One or more components failed to load properly." +
-                                       filename);
+                                    filename);
     }
 
     // Optionally, log overall success if all components loaded successfully
-    if (channelsLoaded && countersLoaded && modulesLoaded)
+    if (channelsLoaded && countersLoaded && modulesLoaded && digitalOutputsLoaded)
     {
         std::cout << "All components successfully loaded from " << filename << std::endl;
     }
@@ -677,7 +823,7 @@ void NIDeviceModule::saveToFile(const std::string &filename)
     }
 
     // Boolean flags to track saving status
-    bool channelsSaved = true, countersSaved = true, modulesSaved = true;
+    bool channelsSaved = true, countersSaved = true, modulesSaved = true, outputsSaved = true;
     ModuleType modType;
 
     try
@@ -722,15 +868,30 @@ void NIDeviceModule::saveToFile(const std::string &filename)
         countersSaved = false;
     }
 
+    try
+    {
+        saveOutputs(filename,modType);
+    }
+    catch(const std::exception& e)
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
+                           "in void void NIDeviceModule::saveToFile(const std::string &filename) Exception occurred in saveCounters for "+
+                           filename+
+                           " Exception: "+
+                           std::string(e.what()));
+        outputsSaved = false;
+    }
+    
+
     // If any of the save functions failed, handle accordingly
-    if (!channelsSaved || !countersSaved || !modulesSaved)
+    if (!channelsSaved || !countersSaved || !modulesSaved || !outputsSaved)
     {
         appendCommentWithTimestamp(m_fileNamesContainer.niDeviceModuleLogFile,
                                    "in void void NIDeviceModule::saveToFile(const std::string &filename) one or more components failed to save properly");
     }
 
     // Optionally, log overall success if all components saved successfully
-    if (channelsSaved && countersSaved && modulesSaved)
+    if (channelsSaved && countersSaved && modulesSaved && outputsSaved)
     {
         std::cout << "All components successfully saved to " << filename << std::endl;
     }
@@ -874,10 +1035,6 @@ unsigned int NIDeviceModule::getSlotNb() const
     return m_slotNumber;
 }
 
-unsigned int NIDeviceModule::getNbDigitalIOPorts() const
-{
-    return m_nbDigitalIoPort;
-}
 
 std::string NIDeviceModule::getModuleInfo() const
 {
@@ -982,15 +1139,7 @@ void NIDeviceModule::setNbCounters(unsigned int newNbCounters)
     }
 }
 
-void NIDeviceModule::setNbDigitalIOPorts(unsigned int newNbPorts)
-{
-    m_nbDigitalIoPort = newNbPorts;
-    // emit signal
-    if (nbDigitalIoPortsChangedSignal)
-    {
-        nbDigitalIoPortsChangedSignal(newNbPorts, this);
-    }
-}
+
 
 void NIDeviceModule::setModuleInfo(std::string newModuleInfo)
 {

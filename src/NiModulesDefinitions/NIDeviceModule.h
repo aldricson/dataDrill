@@ -32,33 +32,34 @@ bool loadCounters(const std::string &filename, const ModuleType &aModuleType);
 bool loadOutputs (const std::string &filename, const ModuleType &aModuleType);
 
 //
-void saveModules (const std::string &filename , ModuleType &aModuleType);
+void saveModules (const std::string &filename ,      ModuleType &aModuleType);
 void saveChannels(const std::string &filename, const ModuleType &aModuleType);
 void saveCounters(const std::string &filename, const ModuleType &aModuleType);
+void saveOutputs (const std::string &filename, const ModuleType &aModuleType);
 
 protected:
     //number of channels in the module
     unsigned int m_nbChannel       = 16;
     //number of 
    
-    unsigned int m_nbDigitalIoPort = 0  ;
+ 
     unsigned int m_slotNumber      = 0  ;
     double       m_analogChanMin   = 0.0;
     double       m_analogChanMax   = 4.0;
+    std::vector<std::string> m_chanNames;
     //-------- counters -----------------
     unsigned int m_nbCounters       = 0;
-    
     unsigned int m_counterMin       = 0;
     unsigned int m_counterMax       = 4294967295; //32 bits
-    moduleCounterEdgeConfig m_counterCountingEdgeMode;
-    moduleCounterMode       m_counterCountDirectionMode;
+    moduleCounterEdgeConfig  m_counterCountingEdgeMode;
+    moduleCounterMode        m_counterCountDirectionMode;
+    std::vector<std::string> m_counterNames;
     //----------- relays (digital outputs) ----------
-    unsigned int m_nbOutputs         = 0;
-
     unsigned int m_nbDigitalOutputs = 0; //number of outputs for a digital ouput channel (e.g. for relays)
+    std::vector<std::string> m_digitalOutputNames;
+    //----------- modules ------------------------
 
-
-
+    ModuleType           m_moduleType;
     moduleUnit           m_moduleUnit       = NoUnit;
     std::string          m_moduleName      = "";
     std::string          m_alias           = "";
@@ -67,11 +68,9 @@ protected:
     double               m_shuntValue    = 0.0;
     moduleTerminalConfig m_moduleTerminalConfig = noTerminalConfig;
 
-    std::vector<std::string> m_chanNames;
-    std::vector<std::string> m_counterNames;
-    std::vector<std::string> m_digitalOutputNames;
-    std::vector<std::string> m_digitalIoNames;
-    ModuleType m_moduleType;
+    
+
+
 
     GlobalFileNamesContainer m_fileNamesContainer;
 
@@ -92,7 +91,6 @@ public:
     virtual unsigned int             getNbChannel                 () const;
     virtual unsigned int             getNbCounters                () const;
     virtual unsigned int             getSlotNb                    () const;
-    virtual unsigned int             getNbDigitalIOPorts          () const;
     virtual std::string              getModuleInfo                () const;
     virtual std::vector<std::string> getChanNames                 () const;
     virtual std::vector<std::string> getCounterNames              () const;
@@ -113,7 +111,6 @@ public:
 
     virtual void setModuleName                (const std::string& newModuleName);
     virtual void setNbChannel                 (unsigned int newNbChannels);
-    virtual void setNbDigitalIOPorts          (unsigned int newNbPorts);
     virtual void setModuleInfo                (std::string newModuleInfo); 
     virtual void setModuleShuntLocation       (moduleShuntLocation newLocation);
     virtual void setModuleShuntValue          (double newValue);
@@ -131,7 +128,6 @@ public:
     //----------Digital outputs------------
     virtual void setNbDigitalOutputs          (unsigned int                    newNbDigitalOutpits       );
 
-    
     virtual void setModuleType           (ModuleType newType);
     virtual void setModuleUnit           (moduleUnit newUnit); 
 

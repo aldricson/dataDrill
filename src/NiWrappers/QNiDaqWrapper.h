@@ -36,21 +36,16 @@ public:
     double       readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     double       readVoltage(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
 
-    unsigned int readCounter(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
-    unsigned int readCounter(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
+    unsigned int readCounter     (NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
+    unsigned int readCounter     (NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
+    unsigned int testReadCounter ();
+    void         resetCounter    (NIDeviceModule *deviceModule, const unsigned int &index);
+    void         resetCounter    (NIDeviceModule *deviceModule, const std::string &chanName);
 
-    unsigned int testReadCounter();
-    void testSetRelayAndLEDState(unsigned int relayIndex, const bool &state);     
+    void         setRelayState     (NIDeviceModule* deviceModule, unsigned int chanIndex, const bool &state);
+    void         setRelayState     (NIDeviceModule* deviceModule, const std::string& chanName, const bool &state);
+    void         testSetRelayState (unsigned int relayIndex, const bool &state); 
 
-    
-    
-    void setRelayState(NIDeviceModule* deviceModule, unsigned int chanIndex, const bool &state);
-    void setRelayState(NIDeviceModule* deviceModule, const std::string& chanName, const bool &state);
-
-
-    void resetCounter(NIDeviceModule *deviceModule, const unsigned int &index);
-    void resetCounter(NIDeviceModule *deviceModule, const std::string &chanName);
-    
     void handleErrorAndCleanTask(TaskHandle taskHandle);
 
     //signals

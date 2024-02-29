@@ -286,19 +286,21 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
 
     // Construct full channel name
     std::string fullChannelName = std::string(deviceName) + chanName;
-
     unsigned int retryCount = 0;
+    char errBuff[2048] = {'\0'};
     while (true) {
         // Create a new task
         std::string unicKey = "getCurrentValue" + generate_hex(8);
         error = DAQmxCreateTask(unicKey.c_str(), &taskHandle);
         if (error) 
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to create task for reading current.");
+                       "In\n"
+                       "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                       "Error: Failed to create task for reading current.\n"+
+                       std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to create task for reading current.");
         }
 
@@ -306,11 +308,14 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
         error = DAQmxRegisterDoneEvent(taskHandle, 0, CurrentDoneCallback, this);
         if (error)
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                      "In\n"
-                                      "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                      "Error: Failed to register Done callback.");
+                          "In\n"
+                          "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                          "Error: Failed to register Done callback.\n"+
+                          std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
+
             throw std::runtime_error("Failed to register Done callback.");
         }
 
@@ -326,8 +331,9 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
                                          shuntVal, 
                                          NULL);
 
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
+        if (error) 
+        {           
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             if (++retryCount >= maxRetries) 
             {
                 appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
@@ -336,6 +342,13 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
                                            "Error: Failed to create channel after max retries.");
                 throw std::runtime_error("Failed to create channel after max retries.");
             }
+            appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                        "In\n"
+                                        "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                                        "Error: failed to create Current Channel"
+                                        "\n"+std::string(errBuff));
+                  
+            handleErrorAndCleanTask(taskHandle);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         }
@@ -345,12 +358,14 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
     // Start the task
     error = DAQmxStartTask(taskHandle);
     if (error) 
-    {
-        handleErrorAndCleanTask(taskHandle);
+    {       
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
         appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to starttask for reading current.");
+                                    "In\n"
+                                    "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                                    "Error: failed to start task to read current."
+                                    "\n"+std::string(errBuff));
+        handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to starttask for reading current.");
     }
     // Read the current value
@@ -358,11 +373,13 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
     error = DAQmxReadAnalogScalarF64(taskHandle, 10.0, &readValue, nullptr);
     if (error) 
     {
-        handleErrorAndCleanTask(taskHandle);  // Handle error and clean up
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
         appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                    "In\n"
                                    "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to read current current value.");
+                                   "Error: Failed to read current current value."
+                                   "\n"+std::string(errBuff));
+        handleErrorAndCleanTask(taskHandle);  // Handle error and clean up
         throw std::runtime_error("Failed to read current value.");
     }
 
@@ -370,11 +387,13 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
     error = DAQmxStopTask(taskHandle);
     if (error) 
     {
-        handleErrorAndCleanTask(taskHandle);  // Handle error and clean up
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
         appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to stop task");
+                      "In\n"
+                      "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                      "Error: Failed to stop task.\n"+
+                      std::string(errBuff));
+        handleErrorAndCleanTask(taskHandle);  // Handle error and clean up
         throw std::runtime_error("Failed to stop task.");
     }
 
@@ -430,17 +449,22 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int cha
     std::string fullChannelName = std::string(deviceName) + std::string(channelName);
 
     unsigned int retryCount = 0;
-    while (true) {
+    char errBuff[2048] = {'\0'};
+    while (true) 
+    {
         // Create a new task
         std::string unicKey = "getCurrentValue" + generate_hex(8);
         error = DAQmxCreateTask(unicKey.c_str(), &taskHandle);
         if (error) 
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to create task for reading current.");
+                                       "In\n"
+                                       "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                                       "Error: Failed to create task for reading current.\n"+
+                                       std::string(errBuff));
+
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to create task for reading current.");
         }
 
@@ -448,11 +472,14 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int cha
         error = DAQmxRegisterDoneEvent(taskHandle, 0, CurrentDoneCallback, this);
         if (error) 
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to register Done callback.");
+                                       "In\n"
+                                       "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                                       "Error: Failed to register Done callback.\n"+
+                                        std::string(errBuff));
+    
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to register Done callback.");
         }
 
@@ -468,16 +495,24 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int cha
                                          shuntVal, 
                                          NULL);
 
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
+        if (error) 
+        {
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             if (++retryCount >= maxRetries) 
             {
                 appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to create channel after max retries.");
+                                           "In\n"
+                                           "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                                           "Error: Failed to create channel after max retries.");
                 throw std::runtime_error("Failed to create channel after max retries.");
             }
+            appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                       "In\n"
+                                       "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
+                                       "Error: Failed to create channel fore read current\n"+
+                                       std::string(errBuff));
+
+            handleErrorAndCleanTask(taskHandle);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         }
@@ -486,47 +521,56 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int cha
 
     // Start the task
     error = DAQmxStartTask(taskHandle);
-    if (error) {
-        handleErrorAndCleanTask(taskHandle);
+    if (error) 
+    {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
         appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                    "In\n"
                                    "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to start task for reading current.");
+                                   "Error: Failed to start task for reading current.\n"+
+                                   std::string(errBuff));
+        handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to start task for reading current.");
     }
 
     // Read the current value
     error = DAQmxReadAnalogScalarF64(taskHandle, 10.0, &readValue, nullptr);
-    if (error) {
-        handleErrorAndCleanTask(taskHandle);
+    if (error) 
+    {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
         appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                    "In\n"
                                    "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to read current value.");
+                                   "Error: Failed to read current value.\n"+
+                                   std::string(errBuff));
+        handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to read current value.");
     }
 
     // Stop and clear the task
     error = DAQmxStopTask(taskHandle);
-    if (error) {
-        handleErrorAndCleanTask(taskHandle);
+    if (error)
+    {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
         appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                    "In\n"
                                    "double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps)\n"
-                                   "Error: Failed to stop task.");
+                                   "Error: Failed to stop task.\n"+
+                                   std::string(errBuff));
+        handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to stop task.");
     }
     DAQmxClearTask(taskHandle);
 
    
-// Convert the read value to the appropriate unit (if necessary) and return it
-double result = static_cast<double>(readValue);
-if (autoConvertTomAmps) {
-    result = ampsTomAmps(result); // Convert amperes to milliamperes if required
-}
-setLastSingleCurrentChannelValue(result); // Store the latest value
-
-return result; // Return the final result
+   // Convert the read value to the appropriate unit (if necessary) and return it
+   double result = static_cast<double>(readValue);
+   if (autoConvertTomAmps) {
+       result = ampsTomAmps(result); // Convert amperes to milliamperes if required
+   }
+   setLastSingleCurrentChannelValue(result); // Store the latest value
+   
+   return result; // Return the final result
 }
 
 
@@ -559,28 +603,36 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chan
     std::string fullChannelName = std::string(deviceName) + channelName;
 
     unsigned int retryCount = 0;
-
+    char errBuff[2048] = {'\0'};
     while (true) 
     {
         // Generate a unique task key
         std::string uniqueKey = "getVoltageValue" + generate_hex(8);
         error = DAQmxCreateTask(uniqueKey.c_str(), &taskHandle);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
+        if (error) 
+        {
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-                                   "Error: Failed to create task for reading voltage.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                        "Error: Failed to create task for reading voltage.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to create task for reading voltage.");
         }
 
         error = DAQmxRegisterDoneEvent(taskHandle, 0, VoltageDoneCallback, this);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
+        if (error) 
+        {
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-                                   "Error: Failed to register Done callback.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                        "Error: Failed to register Done callback.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to register Done callback.");
         }
 
@@ -593,8 +645,9 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chan
                                          maxRange,
                                          unit,
                                          NULL);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
+        if (error)
+        {
+            
             if (++retryCount >= maxRetries) 
             {
                 appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
@@ -603,6 +656,14 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chan
                                    "Error: Failed to create channel after max retries."); 
                 throw std::runtime_error("Failed to create channel after max retries.");
             }
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
+            appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                       "In\n"
+                                       "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                       "Error: Failed to create channel:\n"+
+                                       fullChannelName+"\n"+ 
+                                       std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         }
@@ -611,11 +672,13 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chan
         error = DAQmxCfgSampClkTiming(taskHandle, "", 1000.0, DAQmx_Val_Rising, DAQmx_Val_ContSamps, 1);
         if (error) 
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-                                   "Error: Failed to set sample clock timing.");
+                                       "In\n"
+                                       "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                       "Error: Failed to set sample clock timing.\n"+
+                                       std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to set sample clock timing.");
         }
 
@@ -623,11 +686,13 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chan
         error = DAQmxStartTask(taskHandle);
         if (error) 
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-                                   "Error: Failed to start task for reading voltage.");
+                                       "In\n"
+                                       "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                       "Error: Failed to start task for reading voltage.\n"+
+                                       std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to start task for reading voltage.");
         }
 
@@ -635,22 +700,26 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chan
         error = DAQmxReadAnalogScalarF64(taskHandle, 10.0, &readValue, nullptr);
         if (error) 
         {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-                                   "Error: Failed to read voltage value.");
+                                       "In\n"
+                                       "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                       "Error: Failed to read voltage value.\n"+
+                                       std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to read voltage value.");
         }
 
         // Stop the task
         error = DAQmxStopTask(taskHandle);
         if (error) {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-                                   "Error: Failed to stop task.");
+                                       "In\n"
+                                       "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                       "Error: Failed to stop task.\n"+
+                                       std::string(errBuff));
+            handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to stop task.");
         }
 
@@ -694,26 +763,34 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int cha
     std::string fullChannelName = std::string(deviceName) + channelName;
 
     unsigned int retryCount = 0;
-
+    char errBuff[2048] = {'\0'};
     while (true) {
         std::string unicKey = "getVoltageValue" + generate_hex(8);
         error = DAQmxCreateTask(unicKey.c_str(), &taskHandle);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
+        if (error) 
+        {
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
-                                   "Error: Failed to create task for reading voltage.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Error: Failed to create task for reading voltage.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to create task for reading voltage.");
         }
 
         error = DAQmxRegisterDoneEvent(taskHandle, 0, VoltageDoneCallback, this);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
+        if (error) 
+        {
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
-                                   "Error: Failed to register Done callback.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Failed to register Done callback.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to register Done callback.");
         }
 
@@ -725,56 +802,78 @@ double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int cha
                                          maxRange,
                                          unit,
                                          NULL);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
-            if (++retryCount >= maxRetries) {
+        if (error)
+        {
+            if (++retryCount >= maxRetries) 
+            {
                 appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                    "In\n"
                                    "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
                                    "Error: Failed to create channel after max retries.");
                 throw std::runtime_error("Failed to create channel after max retries.");
             }
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
+            appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Error: Failed to register Done callback.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         }
 
         error = DAQmxCfgSampClkTiming(taskHandle, "", 1000.0, DAQmx_Val_Rising, DAQmx_Val_ContSamps, 1);
         if (error) {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
-                                   "Error: Failed to set sample clock timing.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Error: Failed to set sample clock timing.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to set sample clock timing.");
         }
 
         error = DAQmxStartTask(taskHandle);
         if (error) {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
-                                   "Error: Failed to start task for reading voltage.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Error: Failed to start task for reading voltage.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to start task for reading voltage.");
         }
 
         error = DAQmxReadAnalogScalarF64(taskHandle, 10.0, &readValue, nullptr);
-        if (error) {
-            handleErrorAndCleanTask(taskHandle);
+        if (error) 
+        {
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
-                                   "Error: Failed to read voltage value.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Error: Failed to read voltage value.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to read voltage value.");
         }
 
         error = DAQmxStopTask(taskHandle);
         if (error) {
-            handleErrorAndCleanTask(taskHandle);
+            DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-                                   "In\n"
-                                   "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
-                                   "Error: Failed to stop task.");
+                                        "In\n"
+                                        "double QNiDaqWrapper::readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries)\n"
+                                        "Error: Failed to stop task.\n"+
+                                        std::string(errBuff));
+            
+            handleErrorAndCleanTask(taskHandle); // Custom function to handle errors and clean up
             throw std::runtime_error("Failed to stop task.");
         }
 
@@ -963,10 +1062,12 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, unsigned i
     // Attempt to read the counter value, retrying as necessary
     uInt32 readValue = 0;
     unsigned int retryCount = 0;
-    while (retryCount < maxRetries) {
+    char errBuff[2048] = {'\0'};
+    while (retryCount < maxRetries) 
+    {
         int32 error = DAQmxReadCounterScalarU32(taskHandle, 10.0, &readValue, nullptr);
         if (error) {
-            char errBuff[2048] = {'\0'};
+            
             DAQmxGetExtendedErrorInfo(errBuff, 2048);
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                        "In\n"
@@ -1293,7 +1394,7 @@ unsigned int QNiDaqWrapper::testReadCounter()
 //}
 
 
-void QNiDaqWrapper::testSetRelayAndLEDState(unsigned int relayIndex, const bool &state)
+void QNiDaqWrapper::testSetRelayState(unsigned int relayIndex, const bool &state)
 {
     if(relayIndex > 3) 
     {
@@ -1425,34 +1526,66 @@ void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, unsigned int cha
 
 void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::string &chanName, const bool &state)
 {
-    if (!deviceModule) {
+
+    if (!deviceModule) 
+    {
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::string &chanName, const bool &state)\n"
+                                   "Error:  deviceModule is nullptr");
         throw std::invalid_argument("deviceModule is null");
     }
+
+
+    char errBuff[2048] = {'\0'};
+
 
     TaskHandle taskHandle = 0;
     int32 error;
 
     // Construct the full channel name including the device alias
-    const char* fullChanName = (deviceModule->getAlias() + "/" + chanName).c_str();
+    std::string fullChanName = deviceModule->getAlias() + chanName.c_str();
 
     // Create a new task for setting the relay state
     std::string uniqueKey = "setRelayState" + generate_hex(8);
     error = DAQmxCreateTask(uniqueKey.c_str(), &taskHandle);
-    if (error) {
+    if (error) 
+    {   
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::string &chanName, const bool &state)\n"
+                                   "Error:  Failed to create task for setting relay state.\n"+
+                                   std::string(errBuff));
         handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to create task for setting relay state.");
     }
 
+    std::cout<<"******** "<<fullChanName.c_str()<<" *******"<<std::endl;
     // Create a digital output channel
-    error = DAQmxCreateDOChan(taskHandle, fullChanName, "", DAQmx_Val_ChanPerLine);
-    if (error) {
+    error = DAQmxCreateDOChan(taskHandle, fullChanName.c_str(), "", DAQmx_Val_ChanPerLine);
+    if (error) 
+    {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::string &chanName, const bool &state)\n"
+                                   "Error:  Failed to create digital output channel.\n"+
+                                   std::string(errBuff));
         handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to create digital output channel.");
     }
 
     // Start the task
     error = DAQmxStartTask(taskHandle);
-    if (error) {
+    if (error) 
+    {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::string &chanName, const bool &state)\n"
+                                   "Error:  Failed to start task.\n"+
+                                   std::string(errBuff));
         handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to start task.");
     }
@@ -1461,7 +1594,14 @@ void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::strin
     uInt8 data = state ? 1 : 0; // Convert boolean state to uInt8
     int32 written;
     error = DAQmxWriteDigitalLines(taskHandle, 1, 1, 10.0, DAQmx_Val_GroupByChannel, &data, &written, NULL);
-    if (error) {
+    if (error) 
+    {
+        DAQmxGetExtendedErrorInfo(errBuff, 2048);
+        appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                   "In\n"
+                                   "void QNiDaqWrapper::setRelayState(NIDeviceModule *deviceModule, const std::string &chanName, const bool &state)\n"
+                                   "Error:  Failed to set relay state.\n"+
+                                   std::string(errBuff));
         handleErrorAndCleanTask(taskHandle);
         throw std::runtime_error("Failed to set relay state.");
     }

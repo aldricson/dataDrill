@@ -18,7 +18,6 @@ void NI9208::initModule()
         m_nbCounters = 0;
         m_counterCountingEdgeMode = NoEdge;
         m_counterCountDirectionMode = NoCountMode;
-        m_nbDigitalIoPort = 0;
         // Setting module type
         m_moduleType = isAnalogicInputCurrent;
         // Safely initializing channel names with appropriate capacity

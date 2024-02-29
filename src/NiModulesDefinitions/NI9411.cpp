@@ -18,8 +18,7 @@ void NI9411::initModule()
         m_counterCountingEdgeMode = Val_Rising;
         m_counterCountDirectionMode = Val_CountUp;
 
-        // Initialize digital IO port and module type
-        m_nbDigitalIoPort = 1;
+
         m_moduleType = isCoder; // Setting module type
 
         // Clearing and initializing counter names

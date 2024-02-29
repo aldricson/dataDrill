@@ -87,7 +87,7 @@ std::vector<std::string> QNiSysConfigWrapper::EnumerateCRIOPluggedModules() {
     char moduleAlias     [shortStringSize]; //alias of the module e.g mod1
     unsigned int nb_chan          = 0;      //number of channels in the module
     unsigned int nb_counters      = 0;
-    unsigned int nb_digitalIoPort = 0;      //number of digital io port in the module
+    unsigned int nb_digitalOutput = 0;      //number of digital io port in the module
     double       analogChanMin    = 0.0;
     double       analogChanMax    = 10.0;
     unsigned int counterMin       = 0.0;
@@ -141,10 +141,10 @@ std::vector<std::string> QNiSysConfigWrapper::EnumerateCRIOPluggedModules() {
                 nb_chan          = module->getNbChannel          ();
                 nb_counters      = module->getNbCounters         ();
                 modType          = module->getModuleType         ();
-                nb_digitalIoPort = module->getNbDigitalIOPorts   ();
+                nb_digitalOutput = module->getNbDigitalOutputs   ();
                 analogChanMax    = module->getChanMax            ();
                 analogChanMin    = module->getChanMin            ();
-                analogUnits      = module->getModuleUnit           ();
+                analogUnits      = module->getModuleUnit         ();
                 counterMax       = module->getmaxCounters        ();
                 counterMin       = module->getminCounters        ();
                 shuntLoc         = module->getModuleShuntLocation();
@@ -238,8 +238,8 @@ std::vector<std::string> QNiSysConfigWrapper::EnumerateCRIOPluggedModules() {
                 
 
                 moduleInfo += modTypeAsString+
-                              "\n║ nb digital IO port: "  + 
-                                std::to_string(nb_digitalIoPort) +
+                              "\n║ nb digital output: "  + 
+                                std::to_string(nb_digitalOutput) +
                               "\n║ nb channels: "  + 
                                 std::to_string(nb_chan)+
                               "\n║ nb counters: "+

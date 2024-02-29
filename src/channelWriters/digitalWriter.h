@@ -2,6 +2,8 @@
 #define digitalWriter_H
 
 #include "baseWriter.h"
+#include "../globals/globalEnumStructs.h"
+#include "../filesUtils/appendToFileHelper.h"
 
 class DigitalWriter : public BaseWriter {
 public:
@@ -13,7 +15,8 @@ public:
     void manualSetOutput (const std::string &moduleAlias, const unsigned int &index,const bool &state) override;
     void manualSetOutput (const std::string &moduleAlias, const std::string  &chanName,const bool &state) override;
     
-    // Add any additional member functions specific to digitalWriter here
+protected:
+    GlobalFileNamesContainer fileNamesContainer;
 };
 
 #endif // digitalWriter_H
