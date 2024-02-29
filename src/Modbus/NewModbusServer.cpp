@@ -169,6 +169,24 @@ void NewModbusServer::runServer() {
     }
 }
 
+void NewModbusServer::handleWriteSingleCoilRequest(uint16_t coilAddr, bool state) 
+{
+    // Log the request for debugging purposes
+    std::cout << "Received Write Single Coil request. Coil Address: " << coilAddr << ", State: " << (state ? "ON" : "OFF") << std::endl;
+
+    // Acknowledge the request to the Modbus master.
+    // The specifics of this will depend on your Modbus TCP library and how it handles responses.
+    // modbus_reply(ctx, query, rc, mb_mapping); // This is a generic placeholder. You'll need to adapt it.
+}
+
+int NewModbusServer::mapCoilAddressToChannel(uint16_t coilAddr) 
+{
+    // Implement your mapping logic here. This is a placeholder implementation.
+    // You might map coil addresses directly to channel numbers or look up a mapping table.
+    // Return -1 if the coil address is invalid, or the channel number if valid.
+    return coilAddr; // Placeholder: direct mapping for demonstration purposes.
+}
+
 void NewModbusServer::handleNewConnection() {
     // Declare variables for socket address and new file descriptor
     socklen_t addrlen;
@@ -248,9 +266,28 @@ void NewModbusServer::handleClientRequest(int master_socket) {
     // Receive a Modbus request
     int rc = modbus_receive(ctx, query);
 
-    if (rc > 0) {
-        // Process the valid Modbus request and send a response
-        modbus_reply(ctx, query, rc, mb_mapping);
+    if (rc > 0) 
+    {
+        
+        uint8_t function_code = query[7]; // Function code position in the query array
+        if (function_code == 0x05) 
+        {
+            // Extract coil address and state from the query
+            uint16_t coilAddr = (query[8] << 8) + query[9]; // Coil address
+            bool state = query[10] == 0xFF; // State (0xFF00 for ON, 0x0000 for OFF)
+            handleWriteSingleCoilRequest(coilAddr,state);
+        }
+        else if (function_code == 0x15)
+        {
+            //TODO
+            //
+            //handleWriteMultiCoilsRequest();
+        }
+        else
+        {
+            // Process the valid Modbus request and send a response
+            modbus_reply(ctx, query, rc, mb_mapping);
+        }
     } else if (rc == -1) {
         // Connection closed by the client
         std::cout << "Connection closed on socket " << master_socket << std::endl;
@@ -380,4 +417,14 @@ int NewModbusServer::getSRUMappingSizeWithoutAlarms()
                     (SRUMapping.m_nbSRUCoders   *2) + //2 registers of 16 bits each for each coder
                     (SRUMapping.m_nbSRUCounters *3);  // 3 registers of 16 bits each for each counter (1x frequency, 2x value) 
     return totalSize;
+}
+
+std::shared_ptr<NItoModbusBridge> NewModbusServer::getModbusBridge() const
+{
+    return m_modbusBridge;
+}
+
+void NewModbusServer::setModbusBridge(const std::shared_ptr<NItoModbusBridge> &modbusBridge)
+{
+    m_modbusBridge = modbusBridge;
 }

@@ -146,6 +146,22 @@ struct MappingConfig {
                       {}
     };
 
+    struct AlarmsMappingConfig
+    {
+        int index;
+        const ModuleType moduleType = ModuleType::isDigitalOutput;
+        std::string module;
+        std::string alarmRole;
+        std::string channel;
+        int modbusCoilsChannel;
+        AlarmsMappingConfig() : index              (0               ), //Initialize the index 
+                                module             ("Mod6"          ), //alarms are on Mod 6 by defaults
+                                alarmRole          ("Buzzer"        ), //first alarm in sru by default
+                                channel            ("/port0/line0"  ), //destination side of the mapping
+                                modbusCoilsChannel (0               )  //modubus side of the mapping 
+                                {}  
+    };
+
     struct GlobalFileNamesContainer
     {
         std::string newModbusServerLogFile  ;
@@ -158,7 +174,8 @@ struct MappingConfig {
         std::string QNiDaqWrapperLogFile    ;
         std::string DigitalWriterLogFile    ;
         std::string modbusIniFile           ;
-        std::string modbusMappingFile       ;  
+        std::string modbusMappingFile       ;
+        std::string modbusAlarmsMappingFile ;  
         GlobalFileNamesContainer() : newModbusServerLogFile  ("./newModbusServerLogFile.txt"  ) ,
                                      niDeviceModuleLogFile   ("./niDeviceModuleLogFile.txt"   ) ,
                                      iniObjectLogFile        ("./iniObjectLogFile.txt"        ) ,
@@ -169,7 +186,8 @@ struct MappingConfig {
                                      QNiDaqWrapperLogFile    ("./QNiDaqWrapperLogFile.txt"    ) ,
                                      DigitalWriterLogFile    ("DigitalWriterLogFile.txt"      ) ,
                                      modbusIniFile           ("./modbus.ini"                  ) ,
-                                     modbusMappingFile       ("./mapping.csv"                 ){}
+                                     modbusMappingFile       ("./mapping.csv"                 ) ,
+                                     modbusAlarmsMappingFile ("./alarmsMapping.csv"           ){}
     };
 
 

@@ -55,12 +55,14 @@ void createNecessaryInstances()
   //Object that handle the modbus server
   modbusServer = std::make_shared<NewModbusServer>();
   modbusServer->modbusSetSlaveId(1);
-  // Run the server in a separate thread
-  std::thread modbusServerThread(&NewModbusServer::runServer, modbusServer);
-  modbusServerThread.detach(); // Detach the thread to allow it to run independently
   std::cout << "Modbus server created" << std::endl;
   //Object in charge of routing crio datas to modbus
   m_crioToModbusBridge = std::make_shared<NItoModbusBridge>(analogReader,digitalReader,m_digitalWriter,modbusServer);
+  //but the modbus server also needs direct access to the bridge for alarms
+  modbusServer->setModbusBridge(m_crioToModbusBridge);
+  // Run the server in a separate thread
+  std::thread modbusServerThread(&NewModbusServer::runServer, modbusServer);
+  modbusServerThread.detach(); // Detach the thread to allow it to run independently
   std::cout<<"modbus bridge created"<<std::endl;
   //object in charge of all non ssh commands
 
@@ -141,7 +143,7 @@ int main(void)
     clearConsole();
     showBanner();
 
-
+    //m_crioToModbusBridge->startAcquisition();
     while (true) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
