@@ -99,7 +99,10 @@ void NItoModbusBridge::loadMapping()
             }
             catch (const std::invalid_argument& e)
             {
-                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() An exception occurred: "+std::string(e.what())); 
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                            "in\n"
+                                            "void NItoModbusBridge::loadMapping()\n"
+                                            "Error: failed to parse 'index' value:\n"+std::string(e.what()));                 
                 std::cerr << "Failed to parse 'index' value: " << e.what() << std::endl;
                 continue; // Skip this line and proceed to the next one
             }
@@ -257,7 +260,9 @@ void NItoModbusBridge::loadMapping()
         }
         else
         {
-            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::loadMapping() issing 'modbusChannel' value in mapping file "); 
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
+                                                                                    "NItoModbusBridge::loadMapping()\n"
+                                                                                    "Error: missing 'modbusChannel' value in mapping file "); 
             std::cerr << "Missing 'modbusChannel' value in mapping.csv" << std::endl;
             continue; // Skip this line and proceed to the next one
         }
@@ -267,6 +272,158 @@ void NItoModbusBridge::loadMapping()
     }
 }
 
+void NItoModbusBridge::loadAlarmMapping()
+{
+    // Open the mapping file
+    std::ifstream file(m_fileNamesContainer.modbusAlarmsMappingFile);
+    // Check if the file is open successfully
+    if (!file.is_open())
+    {
+        appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
+                                                                                "nNItoModbusBridge::loadAlarmMapping()\n"
+                                                                                "Error: Failed to open mapping file");
+        std::cerr << "Failed to open mapping.csv file" << std::endl;
+        return; // Exit the function if file opening fails
+    }
+     std::string line;
+
+    // Read and process each line of the file
+    while (getline(file, line))
+    {
+        // Create a string stream to tokenize the line
+        std::istringstream iss(line);
+        AlarmsMappingConfig config;
+        std::string token;
+
+         // Tokenize and parse 'index' field
+         bool indexOk = true;
+        if (getline(iss, token, ';'))
+        {
+            try
+            {
+                config.index = std::stoi(token);
+            }
+            catch (const std::invalid_argument& e)
+            {
+                indexOk = false;
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                            "in\n"
+                                            "void NItoModbusBridge::loadAlarmMapping()\n"
+                                            "Error: failed to parse 'index' value:\n"+std::string(e.what())); 
+                std::cerr << "Failed to parse 'index' value: " << e.what() << std::endl;
+                continue; // Skip this line and proceed to the next one
+            }
+        }
+        else
+        {
+            indexOk = false;
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                        "in\n"
+                                        "void NItoModbusBridge::loadAlarmMapping()\n"
+                                        "Error: Missing 'index' value in\n"+m_fileNamesContainer.modbusAlarmsMappingFile);            
+            std::cerr << "Missing 'index' value in "<<m_fileNamesContainer.modbusAlarmsMappingFile.c_str()<<std::endl;
+            continue; // Skip this line and proceed to the next one
+        }
+
+        bool moduleOk = true;
+        // Tokenize and parse 'module' field
+        if (getline(iss, token, ';'))
+        {
+            config.module = token;
+        }
+        else
+        {
+            moduleOk = false;
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                        "in\n"
+                                        "void NItoModbusBridge::loadAlarmMapping()\n"
+                                        "Error: Missing 'index' value in\n"+m_fileNamesContainer.modbusAlarmsMappingFile);    
+
+            std::cerr << "Missing 'module'  value in "<<m_fileNamesContainer.modbusAlarmsMappingFile.c_str()<<std::endl;
+            continue; // Skip this line and proceed to the next one
+        }
+
+        bool alarmRoleOk = true;
+        // Tokenize and parse 'alarmRole' field
+        if (getline(iss, token, ';'))
+        {
+            config.alarmRole = token;
+        }
+        else
+        {
+            alarmRoleOk = false;
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                        "in\n"
+                                        "void NItoModbusBridge::loadAlarmMapping()\n"
+                                        "Error: Missing 'alarmRole' value in\n"+m_fileNamesContainer.modbusAlarmsMappingFile);    
+
+            std::cerr << "Missing 'alarmRole'  value in "<<m_fileNamesContainer.modbusAlarmsMappingFile.c_str()<<std::endl;
+            continue; // Skip this line and proceed to the next one
+        }
+
+        // Tokenize and parse 'channel' field
+        bool channelOk = true;
+        if (getline(iss, token, ';'))
+        {
+            config.channel = token;
+        }
+        else
+        {
+            channelOk = false;
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                        "in\n"
+                                        "void NItoModbusBridge::loadAlarmMapping()\n"
+                                        "Error: Missing 'channel' value in\n"+m_fileNamesContainer.modbusAlarmsMappingFile);    
+
+            std::cerr << "Missing 'channel'  value in "<<m_fileNamesContainer.modbusAlarmsMappingFile.c_str()<<std::endl;
+            continue; // Skip this line and proceed to the next one
+        }
+
+         // Tokenize and parse 'modbusCoilsChannel' field
+        bool modbusChannelOK = true; 
+        if (getline(iss, token, ';'))
+        {
+            try
+            {
+                config.modbusCoilsChannel = std::stoi(token);
+            }
+            catch (const std::invalid_argument& e)
+            {
+                modbusChannelOK = false; 
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                            "in\n"
+                                            "void NItoModbusBridge::loadAlarmMapping()\n"
+                                            "Error: failed to parse 'modbusCoilsChannel' value:\n"+std::string(e.what())); 
+                std::cerr << "Failed to parse 'modbusCoilsChannel' value: " << e.what() << std::endl;
+                continue; // Skip this line and proceed to the next one
+            }
+        }
+        else
+        {
+            modbusChannelOK = false; 
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                        "in\n"
+                                        "void NItoModbusBridge::loadAlarmMapping()\n"
+                                        "Error: Missing 'modbusCoilsChannel' value in\n"+m_fileNamesContainer.modbusAlarmsMappingFile);            
+            std::cerr << "Missing 'modbusCoilsChannel' value in "<<m_fileNamesContainer.modbusAlarmsMappingFile.c_str()<<std::endl;
+            continue; // Skip this line and proceed to the next one
+        }
+
+        if (indexOk && moduleOk && alarmRoleOk && channelOk && modbusChannelOK)
+        {
+            m_alarmsMappingData.push_back(config);
+        }
+        else
+        {
+            appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                            "in\n"
+                            "void NItoModbusBridge::loadAlarmMapping()\n"
+                            "Error: impossible to push back structure for:\n"+m_fileNamesContainer.modbusAlarmsMappingFile);
+        }
+    }
+
+    
+}
 
 bool NItoModbusBridge::startModbusSimulation()
 {

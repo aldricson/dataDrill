@@ -43,6 +43,7 @@ public:
 
     // Load mapping from a configuration file
     void loadMapping();
+    void loadAlarmMapping();
 
     bool startModbusSimulation();
     void stopModbusSimulation();
@@ -64,6 +65,7 @@ protected:
     std::shared_ptr<DigitalWriter>                       m_digitalWriter     ;
     std::shared_ptr<NewModbusServer>                     m_modbusServer      ;
     std::vector<MappingConfig>                           m_mappingData       ;
+    std::vector<AlarmsMappingConfig>                     m_alarmsMappingData ;
 
     std::vector<uint16_t>                                m_realDataBufferLine; // a Real Buffer Data
 

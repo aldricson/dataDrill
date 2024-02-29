@@ -90,6 +90,7 @@ int main(void)
   createNecessaryInstances();
 
   m_crioToModbusBridge->loadMapping();
+  m_crioToModbusBridge->loadAlarmMapping();
   
   //auto closeLambda = []() { std::exit(EXIT_SUCCESS); };
   //-----------------------------------------------------------
@@ -144,7 +145,8 @@ int main(void)
     showBanner();
 
     //m_crioToModbusBridge->startAcquisition();
-    while (true) {
+    while (true) 
+    {
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }

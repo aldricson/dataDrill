@@ -1,0 +1,4 @@
+0;Mod6;Buzzer;/port0/line0;0
+1;Mod6;Flash_H2S;/port0/line1;2
+2;Mod6;Flash_CH4;/port0/line2;4
+3;Mod6;Siren;/port0/line2;6
