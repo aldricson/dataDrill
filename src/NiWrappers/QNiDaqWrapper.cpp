@@ -128,7 +128,6 @@ int32 QNiDaqWrapper::GetNumberOfModules()
     // Iterate through tokens to count modules
     while (token != NULL) {
         moduleCount++;
-        // Uncomment for debugging: std::cout << "Found device: " << token << std::endl;
         token = strtok_r(NULL, ", ", &context);
     }
    
@@ -1117,7 +1116,6 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
     }
 
     const std::string fullChannelName = deviceModule->getAlias() + chanName;
-    std::cout<<"in readCounter fullChannelName = "<<fullChannelName.c_str()<<std::endl;
     // Check if a task for this channel already exists, create if not
     TaskHandle& taskHandle = counterTasksMap[fullChannelName];
     if (taskHandle == nullptr) 
@@ -1137,10 +1135,7 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
             taskHandle = nullptr; // Ensure the map entry is reset after cleanup
             throw std::runtime_error("Failed to create DAQmx task.");
         }
-        else
-        {
-            std::cout<<"in readCounter task created successfully "<<taskHandle<<std::endl;
-        }
+
 
         error = DAQmxCreateCICountEdgesChan(taskHandle, fullChannelName.c_str(), "", DAQmx_Val_Rising, 0, DAQmx_Val_CountUp);
         if (error) 
@@ -1156,10 +1151,7 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
             taskHandle = nullptr; // Ensure the map entry is reset after cleanup
             throw std::runtime_error("Failed to create counter channel.");
         }
-        else
-        {
-            std::cout<<"in readCounter channel created ok"<<std::endl;
-        }
+
 
                 // Start the task.
         error = DAQmxStartTask(taskHandle);
@@ -1173,10 +1165,7 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
             this->handleErrorAndCleanTask(taskHandle);
             throw std::runtime_error("Failed to start counter task.");
         }
-        else
-        {
-            std::cout<<"in read counter: startTask Success"<<std::endl;
-        }
+
     }
 
     uInt32 readValue = 0;
@@ -1197,27 +1186,6 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
             retryCount++;
             //continue; // Attempt to read again if under the retry limit
         }
-        else
-        {
-            std::cout<<"in Read counter DAQmxReadCounterScalarU32 seems ok"<<std::endl;
-        }
-        //break; // Successful read
-    //}
-
-
-
-    //if (retryCount >= maxRetries) 
-    //{
-    //    appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
-    //                               "In\n"
-    //                               "unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
-    //                               "Error: Failed to read counter after maximum retries.");
-    //    handleErrorAndCleanTask(taskHandle); // Ensures that resources are freed and task handle is reset
-    //    taskHandle = nullptr; // Reset the handle in the map after cleanup
-    //    throw std::runtime_error("Failed to read counter after maximum retries.");
-    //}
-
-    std::cout<<"value is "<<readValue<<std::endl;
     return readValue; // Return the successfully read value
 }
 

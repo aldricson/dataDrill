@@ -52,6 +52,7 @@ public:
 
     void acquireCounters();
     void setRelays(uint16_t coilAddr, bool state);
+    
 
 
 protected:

@@ -607,22 +607,29 @@ void NItoModbusBridge::acquireCounters()
 
 void NItoModbusBridge::setRelays(uint16_t coilAddr, bool state)
 {
+    std::cout << "*******************" << std::endl;
+    std::cout << "* coilAddr:" <<coilAddr<< std::endl;
+    std::cout << "*******************" << std::endl;
+
+
     bool found = false;
     AlarmsMappingConfig alarmMap;
-    for (auto &config : m_alarmsMappingData)
+    for (int i=0; i<m_alarmsMappingData.size(); ++i)
     {
-        if (config.modbusCoilsChannel==coilAddr)
+        auto &config = m_alarmsMappingData[i];
+        if (coilAddr==config.modbusCoilsChannel)
         {
             //deep copy
             alarmMap.index              = config.index             ;
             alarmMap.module             = config.module            ;
+            alarmMap.channel            = config.channel           ; 
             alarmMap.alarmRole          = config.alarmRole         ;
             alarmMap.modbusCoilsChannel = config.modbusCoilsChannel;
             found = true;
             break;
-        }
-    }
+        }  
 
+    }
     if (found)
     {
         if (!m_digitalWriter)
@@ -844,13 +851,11 @@ void NItoModbusBridge::simulateCoders(std::vector<uint16_t> &analogChannelsResul
 
 void NItoModbusBridge::simulateRelays() 
 {
-    std::cout <<"enter simulate relay"<<std::endl;
     bool relay[4] = {false,false,false,false};
 
     for (int i=0;i<4;i++)
     {        
         relay[i] =  m_simulatedAlarmStepCounter==i;
-        std::cout <<"relay #"<<i<<" state:"<<relay[i]<<std::endl;
     }
    
     // Iterate through each relay configuration defined in the mapping data.
@@ -861,12 +866,14 @@ void NItoModbusBridge::simulateRelays()
             try 
             {
                 m_digitalWriter->manualSetOutput(modAlias, chanStr, newState);
-                std::cout << "Simulated relay " << chanStr << " on module " << modAlias << " to state " << newState << std::endl;
             } 
             catch (const std::exception& e) 
             {
                 
-                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in NItoModbusBridge::simulateRelays() An exception occurred: "+std::string(e.what()));
+                appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,
+                                           "in\n"
+                                           "NItoModbusBridge::simulateRelays()\n"
+                                           "Error: impossible to simulate relay state\n"+std::string(e.what()));
                 std::cerr << "Error simulating relay state: " << e.what() << std::endl;
             }
         
@@ -879,9 +886,7 @@ void NItoModbusBridge::simulateRelays()
 void NItoModbusBridge::acquireData()
 {
     try
-    {
-        std::cout << "Enter acquire data" << std::endl;
-        
+    {        
         // Iterate through the mapping data
         for (std::size_t i = 0; i < m_mappingData.size(); ++i)
         {

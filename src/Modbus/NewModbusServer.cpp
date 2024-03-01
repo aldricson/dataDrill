@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <cerrno>
 #include "../Bridge/niToModbusBridge.h"
 
 
@@ -185,6 +186,29 @@ void NewModbusServer::handleWriteSingleCoilRequest(uint16_t coilAddr, bool state
     // modbus_reply(ctx, query, rc, mb_mapping); // This is a generic placeholder. You'll need to adapt it.
 }
 
+void NewModbusServer::acknowledgeSingleCoilWriting(const uint8_t *query, int query_length)
+{
+    if (!ctx) 
+    {          
+        appendCommentWithTimestamp(fileNamesContainer.newModbusServerLogFile,
+                                  "in\n"
+                                  "void NewModbusServer::acknowledgeSingleCoilWriting(const uint8_t *query, int query_length)\n"
+                                  "Error: Modbus context is not initialized.");
+        std::cerr << "Modbus context is not initialized." << std::endl;
+        return;
+    }
+    
+    int rc = modbus_reply(ctx, query, query_length, mb_mapping);
+    if (rc == -1) 
+    {
+       appendCommentWithTimestamp(fileNamesContainer.newModbusServerLogFile,
+                                  "in\n"
+                                  "void NewModbusServer::acknowledgeSingleCoilWriting(const uint8_t *query, int query_length)\n"
+                                  "Error: Failed to send acknowledgment for Write Single Coil request\n"+
+                                  std::string(modbus_strerror(errno))); 
+    }
+}
+
 void NewModbusServer::handleWriteMultipleCoilRequest(std::vector<uint16_t> coilsAddr, std::vector<bool> states)
 {
     if (coilsAddr.size() != states.size()) {
@@ -267,7 +291,89 @@ void NewModbusServer::broadcastClientList()
 }
 
 
-void NewModbusServer::handleClientRequest(int master_socket) 
+void NewModbusServer::handleClientRequest(int master_socket) {
+    uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
+
+    // Initially, we do not know if we will receive function code 0x05.
+    bool receivedFunctionCode05 = false;
+
+    do {
+        // Reset the flag for each iteration of the loop.
+        receivedFunctionCode05 = false;
+
+        // Set the socket for the modbus context to ensure replies go to the correct client.
+        modbus_set_socket(ctx, master_socket);
+
+        // Attempt to receive a Modbus request from the client.
+        int rc = modbus_receive(ctx, query);
+
+        if (rc > 0) 
+        {
+            // Successfully received a request, now determine the function code.
+            uint8_t function_code = query[7]; // Function code is at position 7 in the query array.
+
+            if (function_code == 0x05) {
+                // Handle Write Single Coil request.
+                receivedFunctionCode05 = true; // Mark that we've received a 0x05 request.
+
+                // Extract the coil address and the desired state from the request.
+                uint16_t coilAddr = (query[8] << 8) + query[9]; // Combine bytes 8 and 9 for the coil address.
+                bool state = query[10] == 0xFF; // State is determined by byte 10; 0xFF00 means ON, 0x0000 means OFF.
+
+                // Process the Write Single Coil request.
+                handleWriteSingleCoilRequest(coilAddr, state);
+                if (!SRUMapping.m_modeSRU)
+                {
+                    // Send an acknowledgment back to the client.
+                    acknowledgeSingleCoilWriting(query, rc);
+                }
+            } 
+            else if (function_code == 0x0F) 
+            {
+                // Handle Write Multiple Coils request.
+                // Write Multiple Coils
+                uint16_t startingAddr = (query[8] << 8) + query[9];
+                uint16_t quantityOfOutputs = (query[10] << 8) + query[11];
+                // Extract coil states from the request
+                std::vector<uint16_t> coilsAddr;
+                std::vector<bool> states;
+                for (uint16_t i = 0; i < quantityOfOutputs; i++) 
+                {
+                    coilsAddr.push_back(startingAddr + i);
+                    // Determine the bit position in the request byte array
+                    uint8_t byteIndex = 13 + (i / 8); // Starting byte index for coil values is 13
+                    uint8_t bitPosition = i % 8;
+                    bool state = query[byteIndex] & (1 << bitPosition);
+                    states.push_back(state);
+                }
+                handleWriteMultipleCoilRequest(coilsAddr, states);
+            } 
+            else 
+            {
+                // For all other function codes, process the request normally and send a standard Modbus response.
+                modbus_reply(ctx, query, rc, mb_mapping);
+            }
+        } 
+        else if (rc == -1) 
+        {
+            // If an error occurs or if the connection is closed by the client, log the event.
+            std::cout << "Error or connection closed on socket " << master_socket << ": " << modbus_strerror(errno) << std::endl;
+            // Update the client list and clean up resources as needed.
+            // ...
+            break; // Exit the loop on error or closed connection.
+        }
+
+        // If we received a function code 0x05, immediately check for another request without exiting the loop.
+        // This allows handling bursts of 0x05 requests efficiently.
+    } while (receivedFunctionCode05);
+
+    // After processing any burst of 0x05 requests, normal operation resumes.
+    // Additional cleanup or processing logic can be placed here if needed.
+}
+
+
+
+/*void NewModbusServer::handleClientRequest(int master_socket) 
 {
     uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
 
@@ -287,6 +393,7 @@ void NewModbusServer::handleClientRequest(int master_socket)
             uint16_t coilAddr = (query[8] << 8) + query[9]; // Coil address
             bool state = query[10] == 0xFF; // State (0xFF00 for ON, 0x0000 for OFF)
             handleWriteSingleCoilRequest(coilAddr,state);
+            acknowledgeSingleCoilWriting(query);
         }
         else if (function_code == 0x0F) 
         {   // Write Multiple Coils
@@ -311,7 +418,8 @@ void NewModbusServer::handleClientRequest(int master_socket)
             // Process the valid Modbus request and send a response
             modbus_reply(ctx, query, rc, mb_mapping);
         }
-    } else if (rc == -1) 
+    } 
+    else if (rc == -1) 
     {
         // Connection closed by the client
         std::cout << "Connection closed on socket " << master_socket << std::endl;
@@ -330,7 +438,7 @@ void NewModbusServer::handleClientRequest(int master_socket)
             fdmax = findMaxSocket();
         }
     }
-}
+}*/
 
 
 int NewModbusServer::findMaxSocket() {

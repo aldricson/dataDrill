@@ -70,6 +70,8 @@ protected:
     void        handleNewConnection            ();
     void        handleClientRequest            (int master_socket);
     void        handleWriteSingleCoilRequest   (uint16_t coilAddr, bool state);
+    void        acknowledgeSingleCoilWriting   (const uint8_t *query, int query_length);
+
     void        handleWriteMultipleCoilRequest (std::vector<uint16_t> coilsAddr, std::vector<bool> states);
     int         findMaxSocket                (); 
     void        updateClientList             (int socket, const std::string& ipAddress, bool remove);
