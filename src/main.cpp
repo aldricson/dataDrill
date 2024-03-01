@@ -144,7 +144,7 @@ int main(void)
     clearConsole();
     showBanner();
 
-    //m_crioToModbusBridge->startAcquisition();
+    m_crioToModbusBridge->startAcquisition();
     while (true) 
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));

@@ -65,12 +65,12 @@ protected:
     GlobalFileNamesContainer fileNamesContainer;
     void loadConfig();
 
-    void        initializeModbusContext      ();
-    void        setupServerSocket            ();
-    void        handleNewConnection          ();
-    void        handleClientRequest          (int master_socket);
-    void        handleWriteSingleCoilRequest (uint16_t coilAddr, bool state);
-    int         mapCoilAddressToChannel      (uint16_t coilAddr);  
+    void        initializeModbusContext        ();
+    void        setupServerSocket              ();
+    void        handleNewConnection            ();
+    void        handleClientRequest            (int master_socket);
+    void        handleWriteSingleCoilRequest   (uint16_t coilAddr, bool state);
+    void        handleWriteMultipleCoilRequest (std::vector<uint16_t> coilsAddr, std::vector<bool> states);
     int         findMaxSocket                (); 
     void        updateClientList             (int socket, const std::string& ipAddress, bool remove);
     void        broadcastClientList          (); 

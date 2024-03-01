@@ -76,6 +76,8 @@ public:
 private:
     std::mutex voltageMutex;
     std::mutex currentMutex;
+    std::mutex countersMutex;
+    std::mutex alarmsMutex;
     GlobalFileNamesContainer fileNamesContainer;
     TaskHandle counterHandle = nullptr;
     std::atomic<double> m_lastSingleCurrentChannelValue;

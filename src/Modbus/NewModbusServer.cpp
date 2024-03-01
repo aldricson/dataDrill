@@ -172,20 +172,29 @@ void NewModbusServer::runServer() {
 
 void NewModbusServer::handleWriteSingleCoilRequest(uint16_t coilAddr, bool state) 
 {
-    // Log the request for debugging purposes
-    std::cout << "Received Write Single Coil request. Coil Address: " << coilAddr << ", State: " << (state ? "ON" : "OFF") << std::endl;
-
-    // Acknowledge the request to the Modbus master.
-    // The specifics of this will depend on your Modbus TCP library and how it handles responses.
+    if (!m_modbusBridge)
+    {
+       appendCommentWithTimestamp(fileNamesContainer.newModbusServerLogFile,
+                                  "in\n"
+                                  "void NewModbusServer::handleWriteSingleCoilRequest(uint16_t coilAddr, bool state)\n"
+                                  "Error: m_modbusBridge is nullptr");
+ 
+    }
+    // TODO
+    m_modbusBridge->setRelays(coilAddr,state);
     // modbus_reply(ctx, query, rc, mb_mapping); // This is a generic placeholder. You'll need to adapt it.
 }
 
-int NewModbusServer::mapCoilAddressToChannel(uint16_t coilAddr) 
+void NewModbusServer::handleWriteMultipleCoilRequest(std::vector<uint16_t> coilsAddr, std::vector<bool> states)
 {
-    // Implement your mapping logic here. This is a placeholder implementation.
-    // You might map coil addresses directly to channel numbers or look up a mapping table.
-    // Return -1 if the coil address is invalid, or the channel number if valid.
-    return coilAddr; // Placeholder: direct mapping for demonstration purposes.
+    if (coilsAddr.size() != states.size()) {
+        // Log error: The sizes of coil addresses and states vectors do not match
+        return;
+    }
+
+    for (size_t i = 0; i < coilsAddr.size(); ++i) {
+        handleWriteSingleCoilRequest(coilsAddr[i], states[i]);
+    }
 }
 
 void NewModbusServer::handleNewConnection() {
@@ -258,7 +267,8 @@ void NewModbusServer::broadcastClientList()
 }
 
 
-void NewModbusServer::handleClientRequest(int master_socket) {
+void NewModbusServer::handleClientRequest(int master_socket) 
+{
     uint8_t query[MODBUS_TCP_MAX_ADU_LENGTH];
 
     // Set the socket for modbus context
@@ -278,18 +288,31 @@ void NewModbusServer::handleClientRequest(int master_socket) {
             bool state = query[10] == 0xFF; // State (0xFF00 for ON, 0x0000 for OFF)
             handleWriteSingleCoilRequest(coilAddr,state);
         }
-        else if (function_code == 0x15)
-        {
-            //TODO
-            //
-            //handleWriteMultiCoilsRequest();
+        else if (function_code == 0x0F) 
+        {   // Write Multiple Coils
+            uint16_t startingAddr = (query[8] << 8) + query[9];
+            uint16_t quantityOfOutputs = (query[10] << 8) + query[11];
+            // Extract coil states from the request
+            std::vector<uint16_t> coilsAddr;
+            std::vector<bool> states;
+            for (uint16_t i = 0; i < quantityOfOutputs; i++) 
+            {
+                coilsAddr.push_back(startingAddr + i);
+                // Determine the bit position in the request byte array
+                uint8_t byteIndex = 13 + (i / 8); // Starting byte index for coil values is 13
+                uint8_t bitPosition = i % 8;
+                bool state = query[byteIndex] & (1 << bitPosition);
+                states.push_back(state);
+            }
+            handleWriteMultipleCoilRequest(coilsAddr, states);
         }
         else
         {
             // Process the valid Modbus request and send a response
             modbus_reply(ctx, query, rc, mb_mapping);
         }
-    } else if (rc == -1) {
+    } else if (rc == -1) 
+    {
         // Connection closed by the client
         std::cout << "Connection closed on socket " << master_socket << std::endl;
 
