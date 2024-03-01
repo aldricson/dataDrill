@@ -356,10 +356,23 @@ void NewModbusServer::handleClientRequest(int master_socket) {
         } 
         else if (rc == -1) 
         {
-            // If an error occurs or if the connection is closed by the client, log the event.
-            std::cout << "Error or connection closed on socket " << master_socket << ": " << modbus_strerror(errno) << std::endl;
-            // Update the client list and clean up resources as needed.
-            // ...
+            // Connection closed by the client
+            std::cout << "Connection closed on socket " << master_socket << std::endl;
+
+            // Update the client list to reflect the disconnection
+            updateClientList(master_socket, "", true);  // 'true' indicates removal
+            broadcastClientList();
+
+            // Close the socket and remove it from the set
+            close(master_socket);
+            FD_CLR(master_socket, &refset);
+
+            // Update fdmax if necessary
+            if (master_socket == fdmax) 
+            {
+                // Decrease fdmax to the highest active socket
+                fdmax = findMaxSocket();
+            }
             break; // Exit the loop on error or closed connection.
         }
 
