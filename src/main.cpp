@@ -136,7 +136,11 @@ int main(void)
       daqMx->testSetRelayAndLEDState(i, !state);
     }*/
    
-
+    while(true)
+    {
+      daqMx->testReadCurrent();
+      usleep(250000);
+    }
     //boot strap finished
     m_crioTCPServer->startServer();
     std::cout <<  std::endl;

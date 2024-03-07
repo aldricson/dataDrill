@@ -55,21 +55,24 @@ void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const std
 {
     
     // Validate moduleAlias and chanName
-    if (moduleAlias.empty() || chanName.empty()) {
+    if (moduleAlias.empty() || chanName.empty()) 
+    {
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
 
     // Getting the device module based on the alias
     NIDeviceModule *deviceModule = m_sysConfig->getModuleByAlias(moduleAlias);
-    if (!deviceModule) {
+    if (!deviceModule) 
+    {
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
 
     // Check the module type
     ModuleType modType = deviceModule->getModuleType();  
-    if (modType != isAnalogicInputCurrent && modType != isAnalogicInputVoltage) {
+    if (modType != isAnalogicInputCurrent && modType != isAnalogicInputVoltage) 
+    {
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
@@ -78,10 +81,13 @@ void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const std
 
     try {
         // Reading the value based on module type
-        if (modType == isAnalogicInputCurrent) {
-            value = m_daqMx->readCurrent(deviceModule, chanName, 50, true);
-        } else { // modType == isAnalogicInputVoltage
-            value = m_daqMx->readVoltage(deviceModule, chanName, 10);
+        if (modType == isAnalogicInputCurrent) 
+        {
+            value = m_daqMx->readCurrent(deviceModule, chanName, 5, false);
+        } 
+        else 
+        { // modType == isAnalogicInputVoltage
+            value = m_daqMx->readVoltage(deviceModule, chanName, 5);
         }
 
         returnedValue = value;

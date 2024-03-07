@@ -26,7 +26,7 @@ NItoModbusBridge::NItoModbusBridge(std::shared_ptr<AnalogicReader>  analogicRead
                                      { this->onSimulationTimerTimeOut(); });
 
     m_dataAcquTimer = std::make_shared<SimpleTimer>();
-    std::chrono::milliseconds msr(500);
+    std::chrono::milliseconds msr(125);
     m_dataAcquTimer->setInterval(msr);
     m_dataAcquTimer->stop();
     // Wire up the signals and slots
@@ -614,7 +614,7 @@ void NItoModbusBridge::setRelays(uint16_t coilAddr, bool state)
 
     bool found = false;
     AlarmsMappingConfig alarmMap;
-    for (int i=0; i<m_alarmsMappingData.size(); ++i)
+    for (std::size_t i=0; i<m_alarmsMappingData.size(); ++i)
     {
         auto &config = m_alarmsMappingData[i];
         if (coilAddr==config.modbusCoilsChannel)
@@ -886,62 +886,63 @@ void NItoModbusBridge::simulateRelays()
 void NItoModbusBridge::acquireData()
 {
     try
-    {        
+    {    
+        std::cout<<"m_mappingData.size() = "<<m_mappingData.size()<<std::endl;    
         // Iterate through the mapping data
         for (std::size_t i = 0; i < m_mappingData.size(); ++i)
-        {
-            // Retrieve the configuration for the current mapping line
-            MappingConfig lineCfg = m_mappingData[i];
-            
-            // Initialize variables
-            double   result              = 0.0                  ;
-            double   minInput            = lineCfg.minSource    ;
-            double   maxInput            = lineCfg.maxSource    ;
-            uint16_t minOutput           = lineCfg.minDest      ;
-            uint16_t maxOutput           = lineCfg.maxDest      ;
-            int      destinationRegister = lineCfg.modbusChannel;
-            
-            switch (lineCfg.moduleType)
-            {
-                // We have the same function  process  whether Moule Type is  AnalogicInputCurrent or AnalogicInputVoltage.
-                case ModuleType::isAnalogicInputCurrent:
-                case ModuleType::isAnalogicInputVoltage:
-                {
-                    // Read analog data
-                    m_analogicReader->manualReadOneShot(lineCfg.module, lineCfg.channel, result);
-                    
-                    // Perform linear interpolation
-                    uint16_t interpolatedResult = linearInterpolation16Bits(result, minInput, maxInput, minOutput, maxOutput);
-                    
-                    // Update the real data buffer line
-                    m_realDataBufferLine[destinationRegister] = interpolatedResult;
-                    
-                    // Print acquired data for debugging
-                    std::cout << lineCfg.module.c_str() << " " << lineCfg.channel.c_str() << " " << interpolatedResult << std::endl;
-                    break;
-                }
-                
-                case ModuleType::isCoder:
-                {
-                    // Handle coder data (Add your implementation here if needed)
-                    break;
-                }
-                case ModuleType::isCounter:
-                {
-                    acquireCounters();
-                    break;
-                }
-                case ModuleType::isDigitalInput:
-                {
-                    // Handle digital input data (Add your implementation here if needed)
-                    break;
-                }
-                case ModuleType::isDigitalOutput:
-                {
-                    // Handled differently
-                    break;
-                }
-            }
+        { 
+          // Retrieve the configuration for the current mapping line
+           MappingConfig lineCfg = m_mappingData[i];
+          // 
+          // // Initialize variables
+           double   result              = 0.0                  ;
+           double   minInput            = lineCfg.minSource    ;
+           double   maxInput            = lineCfg.maxSource    ;
+           uint16_t minOutput           = lineCfg.minDest      ;
+           uint16_t maxOutput           = lineCfg.maxDest      ;
+           int      destinationRegister = lineCfg.modbusChannel;
+           
+
+           switch (lineCfg.moduleType)
+           {
+               // We have the same function  process  whether Moule Type is  AnalogicInputCurrent or AnalogicInputVoltage.
+               case ModuleType::isAnalogicInputCurrent:
+               case ModuleType::isAnalogicInputVoltage:
+               {
+                   // Read analog data
+                   m_analogicReader->manualReadOneShot(lineCfg.module, lineCfg.channel, result);
+                   std::cout<<"channel : "<<lineCfg.modbusChannel<<" value: "<<result<<" min: "<<minInput<<" max: "<<maxInput<<std::endl;
+                   // Perform linear interpolation
+                   uint16_t interpolatedResult = linearInterpolation16Bits(result, minInput, maxInput, minOutput, maxOutput);
+                   
+                   // Update the real data buffer line
+                   m_realDataBufferLine[destinationRegister] = interpolatedResult;
+                   
+
+                   break;
+               }
+               
+               case ModuleType::isCoder:
+               {
+                   // Handle coder data (Add your implementation here if needed)
+                   break;
+               }
+               case ModuleType::isCounter:
+               {
+                   acquireCounters();
+                   break;
+               }
+               case ModuleType::isDigitalInput:
+               {
+                   // Handle digital input data (Add your implementation here if needed)
+                   break;
+               }
+               case ModuleType::isDigitalOutput:
+               {
+                   // Handled differently
+                   break;
+               }
+           }
         }
         
         // Remap the input register values for analogics

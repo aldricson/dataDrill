@@ -32,6 +32,8 @@ public:
     std::vector<std::string> GetDevicesList();
     double       readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps);
     double       readCurrent(NIDeviceModule *deviceModule, std::string  chanName, unsigned int maxRetries, bool autoConvertTomAmps);
+    std::vector<double> testReadCurrent();
+
 
     double       readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     double       readVoltage(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
@@ -79,11 +81,12 @@ private:
     std::mutex countersMutex;
     std::mutex alarmsMutex;
     GlobalFileNamesContainer fileNamesContainer;
-    TaskHandle counterHandle = nullptr;
+    TaskHandle counterHandle = nullptr; // for testing purpose
     std::atomic<double> m_lastSingleCurrentChannelValue;
     std::atomic<double> m_lastSingleVoltageChannelValue;
     unsigned int m_lastSingleCounter             = 0;
-    std::map<std::string, TaskHandle> counterTasksMap;  
+    std::map<std::string, TaskHandle> counterTasksMap;
+    std::map<std::string, TaskHandle> currentTaskMap; 
 };
 
 

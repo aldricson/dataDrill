@@ -1,0 +1,18 @@
+#!/bin/sh
+# Start/stop dataDrill.
+
+case "$1" in
+  start)
+    echo "Starting dataDrill"
+    /home/dataDrill/dataDrill &
+    ;;
+  stop)
+    echo "Stopping dataDrill"
+    pkill -f dataDrill
+    ;;
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+esac
+
+exit 0
