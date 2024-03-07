@@ -518,28 +518,40 @@ double QNiDaqWrapper::readCurrent(NIDeviceModule *deviceModule, std::string chan
 
 std::vector<double> QNiDaqWrapper::testReadCurrent()
 {
-     const char* deviceName = "Mod1";
+     // Hardcoded device name for Mod1 module
+    const char* deviceName = "Mod1";
+    // Initialize task handle to 0, which will be used to identify our task with DAQmx functions
     TaskHandle taskHandle = 0;
+    // Error code returned by DAQmx functions
     int32 error;
+    // Buffer for error information
     char errBuff[2048] = {'\0'};
+    // Total number of channels to read from
     const int32 channelsCount = 16;
-    const float64 minRange = 0.004, maxRange = 0.02; // Define the range according to your sensor specs
-    const float64 timeout = 10.0; // Timeout for reading in seconds
-    const int32 samplesPerChannel = 1; // Number of samples to read per channel
-    std::vector<double> data(channelsCount * samplesPerChannel); // Storage for read data
-    int32 read; // Number of samples actually read
+    // Specify the range of current to measure
+    const float64 minRange = 0.004, maxRange = 0.02;
+    // Timeout for DAQmxReadAnalogF64 function in seconds
+    const float64 timeout = 10.0;
+    // We will request 2 samples per channel to meet minimum sample requirement but only use the last sample
+    const int32 samplesPerChannel = 2;
+    // Vector to store the last sample from each channel
+    std::vector<double> lastSamples(channelsCount); 
+    // Number of samples actually read
+    int32 read;
 
-    std::string fullChannelNames = std::string(deviceName) + "/ai0:" + std::to_string(channelsCount-1); // Hardcoded channel names
+    // Construct full channel names for the device, spanning from /ai0 to /ai15
+    std::string fullChannelNames = std::string(deviceName) + "/ai0:" + std::to_string(channelsCount-1);
 
-    // Create and configure the task
-    std::string unicKey = "testReadCurrent" + generate_hex(8); // Unique task name
+    // Generate a unique task name using a helper function (assumed to be defined elsewhere)
+    std::string unicKey = "testReadCurrent" + generate_hex(8);
+    // Create a task
     error = DAQmxCreateTask(unicKey.c_str(), &taskHandle);
     if (error) {
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
         throw std::runtime_error("Failed to create task: " + std::string(errBuff));
     }
 
-    // Create channels
+    // Create analog input current channels for the specified range on the device
     error = DAQmxCreateAICurrentChan(taskHandle, fullChannelNames.c_str(), "", DAQmx_Val_Cfg_Default, minRange, maxRange, DAQmx_Val_Amps, DAQmx_Val_Default, 0.0, NULL);
     if (error) {
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
@@ -547,7 +559,7 @@ std::vector<double> QNiDaqWrapper::testReadCurrent()
         throw std::runtime_error("Failed to create channels: " + std::string(errBuff));
     }
 
-    // Configure sample clock timing
+    // Configure the sampling clock with a rate of 30 Hz, finite samples, and rising edge timing
     error = DAQmxCfgSampClkTiming(taskHandle, "", 30.0, DAQmx_Val_Rising, DAQmx_Val_FiniteSamps, samplesPerChannel);
     if (error) {
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
@@ -555,7 +567,7 @@ std::vector<double> QNiDaqWrapper::testReadCurrent()
         throw std::runtime_error("Failed to configure timing: " + std::string(errBuff));
     }
 
-    // Start the task
+    // Start the task to begin measuring
     error = DAQmxStartTask(taskHandle);
     if (error) {
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
@@ -563,24 +575,33 @@ std::vector<double> QNiDaqWrapper::testReadCurrent()
         throw std::runtime_error("Failed to start task: " + std::string(errBuff));
     }
 
-    // Read the data
-    error = DAQmxReadAnalogF64(taskHandle, samplesPerChannel, timeout, DAQmx_Val_GroupByChannel, data.data(), data.size(), &read, NULL);
+    // Prepare a buffer to read the samples into, sized for all channels and samples
+    std::vector<double> dataBuffer(channelsCount * samplesPerChannel);
+    // Read the samples from all channels into the buffer
+    error = DAQmxReadAnalogF64(taskHandle, samplesPerChannel, timeout, DAQmx_Val_GroupByChannel, dataBuffer.data(), dataBuffer.size(), &read, NULL);
     if (error) {
         DAQmxGetExtendedErrorInfo(errBuff, 2048);
         DAQmxClearTask(taskHandle);
         throw std::runtime_error("Failed to read data: " + std::string(errBuff));
     }
 
-    // Clean up
-    DAQmxClearTask(taskHandle);
-    std::string result;
-    // Return the last sample of each channel
-    for (size_t i = 0; i < data.size(); ++i)
-    {
-        result += std::to_string(data[i])+";";
+    // Extract the last sample for each channel from the buffer
+    for (int i = 0; i < channelsCount; ++i) {
+        lastSamples[i] = dataBuffer[i * samplesPerChannel + samplesPerChannel - 1];
     }
-    std::cout<<result<<std::endl;
-    return data; // This already contains the last sample of each channel since we're reading one sample per channel
+
+    // Clean up the task to free resources
+    DAQmxClearTask(taskHandle);
+
+    // For debugging purposes, output the last samples collected
+    std::string result;
+    for (size_t i = 0; i < lastSamples.size(); ++i) {
+        result += std::to_string(lastSamples[i]) + ";";
+    }
+    std::cout << "************" <<std::endl << result << "************" << std::endl;
+
+    // Return only the last sample from each channel
+    return lastSamples;
 }
 
 
