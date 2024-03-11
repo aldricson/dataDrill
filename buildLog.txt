@@ -38,10 +38,6 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/baseReader.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/digitalReader.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/baseWriter.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/digitalWriter.h
-C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/ThreadSafeCircularBuffer.h
-C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/algorithm.h
-C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/circular_buffer.h
-C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/traits.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/config.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/appendToFileHelper.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/cPosixFileHelper.h
@@ -53,6 +49,11 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/globals/globalEnumStructs.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/stringUtils/stringUtils.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/systemPatches/stdOptionalReplacement.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/testFunctions.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/ThreadSafeCircularBuffer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/algorithm.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/circular_buffer.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/threadSafeVector.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/traits.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/timers/simpleTimer.h
 List of Source Files:
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Bridge/niToModbusBridge.cpp
@@ -73,9 +74,9 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/baseReader.c
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelReaders/digitalReader.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/baseWriter.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/channelWriters/digitalWriter.cpp
-C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/circularBuffer/ThreadSafeCircularBuffer.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniObject.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/main.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/ThreadSafeCircularBuffer.cpp
 Excutable output file set to bin bin
 build type is: Debug
 threading type is set to linux pthread library

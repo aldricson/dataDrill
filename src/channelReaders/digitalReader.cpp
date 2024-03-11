@@ -112,11 +112,13 @@ void DigitalReader::manualReadOneShot(const std::string &moduleAlias, const std:
     {
         try {
             // Attempt to read the counter value for the specified channel.
+            std::cout<<"********************** manualReadOneShot *******************"<<std::endl;
             uint32_t countValue = 0;
-            m_daqMx->readCounter(deviceModule, chanName, countValue);
+            countValue = m_daqMx->readCounter(deviceModule, chanName);
+            std::cout<<"returned value 1 = "<<countValue<<std::endl; 
             // Convert the read counter value to double and assign it to returnedValue.
             returnedValue = static_cast<double>(countValue);
-
+            std::cout<<"returned value 2 = "<<returnedValue<<std::endl; 
             // Reset the counter to prepare it for the next reading.
             //m_daqMx->resetCounter(deviceModule, chanName);
         } 

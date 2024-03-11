@@ -13,6 +13,7 @@
 #include "../Conversions/convUtils.h"
 #include "../globals/globalEnumStructs.h"
 #include "../filesUtils/appendToFileHelper.h"
+#include "../threadSafeBuffers/threadSafeVector.h"
 
 #include "../config.h"
 #ifdef CrossCompiled
@@ -32,14 +33,17 @@ public:
     std::vector<std::string> GetDevicesList();
     double       readCurrent(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries, bool autoConvertTomAmps);
     double       readCurrent(NIDeviceModule *deviceModule, std::string  chanName, unsigned int maxRetries, bool autoConvertTomAmps);
-    std::vector<double> testReadCurrent();
-
+    
+    void         readMod1();
+    void         readMod2();
+    void         readMod3();
+    void         readMod4();
 
     double       readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     double       readVoltage(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
 
     unsigned int readCounter     (NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
-    unsigned int readCounter     (NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
+    unsigned int readCounter     (NIDeviceModule *deviceModule, std::string  chanName );
     unsigned int testReadCounter ();
     void         resetCounter    (NIDeviceModule *deviceModule, const unsigned int &index);
     void         resetCounter    (NIDeviceModule *deviceModule, const std::string &chanName);
@@ -74,6 +78,12 @@ public:
     void handleReadCounterCompletion(int32 status);
     unsigned char random_char();
     std::string generate_hex(const unsigned int len);
+
+    std::atomic<bool> keepCurrentRunning{true}; // Control flag for the reading loop
+    ThreadSafeVector<double> Mod1Buffer;
+    ThreadSafeVector<double> Mod2Buffer;
+    ThreadSafeVector<double> Mod3Buffer;
+    ThreadSafeVector<uInt32> Mod4Buffer;
     
 private:
     std::mutex voltageMutex;
@@ -82,6 +92,16 @@ private:
     std::mutex alarmsMutex;
     GlobalFileNamesContainer fileNamesContainer;
     TaskHandle counterHandle = nullptr; // for testing purpose
+
+    
+    TaskHandle readCurrentMod1Task = nullptr;
+    TaskHandle readCurrentMod2Task = nullptr;
+    TaskHandle readVoltageMod3Task = nullptr;
+    TaskHandle readCounterMod4Task = nullptr;
+    
+    
+    
+    
     std::atomic<double> m_lastSingleCurrentChannelValue;
     std::atomic<double> m_lastSingleVoltageChannelValue;
     unsigned int m_lastSingleCounter             = 0;

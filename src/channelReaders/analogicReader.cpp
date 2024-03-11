@@ -70,24 +70,58 @@ void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const std
     }
 
     // Check the module type
-    ModuleType modType = deviceModule->getModuleType();  
+    ModuleType modType = deviceModule->getModuleType();
+    std::string modName = deviceModule->getAlias();
+
     if (modType != isAnalogicInputCurrent && modType != isAnalogicInputVoltage) 
     {
         returnedValue = std::numeric_limits<double>::min();
         return;
     }
-
+    
+    std::vector<double> valueVector;
     double value = std::numeric_limits<double>::min(); // Initialize value
-
+    unsigned int index = 0;
     try {
         // Reading the value based on module type
         if (modType == isAnalogicInputCurrent) 
         {
-            value = m_daqMx->readCurrent(deviceModule, chanName, 5, false);
+            if (modName=="Mod1") 
+            {
+                valueVector = m_daqMx->Mod1Buffer.copy();
+            }
+            else if (modName=="Mod2")
+            {
+                valueVector = m_daqMx->Mod2Buffer.copy();
+            }
+            index = extractChanIndex(chanName);        
+            if (index < valueVector.size()) 
+            {
+                value = valueVector[index];
+            } 
+            else 
+            {
+                value = 0.0; // Set to NaN or another error-indicating value
+            }
         } 
         else 
-        { // modType == isAnalogicInputVoltage
-            value = m_daqMx->readVoltage(deviceModule, chanName, 5);
+        { 
+            if (modName=="Mod3") 
+            {
+                valueVector = m_daqMx->Mod3Buffer.copy();
+                index = extractChanIndex(chanName);
+
+            }
+            
+            if (index < valueVector.size()) 
+            {
+                value = valueVector[index];
+            } 
+            else 
+            {
+                value = 0.0; // Set to NaN or another error-indicating value
+            }
+        
         }
 
         returnedValue = value;

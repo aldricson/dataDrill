@@ -548,17 +548,19 @@ void NItoModbusBridge::acquireCounters()
                 // Read the counter value using DigitalReader
                 try
                 {
+                    std::cout<<"reading :"<<config.module<<config.channel<<std::endl;
                     m_digitalReader->manualReadOneShot(config.module, config.channel, counterValue);
                 }
                 catch(const std::exception& e)
                 {
+                    std::cout<<"in\nvoid NItoModbusBridge::acquireCounters()\nException:\n"<<e.what()<<std::endl;
                     appendCommentWithTimestamp(m_fileNamesContainer.niToModbusBridgeLogFile,"in\n"
                                                                                              "void NItoModbusBridge::acquireCounters()\n"
                                                                                              "Exception:\n" +std::string(e.what())); 
                 }
                 // Convert the read value to an unsigned integer
                 unsigned int counterIntValue = static_cast<unsigned int>(counterValue);
-                
+                std::cout<<"Value readed: "<<counterIntValue<<std::endl;
                 // Update current time and counter value
                 config.currentTime = std::chrono::steady_clock::now();
                 config.currentCounterValue = counterIntValue;
@@ -887,7 +889,6 @@ void NItoModbusBridge::acquireData()
 {
     try
     {    
-        std::cout<<"m_mappingData.size() = "<<m_mappingData.size()<<std::endl;    
         // Iterate through the mapping data
         for (std::size_t i = 0; i < m_mappingData.size(); ++i)
         { 
@@ -901,6 +902,8 @@ void NItoModbusBridge::acquireData()
            uint16_t minOutput           = lineCfg.minDest      ;
            uint16_t maxOutput           = lineCfg.maxDest      ;
            int      destinationRegister = lineCfg.modbusChannel;
+           std::string modName          = lineCfg.module       ;
+           std::string chanName         = lineCfg.channel      ;
            
 
            switch (lineCfg.moduleType)
@@ -911,7 +914,6 @@ void NItoModbusBridge::acquireData()
                {
                    // Read analog data
                    m_analogicReader->manualReadOneShot(lineCfg.module, lineCfg.channel, result);
-                   std::cout<<"channel : "<<lineCfg.modbusChannel<<" value: "<<result<<" min: "<<minInput<<" max: "<<maxInput<<std::endl;
                    // Perform linear interpolation
                    uint16_t interpolatedResult = linearInterpolation16Bits(result, minInput, maxInput, minOutput, maxOutput);
                    
@@ -929,6 +931,7 @@ void NItoModbusBridge::acquireData()
                }
                case ModuleType::isCounter:
                {
+                   std::cout<<"counter detected:"<<modName.c_str()<<" on chan: "<<chanName.c_str()<<" for modbus: "<<destinationRegister<<std::endl;
                    acquireCounters();
                    break;
                }

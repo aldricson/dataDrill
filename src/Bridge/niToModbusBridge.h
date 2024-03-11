@@ -10,7 +10,7 @@
 #include "../Modbus/NewModbusServer.h"
 #include "../globals/globalEnumStructs.h"
 #include "../timers/simpleTimer.h"
-#include "../circularBuffer/ThreadSafeCircularBuffer.h"
+#include "../threadSafeBuffers/ThreadSafeCircularBuffer.h"
 #include "../stringUtils/stringUtils.h"
 #include "../filesUtils/appendToFileHelper.h"
 #include <algorithm> 

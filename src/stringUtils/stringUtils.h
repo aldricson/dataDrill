@@ -9,6 +9,29 @@
 #include <vector>
 
 
+
+static inline unsigned int extractChanIndex(const std::string& input) 
+{
+    // Assuming the format is always "/ai" followed by the index
+    // and there are no leading zeros or spaces.
+    try {
+        if (input.size() > 3 && input.substr(0, 3) == "/ai") {
+            std::string numberPart = input.substr(3); // Get the part after "/ai"
+            return static_cast<unsigned int>(std::stoi(numberPart));
+        } else {
+            throw std::invalid_argument("Invalid format: " + input);
+        }
+    } catch (const std::invalid_argument& e) {
+        // Handle case where conversion is not possible due to invalid input
+        std::cerr << "Invalid argument: " << e.what() << '\n';
+        throw;
+    } catch (const std::out_of_range& e) {
+        // Handle case where the number is too large
+        std::cerr << "Out of range: " << e.what() << '\n';
+        throw;
+    }
+}
+
 static inline std::string removeSpacesFromCharStar(const char* str) {
     int length = strlen(str);
     std::string result;

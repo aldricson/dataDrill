@@ -12,6 +12,7 @@
 #include "../NiWrappers/QNiDaqWrapper.h"
 #include "../NiModulesDefinitions/NIDeviceModule.h"
 #include "../stringUtils/stringUtils.h"
+#include "../threadSafeBuffers/threadSafeVector.h"
 
 
 class BaseReader {
@@ -42,7 +43,6 @@ public:
 
 protected:
     std::shared_ptr<QNiSysConfigWrapper> m_sysConfig        ; //wrapper around NiSysConfig
-
     std::shared_ptr<QNiDaqWrapper>       m_daqMx            ; //wrapper around NiDaqMx
 
 

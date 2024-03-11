@@ -136,11 +136,17 @@ int main(void)
       daqMx->testSetRelayAndLEDState(i, !state);
     }*/
    
-    while(true)
-    {
-      daqMx->testReadCurrent();
-      usleep(250000);
-    }
+ /* while (true)
+  {
+    std::cout<<daqMx->testReadCounter()<<std::endl;
+  }*/
+
+
+    std::thread readMod1Thread([&daqMx](){ daqMx->readMod1(); });
+    std::thread readMod2Thread([&daqMx](){ daqMx->readMod2(); });
+    std::thread readMod3Thread([&daqMx](){ daqMx->readMod3(); });
+    //No threads for the counters as the NI 9423 module does not support multi-read 
+
     //boot strap finished
     m_crioTCPServer->startServer();
     std::cout <<  std::endl;
@@ -149,6 +155,7 @@ int main(void)
     showBanner();
 
     m_crioToModbusBridge->startAcquisition();
+    
     while (true) 
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
