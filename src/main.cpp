@@ -119,8 +119,8 @@ int main(void)
    }
    std::cout <<  std::endl;
    
-   /*std::cout << "*** Init phase 3: testing relays ***" << std::endl<< std::endl;
-   bool state = true;
+   std::cout << "*** Init phase 3 ***" << std::endl<< std::endl;
+  /* bool state = true;
    
    for (int i=0;i<4;++i)
     {
@@ -136,9 +136,10 @@ int main(void)
       daqMx->testSetRelayAndLEDState(i, !state);
     }*/
    
- /* while (true)
+  /*while (true)
   {
-    std::cout<<daqMx->testReadCounter()<<std::endl;
+    std::cout<<"1: "<<daqMx->testReadCounter1()<<std::endl;
+    std::cout<<"2: "<<daqMx->testReadCounter2()<<std::endl;
   }*/
 
 

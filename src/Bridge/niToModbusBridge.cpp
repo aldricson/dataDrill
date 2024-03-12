@@ -548,7 +548,7 @@ void NItoModbusBridge::acquireCounters()
                 // Read the counter value using DigitalReader
                 try
                 {
-                    std::cout<<"reading :"<<config.module<<config.channel<<std::endl;
+                    std::cout<<"reading :"<<config.module<<" "<<config.channel<<std::endl;
                     m_digitalReader->manualReadOneShot(config.module, config.channel, counterValue);
                 }
                 catch(const std::exception& e)

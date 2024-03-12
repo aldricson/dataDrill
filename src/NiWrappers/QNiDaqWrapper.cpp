@@ -1623,12 +1623,13 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
         throw std::invalid_argument("readCounter: deviceModule is null.");
     }
 
-    //const std::string fullChannelName = "Mod4/ctr0";
-    const std::string fullChannelName = deviceModule->getAlias() + chanName;
-    
-    std::cout<<"FullChanName: "<<fullChannelName<<std::endl;
+    int index = extractNumberFromEnd(chanName);
+    //const std::string fullChannelName = deviceModule->getAlias() + chanName;
+    const std::string fullChannelName = deviceModule->getAlias() + "/ctr"+std::to_string(index);
+
+
     // Check if a task for this channel already exists, create if not
-    TaskHandle& taskHandle = counterTasksMap[fullChannelName];
+    TaskHandle& taskHandle = counterTasksMap[chanName];
     if (taskHandle == nullptr) 
     {
        
@@ -1657,9 +1658,10 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
         error = DAQmxCreateCICountEdgesChan(taskHandle, fullChannelName.c_str(), "", DAQmx_Val_Rising, 0, DAQmx_Val_CountUp);
         if (error) 
         {
-            std::cout<<"in read counter Failed to create counter channel: "<<fullChannelName.c_str()<<std::endl;
             char errBuff[2048];
             DAQmxGetErrorString(error, errBuff, sizeof(errBuff));
+            std::cout<<"in read counter Failed to create counter channel: "<<fullChannelName.c_str()<<std::endl<<errBuff<<std::endl;
+            
             appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
                                        "In\n"
                                        "unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
@@ -1672,6 +1674,27 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
         {
             std::cout<<"Channel : "<<fullChannelName<<" succesfully created"<<std::endl;
         }
+
+        // After creating the counter channel we link it to a front source
+        error = DAQmxSetCICountEdgesTerm(taskHandle, fullChannelName.c_str(), chanName.c_str());
+        if (error) 
+        {   
+            char errBuff[2048];
+            DAQmxGetErrorString(error, errBuff, sizeof(errBuff));
+            std::cout<<"in read counter Failed to link counter channel to front source: "<<fullChannelName.c_str()<<" "<<chanName.c_str()<<std::endl<<errBuff<<std::endl;
+            appendCommentWithTimestamp(fileNamesContainer.QNiDaqWrapperLogFile,
+                                       "In\n"
+                                       "unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::string chanName, unsigned int maxRetries)\n"
+                                       "in read counter Failed to link counter channel to front source:\n"+
+                                       fullChannelName+"\n"+
+                                       chanName+"\n"+
+                                       std::string(errBuff));
+        }
+        else
+        {
+            std::cout<<"DAQmxSetCICountEdgesTerm: success"<<std::endl;
+        }
+
 
 
         // Start the task.
@@ -1697,7 +1720,7 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
     uInt32 readValue = 0;
     int32 error;
     std::cout<<"READY To call QmxReadCounterScalarU32(taskHandle, 10.0, &readValue, nullptr)"<<std::endl;
-    error = DAQmxReadCounterScalarU32(taskHandle, 0.5, &readValue, nullptr);
+    error = DAQmxReadCounterScalarU32(taskHandle, 10.0, &readValue, nullptr);
     if (error) 
     {
         std::cout<<"in read counter DAQmxReadCounterScalarU32 Failed to read counter value"<<std::endl;
@@ -1717,7 +1740,7 @@ unsigned int QNiDaqWrapper::readCounter(NIDeviceModule *deviceModule, std::strin
 }
 
 
-unsigned int QNiDaqWrapper::testReadCounter()
+/*unsigned int QNiDaqWrapper::testReadCounter()
 {
     const std::string fullChannelName = "Mod4/ctr0";
     int32 error;
@@ -1755,6 +1778,112 @@ unsigned int QNiDaqWrapper::testReadCounter()
     error = DAQmxReadCounterScalarU32(this->counterHandle, 10.0, &readValue, nullptr);
     if (error) {
         this->handleErrorAndCleanTask(this->counterHandle);
+        throw std::runtime_error("Failed to read counter value.");
+    }
+
+    return readValue;
+}*/
+
+
+unsigned int QNiDaqWrapper::testReadCounter1()
+{
+    // Adjust the fullChannelName to specify using PFI2 for counting.
+    const std::string fullChannelName = "Mod4/ctr0"; // Example, adjust "Dev1" to your actual device name.
+    int32 error;
+    uInt32 readValue = 0; // Initialize to 0 or an appropriate default value.
+
+    if (this->counterHandle1 == nullptr) 
+    {
+        this->counterHandle1 = new TaskHandle(0); // Proper initialization of TaskHandle.
+        std::string uniqueKey = "readCounter" + this->generate_hex(8);
+        error = DAQmxCreateTask(uniqueKey.c_str(), &(this->counterHandle1));
+        if (error) {
+            this->handleErrorAndCleanTask(this->counterHandle1);
+            throw std::runtime_error("Failed to create DAQmx task.");
+        }
+        
+
+
+        // Adjust the call to create the counter channel for PFI2.
+        error = DAQmxCreateCICountEdgesChan(this->counterHandle1, fullChannelName.c_str(), "", DAQmx_Val_Rising, 0, DAQmx_Val_CountUp);
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle1);
+            throw std::runtime_error("Failed to create counter channel.");
+        }
+
+        // After creating the counter channel
+        error = DAQmxSetCICountEdgesTerm(this->counterHandle1, fullChannelName.c_str(), "PFI0");
+        if (error) {
+            // Handle error 
+        }
+
+        // Start the task.
+         error = DAQmxStartTask(this->counterHandle1);
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle1);
+            throw std::runtime_error("Failed to start counter task.");
+        }
+
+    }
+
+
+    // Attempt to read the counter value.
+    error = DAQmxReadCounterScalarU32(this->counterHandle1, 10.0, &readValue, nullptr);
+    if (error) {
+        this->handleErrorAndCleanTask(this->counterHandle1);
+        throw std::runtime_error("Failed to read counter value.");
+    }
+    return readValue;
+}
+
+unsigned int QNiDaqWrapper::testReadCounter2()
+{
+    // Adjust the fullChannelName to specify using PFI2 for counting.
+    const std::string fullChannelName = "Mod4/ctr1"; 
+    int32 error;
+    uInt32 readValue = 0; // Initialize to 0 or an appropriate default value.
+
+    if (this->counterHandle2 == nullptr) 
+    {
+        this->counterHandle2 = new TaskHandle(0); // Proper initialization of TaskHandle.
+        std::string uniqueKey = "readCounter" + this->generate_hex(8);
+        error = DAQmxCreateTask(uniqueKey.c_str(), &(this->counterHandle2));
+        if (error) {
+            this->handleErrorAndCleanTask(this->counterHandle2);
+            throw std::runtime_error("Failed to create DAQmx task.");
+        }
+        
+
+
+        // Adjust the call to create the counter channel for PFI2.
+        error = DAQmxCreateCICountEdgesChan(this->counterHandle2, fullChannelName.c_str(), "", DAQmx_Val_Rising, 0, DAQmx_Val_CountUp);
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle2);
+            throw std::runtime_error("Failed to create counter channel.");
+        }
+
+        // After creating the counter channel
+        error = DAQmxSetCICountEdgesTerm(this->counterHandle2, fullChannelName.c_str(), "PFI1");
+        if (error) {
+            // Handle error 
+        }
+
+        // Start the task.
+        error = DAQmxStartTask(this->counterHandle2);
+        if (error) 
+        {
+            this->handleErrorAndCleanTask(this->counterHandle2);
+            throw std::runtime_error("Failed to start counter task.");
+        }
+    }
+
+    // Attempt to read the counter value.
+    error = DAQmxReadCounterScalarU32(this->counterHandle2, 10.0, &readValue, nullptr);
+    if (error) {
+        this->handleErrorAndCleanTask(this->counterHandle2);
         throw std::runtime_error("Failed to read counter value.");
     }
 

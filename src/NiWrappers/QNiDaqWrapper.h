@@ -13,6 +13,7 @@
 #include "../Conversions/convUtils.h"
 #include "../globals/globalEnumStructs.h"
 #include "../filesUtils/appendToFileHelper.h"
+#include "../stringUtils/stringUtils.h"
 #include "../threadSafeBuffers/threadSafeVector.h"
 
 #include "../config.h"
@@ -44,7 +45,8 @@ public:
 
     unsigned int readCounter     (NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     unsigned int readCounter     (NIDeviceModule *deviceModule, std::string  chanName );
-    unsigned int testReadCounter ();
+    unsigned int testReadCounter1 ();
+    unsigned int testReadCounter2 ();
     void         resetCounter    (NIDeviceModule *deviceModule, const unsigned int &index);
     void         resetCounter    (NIDeviceModule *deviceModule, const std::string &chanName);
 
@@ -91,7 +93,8 @@ private:
     std::mutex countersMutex;
     std::mutex alarmsMutex;
     GlobalFileNamesContainer fileNamesContainer;
-    TaskHandle counterHandle = nullptr; // for testing purpose
+    TaskHandle counterHandle1 = nullptr; // for testing purpose
+    TaskHandle counterHandle2 = nullptr;
 
     
     TaskHandle readCurrentMod1Task = nullptr;

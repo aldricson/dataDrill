@@ -123,7 +123,7 @@ bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType 
                                    "bool NIDeviceModule::loadCounters(const std::string &filename, const ModuleType &aModuleType)\n"
                                    "Error: No counters for \n"+
                                     filename);
-        setNbCounters(4);
+        setNbCounters(8);
         return false;
     }
 

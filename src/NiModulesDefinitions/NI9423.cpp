@@ -12,7 +12,7 @@ void NI9423::initModule()
         // Set default values
         m_moduleName = "NI9423";
         m_nbChannel = 0; // Assumption: NI9423 has 4 channels, adjust if necessary
-        m_nbCounters = 4;
+        m_nbCounters = 8;
 
         // Setting counter modes
         m_counterCountingEdgeMode = Val_Rising;
@@ -26,7 +26,7 @@ void NI9423::initModule()
         m_counterNames.reserve(m_nbCounters); // Reserve to avoid reallocation
 
         for (unsigned int i = 0; i < m_nbCounters; ++i) {
-            m_counterNames.push_back("/ctr" + std::to_string(i));
+            m_counterNames.push_back("PFI" + std::to_string(i));
         }
 
         // Setting counter limits

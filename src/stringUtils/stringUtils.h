@@ -9,6 +9,25 @@
 #include <vector>
 
 
+static inline int extractNumberFromEnd(const std::string& str) {
+    int i = str.size() - 1;
+    // Iterate backwards to find the first non-numeric character
+    while (i >= 0 && std::isdigit(str[i])) {
+        --i;
+    }
+
+    // Extract the numeric part of the string
+    std::string numberStr = str.substr(i + 1);
+
+    // Convert the extracted string to an integer
+    int number = 0;
+    if (!numberStr.empty()) {
+        number = std::stoi(numberStr);
+    }
+
+    return number;
+}
+
 
 static inline unsigned int extractChanIndex(const std::string& input) 
 {
