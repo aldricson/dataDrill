@@ -12,7 +12,7 @@ void NI9423::initModule()
         // Set default values
         m_moduleName = "NI9423";
         m_nbChannel = 0; // Assumption: NI9423 has 4 channels, adjust if necessary
-        m_nbCounters = 8;
+        m_nbCounters = 4;
 
         // Setting counter modes
         m_counterCountingEdgeMode = Val_Rising;

@@ -10,6 +10,7 @@
 #include <functional>
 #include <mutex>
 #include <atomic>
+#include "../Filters/LowPassFilter.h"
 #include "../Conversions/convUtils.h"
 #include "../globals/globalEnumStructs.h"
 #include "../filesUtils/appendToFileHelper.h"
@@ -37,6 +38,12 @@ public:
     
     void         readMod1();
     void         readMod2();
+    void         initMod3(const std::string& deviceName,
+                          double minRange,
+                          double maxRange,
+                          int32 samplesPerChannel,
+                          double samplingRate,
+                          int32 channelsCount);
     void         readMod3();
     void         readMod4();
 
@@ -74,6 +81,13 @@ public:
     void         setLastSingleVoltageChannelValue (double       value);
     unsigned int getLastSingleCounterValue        () const;
     void         setLastSingleCounterValue        (unsigned int value);
+    bool         getWindowFilterActiv             () const;
+    void         setLWindowFilterActiv            (bool isActiv);
+    bool         getLowPassFilterActiv            () const;
+    void         setLowPassFilterActiv            (bool isActiv);
+    float        getLowPassFilterCutoffFrequency  () const;
+    void         setLowPassFilterCutoffFrequency  (float cutOffFrequency);   
+
     //Call backs falling functions
     void handleReadCurrentCompletion(int32 status);
     void handleReadVoltageCompletion(int32 status);
@@ -83,9 +97,23 @@ public:
 
     std::atomic<bool> keepCurrentRunning{true}; // Control flag for the reading loop
     ThreadSafeVector<double> Mod1Buffer;
+    std::vector<double> Mod1OldValuesBuffer;
     ThreadSafeVector<double> Mod2Buffer;
+    std::vector<double> Mod2OldValuesBuffer;
     ThreadSafeVector<double> Mod3Buffer;
+    std::vector<double> Mod3OldValuesBuffer;
     ThreadSafeVector<uInt32> Mod4Buffer;
+
+protected:
+
+  std::vector<double> LowPassFilterDatas(const std::vector<double>& dataBuffer, float deltaTime, float cutOffFrequency);
+  void averageWindow(std::vector<double>& averages, const std::vector<double>& oldValues);
+  std::vector<double> readMod3Samples(int32 channelsCount, int32 samplesPerChannel, float64 timeOut, bool &inError); 
+
+  bool  m_lowPassFilterActiv       = false;
+  bool  m_rollingWindowFilterActiv = false;
+  float m_cutOffFrequency          = 10.0f;
+
     
 private:
     std::mutex voltageMutex;
@@ -109,7 +137,10 @@ private:
     std::atomic<double> m_lastSingleVoltageChannelValue;
     unsigned int m_lastSingleCounter             = 0;
     std::map<std::string, TaskHandle> counterTasksMap;
-    std::map<std::string, TaskHandle> currentTaskMap; 
+    std::map<std::string, TaskHandle> currentTaskMap;
+
+
+    LowPassFilter lpf; 
 };
 
 

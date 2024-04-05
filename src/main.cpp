@@ -145,7 +145,11 @@ int main(void)
 
     std::thread readMod1Thread([&daqMx](){ daqMx->readMod1(); });
     std::thread readMod2Thread([&daqMx](){ daqMx->readMod2(); });
-    std::thread readMod3Thread([&daqMx](){ daqMx->readMod3(); });
+    daqMx->setLWindowFilterActiv(true);
+     std::thread readMod3Thread([&daqMx](){ daqMx->readMod3(); });
+    /*daqMx->setLowPassFilterActiv (true);
+    daqMx->setLowPassFilterCutoffFrequency(10.0f);
+    std::thread readMod3Thread([&daqMx](){ daqMx->readMod3(); });*/
     //No threads for the counters as the NI 9423 module does not support multi-read 
 
     //boot strap finished

@@ -73,7 +73,6 @@ void DigitalWriter::manualSetOutput(const std::string &moduleAlias, const std::s
     // Ensure the module is the correct type (digital input/counter)
     //if (deviceModule->getModuleType() == ModuleType::isDigitalOutput) 
     { 
-        std::cout<<"manualSetOutput:"<< deviceModule->getModuleName().c_str() << "isDigitalOutput, channel "<<chanName<<" ready to dive into NidaqMx API"<<std::endl;
         try 
         {
             m_daqMx->setRelayState(deviceModule,chanName,state);

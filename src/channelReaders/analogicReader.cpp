@@ -30,9 +30,12 @@ void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const uns
         double value;
         try {
             // Reading the value based on module type
-            if (modType == isAnalogicInputCurrent) {
+            if (modType == isAnalogicInputCurrent) 
+            {
                 value = m_daqMx->readCurrent(deviceModule, index, 50, true);
-            } else { // modType == isAnalogicInputVoltage
+            } 
+            else 
+            { // modType == isAnalogicInputVoltage
                 value = m_daqMx->readVoltage(deviceModule, index, 10);
             }
 
@@ -44,11 +47,23 @@ void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const uns
             onOneShotValueReaded(std::numeric_limits<double>::min());
             returnedValue = std::numeric_limits<double>::min();
         }
-    } else {
+    } 
+    else 
+    {
         // Handle unexpected module type
         returnedValue = std::numeric_limits<double>::min();
     }
 }
+
+
+//Patch chantier Begin:
+
+#include <vector> // For std::vector
+#include <numeric> // For std::accumulate
+#include <limits> // For std::numeric_limits
+#include <string> // For std::string
+
+
 
 
 void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const std::string &chanName, double &returnedValue)
@@ -133,3 +148,4 @@ void AnalogicReader::manualReadOneShot(const std::string &moduleAlias, const std
         returnedValue = std::numeric_limits<double>::min();
     }
 }
+//Patch chantier end:

@@ -12,6 +12,8 @@ loading sources and headers
 List of Header Files:
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Bridge/niToModbusBridge.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Conversions/convUtils.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Filters/LowPassFilter.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Filters/NotchFilter.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/NewModbusServer.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-private.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/libmodbus/modbus-rtu-private.h
@@ -46,6 +48,7 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniCpp.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/filesUtils/iniObject.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/globals/globalConsts.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/globals/globalEnumStructs.h
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/mathUtils/mathUtils.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/stringUtils/stringUtils.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/systemPatches/stdOptionalReplacement.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/testFunctions.h
@@ -57,6 +60,8 @@ C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/threadSafeBuffers/traits.h
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/timers/simpleTimer.h
 List of Source Files:
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Bridge/niToModbusBridge.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Filters/LowPassFilter.cpp
+C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Filters/NotchFilter.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/Modbus/NewModbusServer.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9208.cpp
 C:/Users/aldric/Desktop/dataDrill20.0.1/build/../src/NiModulesDefinitions/NI9239.cpp

@@ -4,7 +4,8 @@
 case "$1" in
   start)
     echo "Starting dataDrill"
-    /home/dataDrill/dataDrill &
+    cd /home/dataDrill # Change to the intended directory
+    ./dataDrill & # Run dataDrill from the intended directory
     ;;
   stop)
     echo "Stopping dataDrill"

@@ -548,7 +548,6 @@ void NItoModbusBridge::acquireCounters()
                 // Read the counter value using DigitalReader
                 try
                 {
-                    std::cout<<"reading :"<<config.module<<" "<<config.channel<<std::endl;
                     m_digitalReader->manualReadOneShot(config.module, config.channel, counterValue);
                 }
                 catch(const std::exception& e)
@@ -560,7 +559,6 @@ void NItoModbusBridge::acquireCounters()
                 }
                 // Convert the read value to an unsigned integer
                 unsigned int counterIntValue = static_cast<unsigned int>(counterValue);
-                std::cout<<"Value readed: "<<counterIntValue<<std::endl;
                 // Update current time and counter value
                 config.currentTime = std::chrono::steady_clock::now();
                 config.currentCounterValue = counterIntValue;
@@ -609,11 +607,6 @@ void NItoModbusBridge::acquireCounters()
 
 void NItoModbusBridge::setRelays(uint16_t coilAddr, bool state)
 {
-    std::cout << "*******************" << std::endl;
-    std::cout << "* coilAddr:" <<coilAddr<< std::endl;
-    std::cout << "*******************" << std::endl;
-
-
     bool found = false;
     AlarmsMappingConfig alarmMap;
     for (std::size_t i=0; i<m_alarmsMappingData.size(); ++i)
@@ -931,7 +924,6 @@ void NItoModbusBridge::acquireData()
                }
                case ModuleType::isCounter:
                {
-                   std::cout<<"counter detected:"<<modName.c_str()<<" on chan: "<<chanName.c_str()<<" for modbus: "<<destinationRegister<<std::endl;
                    acquireCounters();
                    break;
                }
