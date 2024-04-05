@@ -44,8 +44,17 @@ public:
                           int32 samplesPerChannel,
                           double samplingRate,
                           int32 channelsCount);
-    void         readMod3();
-    void         readMod4();
+    std::vector<double> readMod3Samples(int32 channelsCount,
+                                        int32 samplesPerChannel,
+                                        float64 timeOut,
+                                        bool &inError); 
+    void applyMod3LowPassFilter(const int32 channelsCount,
+                                const int32 samplesPerChannel,
+                                std::vector<double> &dataBuffer,
+                                std::vector<double> &averages,
+                                float deltaTime);
+    void                readMod3();
+    void                readMod4();
 
     double       readVoltage(NIDeviceModule *deviceModule, unsigned int chanIndex, unsigned int maxRetries);
     double       readVoltage(NIDeviceModule *deviceModule, std::string  chanName , unsigned int maxRetries);
@@ -85,6 +94,8 @@ public:
     void         setLWindowFilterActiv            (bool isActiv);
     bool         getLowPassFilterActiv            () const;
     void         setLowPassFilterActiv            (bool isActiv);
+    bool         getNotchFilterActiv              () const;
+    void         setNotchFilterActiv              (bool isActiv);
     float        getLowPassFilterCutoffFrequency  () const;
     void         setLowPassFilterCutoffFrequency  (float cutOffFrequency);   
 
@@ -106,11 +117,12 @@ public:
 
 protected:
 
-  std::vector<double> LowPassFilterDatas(const std::vector<double>& dataBuffer, float deltaTime, float cutOffFrequency);
+  std::vector<double> lowPassFilterDatas(const std::vector<double>& dataBuffer, float deltaTime, float cutOffFrequency);
   void averageWindow(std::vector<double>& averages, const std::vector<double>& oldValues);
-  std::vector<double> readMod3Samples(int32 channelsCount, int32 samplesPerChannel, float64 timeOut, bool &inError); 
+  
 
   bool  m_lowPassFilterActiv       = false;
+  bool  m_notchFilterActiv         = false;
   bool  m_rollingWindowFilterActiv = false;
   float m_cutOffFrequency          = 10.0f;
 

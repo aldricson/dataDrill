@@ -248,7 +248,7 @@ std::string QNiDaqWrapper::generate_hex(const unsigned int len)
     return ss.str(); // Return the hex string
 }
 
-std::vector<double> QNiDaqWrapper::LowPassFilterDatas(const std::vector<double> &dataBuffer, float deltaTime, float cutOffFrequency)
+std::vector<double> QNiDaqWrapper::lowPassFilterDatas(const std::vector<double> &dataBuffer, float deltaTime, float cutOffFrequency)
 {
     std::vector<double> filteredBuffer(dataBuffer.size());
     lpf.reconfigureFilter(deltaTime, cutOffFrequency); // Adjusting the filter based on the current deltaTime and a fixed cutoff frequency
@@ -1033,6 +1033,40 @@ std::vector<double> QNiDaqWrapper::readMod3Samples(int32 channelsCount, int32 sa
     return dataBuffer;
 }
 
+void QNiDaqWrapper::applyMod3LowPassFilter(const int32 channelsCount, const int32 samplesPerChannel, std::vector<double> &dataBuffer, std::vector<double> &averages, float deltaTime)
+{
+     std::cout<<"apply low pass filter"<<std::endl;
+    // Filter the data for each channel
+    std::vector<double> filteredData(channelsCount * samplesPerChannel);
+    for (int channel = 0; channel < channelsCount; ++channel) 
+    {
+        // Extract samples for the current channel
+        std::vector<double> channelSamples(samplesPerChannel);
+        for (int sample = 0; sample < samplesPerChannel; ++sample) 
+        {
+            channelSamples[sample] = dataBuffer[channel * samplesPerChannel + sample];
+        }
+        // Apply the low-pass filter to the samples of the current channel
+        std::vector<double> filteredChannelSamples = lowPassFilterDatas(channelSamples, deltaTime, m_cutOffFrequency);
+        // Store the filtered samples back into the filteredData vector
+        for (int sample = 0; sample < samplesPerChannel; ++sample) 
+        {
+            filteredData[channel * samplesPerChannel + sample] = filteredChannelSamples[sample];
+        }
+    }
+    
+    for (int i = 0; i < channelsCount; ++i) 
+    {
+        double sum = 0.0;
+        for (int j = 0; j < samplesPerChannel; ++j) 
+        {
+            sum += filteredData[i * samplesPerChannel + j];
+        }
+        averages[i] = roundToNbSignificativDigits ((sum / samplesPerChannel),4);
+    }
+
+
+}
 
 void QNiDaqWrapper::readMod3()
 {
@@ -1040,8 +1074,6 @@ void QNiDaqWrapper::readMod3()
 
     const char* deviceName = "Mod3";
     TaskHandle taskHandle = readVoltageMod3Task;
-    int32 error;
-    char errBuff[2048] = {'\0'};
     const int32 channelsCount = 4;
     const float64 minRange = 0.0, maxRange = 10.0;
     const float64 timeout = 2.0; // Adjusted for longer reads
@@ -1049,48 +1081,12 @@ void QNiDaqWrapper::readMod3()
     std::vector<double> averages(channelsCount);
     const float samplingRate = 50000.0f;
 
-
-    int32 read;
     std::string fullChannelNames = std::string(deviceName) + "/ai0:" + std::to_string(channelsCount-1);
 
     std::string unicKey = "ReadVoltageMod3" + generate_hex(8);
     if (taskHandle == nullptr)
     {
         initMod3(deviceName, minRange, maxRange, samplesPerChannel, samplingRate, channelsCount); 
-        /*error = DAQmxCreateTask(unicKey.c_str(), &taskHandle);
-        if (error) 
-        {
-            DAQmxGetExtendedErrorInfo(errBuff, 2048);
-            throw std::runtime_error("Failed to create task: " + std::string(errBuff));
-        }
-
-        error = DAQmxCreateAIVoltageChan(taskHandle,
-                                         fullChannelNames.c_str(),
-                                         "",
-                                         DAQmx_Val_Diff,
-                                         minRange,
-                                         maxRange,
-                                         DAQmx_Val_Volts,
-                                         NULL);
-        if (error) 
-        {
-            DAQmxGetExtendedErrorInfo(errBuff, 2048);
-            DAQmxClearTask(taskHandle);
-            throw std::runtime_error("Failed to create channels: " + std::string(errBuff));
-        }
-
-        // Configure the sampling clock. Adjusted for multiple samples
-        error = DAQmxCfgSampClkTiming(taskHandle, "", sampligRate, DAQmx_Val_Rising, DAQmx_Val_FiniteSamps, samplesPerChannel);
-        if (error) 
-        {
-            DAQmxGetExtendedErrorInfo(errBuff, 2048);
-            DAQmxClearTask(taskHandle);
-            throw std::runtime_error("Failed to set sample clock timing: " + std::string(errBuff));
-        }
-        else
-        {
-            std::cout<<"OverSampling hack applied with success."<<std::endl;
-        }*/
     }
     
     while (true)
@@ -1100,68 +1096,23 @@ void QNiDaqWrapper::readMod3()
            auto currentCycleTime = std::chrono::steady_clock::now();
            auto start            = std::chrono::high_resolution_clock::now();
            bool inError;
+           //Fill the raw data buffer with readed values
            std::vector<double> dataBuffer = readMod3Samples(channelsCount,samplesPerChannel,timeout,inError);
-           // Start the task to begin measuring
-          /* error = DAQmxStartTask(taskHandle);
-           if (error) 
-           {
-               DAQmxGetExtendedErrorInfo(errBuff, 2048);
-               DAQmxClearTask(taskHandle);
-               throw std::runtime_error("Failed to start task: " + std::string(errBuff));
-           }
-       
-           // Prepare a buffer to read the samples into, sized for all channels and samples
-           std::vector<double> dataBuffer(channelsCount * samplesPerChannel);
-           // Read the samples from all channels into the buffer
-           error = DAQmxReadAnalogF64(taskHandle, samplesPerChannel, timeout, DAQmx_Val_GroupByChannel, dataBuffer.data(), dataBuffer.size(), &read, NULL);
-           if (error) 
-           {
-               DAQmxGetExtendedErrorInfo(errBuff, 2048);
-               DAQmxClearTask(taskHandle);
-               throw std::runtime_error("Failed to read data: " + std::string(errBuff));
-           }
-           else*/
            if (!inError)
            {
-                
+                //post treatment
                 float deltaTime = std::chrono::duration<float>(currentCycleTime - lastCycleTime).count();
                 lastCycleTime = currentCycleTime;
+                
                 if (m_lowPassFilterActiv)
                 {
                     std::cout<<"apply low pass filter"<<std::endl;
-                    // Filter the data for each channel
-                    std::vector<double> filteredData(channelsCount * samplesPerChannel);
-                    for (int channel = 0; channel < channelsCount; ++channel) 
-                    {
-                        // Extract samples for the current channel
-                        std::vector<double> channelSamples(samplesPerChannel);
-                        for (int sample = 0; sample < samplesPerChannel; ++sample) 
-                        {
-                            channelSamples[sample] = dataBuffer[channel * samplesPerChannel + sample];
-                        }
-                        // Apply the low-pass filter to the samples of the current channel
-                        std::vector<double> filteredChannelSamples = LowPassFilterDatas(channelSamples, deltaTime, m_cutOffFrequency);
-                        // Store the filtered samples back into the filteredData vector
-                        for (int sample = 0; sample < samplesPerChannel; ++sample) 
-                        {
-                            filteredData[channel * samplesPerChannel + sample] = filteredChannelSamples[sample];
-                        }
-                    }
-
-                    for (int i = 0; i < channelsCount; ++i) 
-                    {
-                        double sum = 0.0;
-                        for (int j = 0; j < samplesPerChannel; ++j) 
-                        {
-                            sum += filteredData[i * samplesPerChannel + j];
-                        }
-                        averages[i] = roundToNbSignificativDigits ((sum / samplesPerChannel),4);
-                    }
+                    applyMod3LowPassFilter(channelsCount,samplesPerChannel,dataBuffer,averages, deltaTime);
               
                 }
                 else
                 {
-                    // Calculate averages for each channel
+                    // Calculate averages for each channel this is where the oversampling results are made
                     for (int i = 0; i < channelsCount; ++i) 
                     {
                         double sum = 0.0;
@@ -1175,13 +1126,8 @@ void QNiDaqWrapper::readMod3()
            
             if (m_rollingWindowFilterActiv && (Mod3OldValuesBuffer.size()==Mod3Buffer.size()) && (Mod3OldValuesBuffer.size()>0))
             {
+                //this is a 2 point floating window average
                 averageWindow(averages,Mod3OldValuesBuffer);
-                /*for (int i = 0; i < channelsCount; ++i)
-                {
-                    double v1 = averages[i];
-                    double v2 = Mod3OldValuesBuffer[i];
-                    averages[i] = (v1+v2)/2;
-                }*/
             } 
         
 
@@ -2741,6 +2687,16 @@ bool QNiDaqWrapper::getLowPassFilterActiv() const
 void QNiDaqWrapper::setLowPassFilterActiv(bool isActiv)
 {
     m_lowPassFilterActiv = false;
+}
+
+bool QNiDaqWrapper::getNotchFilterActiv() const
+{
+    return m_notchFilterActiv;
+}
+
+void QNiDaqWrapper::setNotchFilterActiv(bool isActiv)
+{
+    m_notchFilterActiv = isActiv;
 }
 
 float QNiDaqWrapper::getLowPassFilterCutoffFrequency() const
